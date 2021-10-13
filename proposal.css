@@ -17,6 +17,15 @@ h1, h2 {
     padding-bottom: 2rem;
 }
 
-p {
+h3 {
+    padding-bottom: 1rem;
+}
+
+p, ul {
     padding-bottom: 2rem;
+}
+
+.chart {
+    max-height: 600px;
+    max-width: 1200px;
 }
