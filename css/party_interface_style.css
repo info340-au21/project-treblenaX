@@ -1,0 +1,20 @@
+/* base styles */
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    color: white;
+    border: 1px solid green;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background: #191414;
+    height: 100%;
+    width: 100%;
+}
