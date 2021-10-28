@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
+  "type": "module",
   "scripts": {
     "test": "jest"
   },
@@ -35,5 +36,9 @@
         "error"
       ]
     }
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "requirejs": "^2.3.6"
   }
 }
