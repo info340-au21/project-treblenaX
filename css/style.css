@@ -54,3 +54,70 @@ button {
     text-align: center;
 }
 
+@media (min-width: 576px) {
+    h1 {
+        font-size: 8rem;
+    }
+
+    form input {
+        margin: 1rem;
+        font-size: 1.5rem;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+        margin: 1rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (min-width: 768px) {
+    h1 {
+        font-size: 10rem;
+    }
+
+    form input {
+        margin: 1.5rem;
+        font-size: 2rem;
+        border: 3px solid rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+        margin: 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 992px) {
+    h1 {
+        font-size: 12rem;
+    }
+
+    form input {
+        margin: 2rem;
+        font-size: 2.5rem;
+        border: 4px solid rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+        margin: 2rem;
+        font-size: 1.25rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    h1 {
+        font-size: 16rem;
+    }
+
+    form input {
+        margin: 2.5rem;
+        font-size: 3rem;
+        border: 5px solid rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+        margin: 2.5rem;
+        font-size: 1.5rem;
+    }
+}
