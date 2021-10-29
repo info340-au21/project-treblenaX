@@ -81,14 +81,81 @@ form input {
     border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: 5px;
     color: rgba(255, 255, 255, 1);
-
     width: 100%; 
 }
 
-.flex-item-song-results {
+.flex-item-songs-container {
     height: 100%;
     margin: 5px 5px 0px 5px;
-    background: #C4C4C4;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-item-song-card {
+    flex: 0 0 auto;
+
+    margin: 0.5%;
+    height: 12.5%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.song-card-image-box {
+    flex: 1 0 auto;
+    background-color: #000000;
+    width: 0%; 
+}
+
+.song-card-image-box::after {   /* To make a dynamic square */
+    display: block;
+    padding-bottom: 100%;
+}
+
+.song-card-image {
+    height: 100%;
+}
+
+.song-card-image-desc {
+    flex: 6.5;
+    background-color: #000000;
+    margin-left: 4%;
+}
+
+.song-card-image-desc h1 {
+    margin-bottom: 0;
+}
+
+.song-card-image-desc h2 {
+    margin-top: 0;
+    color: gray;
+    font-size: 95%;
+}
+
+.song-card-image-end-bar {
+    flex: 1 0 auto;
+    background-color: #000000;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.song-card-image-end-bar h2 {
+    flex: 1;
+    color: gray;
+    margin-top: 23%;
+    margin-left: 3%;
+}
+
+.song-card-image-end-bar-icon {
+    flex: 1;
+}
+
+.add-queue-icon {
+    margin-top: 50%;
+    margin-left: 20%;
+    color: gray;
 }
 
 /* Info Column */
