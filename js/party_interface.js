@@ -1,22 +1,15 @@
-import * as fs from 'fs';
+'use strict';
 
+/* @TODO: replace this with prod code */
+function setAlbumImageTest() {
+    var image = document.createElement("img");
+    let imageParent = document.getElementById("album-image");
 
+    image.id = "album-image";
+    image.src = "https://i.scdn.co/image/ab67616d0000b27384ad36183dea63a65967a2a8";
 
-/* @TODO: TEST - Data Load */
-function loadTestData() {
-    var data = JSON.parse(fs.readFileSync("../json/test_data.json"));
-    console.log(data);
+    imageParent.appendChild(image);
 }
 
-/* Init Functions */
-loadTestData();
-
-// uploadImage();
-
-
-/* JSON Data Extraction */
-function uploadImage() {
-    var img = new Image();
-    img.src = test_data.tracks.items[0].images[0].url;
-    album-image.appendChild(img);
-}
+/* Init functions */
+setAlbumImageTest();
