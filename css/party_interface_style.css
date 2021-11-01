@@ -222,7 +222,77 @@ form input {
     font-size: 16px;
 }
 
-.white-space {
+/* Responsive */
+/* extra-small screens */ 
+@media (max-width: 598px) {
+    /* Take out user column */
+    .user-column {
+        display: none;
+    }
+    
+    /* Make text in desc smaller */
+    .song-card-image-desc h1 {
+        margin-bottom: 0;
+        font-size: 95%;
+    }
+    
+    .song-card-image-desc h2 {
+        margin-top: 0;
+        color: gray;
+        font-size: 90%;
+    }
 
+    /* Take out timestamp */
+    .song-card-image-end-bar h2 {
+        display: none;
+    }
+
+    .song-card-image-end-bar-icon {
+        margin: 10px 8px 5px 0px;
+    }
+}
+
+/* small screens */
+@media (min-width: 598px) {
+    /* Take out timestamp */
+    .song-card-image-end-bar h2 {
+        margin: 10px 8px 5px 0px;
+    }
+
+    .song-card-image-end-bar-icon {
+        margin: 10px 8px 5px 0px;
+    }
+}
+
+/* medium screens */
+@media (min-width: 768px) {
+    /* Make text in desc smaller */
+    .song-card-image-desc h1 {
+        margin-bottom: 0;
+    }
+    
+    .song-card-image-desc h2 {
+        margin-top: 0;
+        color: gray;
+        font-size: 90%;
+    }
+}
+
+/* large screens */
+@media (min-width: 992px) {
+    .song-card-image-end-bar h2 {
+        color: gray;
+        margin: 35px 0px 0px 5px;
+        float: right;
+    }
+    
+    .song-card-image-end-bar-icon {
+        margin: 35px 25px 0px 5%;
+        float: right;
+    }
+}
+
+/* extra-large screens */
+@media (min-width: 1200px) {
 }
 
