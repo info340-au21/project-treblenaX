@@ -54,6 +54,10 @@ button {
     text-align: center;
 }
 
+button:hover {
+    color: gray;
+}
+
 @media (min-width: 576px) {
     h1 {
         font-size: 8rem;
