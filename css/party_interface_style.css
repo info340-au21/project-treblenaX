@@ -202,7 +202,15 @@ body.party {
     align-items: left;
     color: #000000;
 }
-
+button.leave {
+    flex: 3;
+    color: #1DB954;
+    background-color: white;
+    /* border: none; */
+}
+.button-holder {
+    padding-left: 30%;
+}
 .flex-item-users.party li {
     padding: 5px; 
     list-style-type: none;
