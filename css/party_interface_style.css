@@ -32,6 +32,7 @@ body.index {
     align-items: center;
 }
 
+/* style rules for landing page title */
 h1.index {
     margin: 0.5rem;
     color: white;
@@ -39,6 +40,7 @@ h1.index {
     text-align: center;
 }
 
+/* style rules for landing page input */
 button.index {
     margin: 0.5rem;
     background: transparent;
@@ -60,6 +62,7 @@ button.index:hover {
     color: gray;
 }
 
+/* media styling for landing page */
 @media (min-width: 576px) {
     h1.index {
         font-size: 8rem;
@@ -154,6 +157,7 @@ html.party {
     color: white;
 }
 
+/* Middle column style */
 body.party {
     background: #191414;
     height: 100%;
@@ -206,7 +210,7 @@ button.leave {
     flex: 3;
     color: #1DB954;
     background-color: white;
-    /* border: none; */
+    /* border: none; */ /* for testing */
 }
 .button-holder {
     padding-left: 30%;
@@ -239,6 +243,7 @@ form input.party {
     flex-direction: column;
 }
 
+/* Song cards */
 .flex-item-song-card.party {
     flex: 0 0 auto;
 
@@ -292,7 +297,7 @@ form input.party {
     color: gray;
 }
 
-/* Info Column */
+/* Queue Info Column */
 .flex-item-currently-playing.party {
     background: #C4C4C4;
     margin: 0px 5px 2.5px 0;
