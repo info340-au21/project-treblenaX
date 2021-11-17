@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html class="index" lang="en">
+<head class="index">
     <meta charset="utf-8">
     <meta name="author" content="Alan Wen, Elbert Cheng, Ryan Langford, Stephan Rubalcava">
     <meta name="description" content="Front page of Groupify application">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/party_interface_style.css" rel="stylesheet" type="text/css">
     <title>Groupify</title>
 </head>
-<body>
-    <div class="container">
-        <h1>Groupify</h1>
-        <form>
-            <input type="text" id="fname" name="fname" placeholder="Enter a Party ID">
+<body class="index">
+    <div class="container index">
+        <h1 class="index">Groupify</h1>
+        <form class="index" method="get" action="party_interface.html">
+            <input class="index" type="text" id="fname" name="fname" placeholder="Enter a Party ID">
+            <button class="join index">Join</button>
         </form>
+        
         <!-- @TODO: TAKE THIS LINK OUT - LINKS TO PARTY INTERFACE FOR TESTING s-->
-        <a href="party_interface.html">
-            <button>START A NEW PARTY</button>
+        <a class="index" href="party_interface.html">
+            <button class="index">START A NEW PARTY</button>
         </a>
     </div>
 </body>
