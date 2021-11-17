@@ -1,11 +1,153 @@
+/* Style for the index page */
+
 /* base styles */
-* {
+*.index {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    color: white;
+    /* border: 1px solid green; */
+}
+
+html.index {
+    background: #191414;
+    height: 100%;
+    width: 100%;
+}
+
+body.index {
+    height: 100%;
+    width: 100%;
+}
+
+.container.index {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* style rules for landing page title */
+h1.index {
+    margin: 0.5rem;
+    color: white;
+    font-size: 6rem;
+    text-align: center;
+}
+
+/* style rules for landing page input */
+button.index {
+    margin: 0.5rem;
+    background: transparent;
+    border: none;
+    text-align: center;
+}
+
+form input.index, button.join {
+    margin: 0.5rem;
+    background: transparent;
+    font-size: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 1);
+}
+
+button.index:hover {
+    color: gray;
+}
+
+/* media styling for landing page */
+@media (min-width: 576px) {
+    h1.index {
+        font-size: 8rem;
+    }
+
+    button.index {
+        margin: 1rem;
+        font-size: 0.75rem;
+    }
+    form input.index, button.join {
+        margin: 1rem;
+        font-size: 1.5rem;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+    }
+
+}
+
+@media (min-width: 768px) {
+    h1.index {
+        font-size: 10rem;
+    }
+
+    button.index {
+        margin: 1.5rem;
+        font-size: 1rem;
+    }
+    form input.index, button.join {
+        margin: 1.5rem;
+        font-size: 2rem;
+        border: 3px solid rgba(255, 255, 255, 0.6);
+    }
+
+}
+
+@media (min-width: 992px) {
+    h1.index {
+        font-size: 12rem;
+    }
+
+    button.index {
+        margin: 2rem;
+        font-size: 1.25rem;
+    }
+    form input.index, button.join {
+        margin: 2rem;
+        font-size: 2.5rem;
+        border: 4px solid rgba(255, 255, 255, 0.6);
+    }
+
+}
+
+@media (min-width: 1200px) {
+    h1.index {
+        font-size: 16rem;
+    }
+
+    button.index {
+        margin: 2.5rem;
+        font-size: 1.5rem;
+    }
+    form input.index, button.join {
+        margin: 2.5rem;
+        font-size: 3rem;
+        border: 5px solid rgba(255, 255, 255, 0.6);
+    }
+
+}
+.join.index {
+    margin: 0rem;
+}
+form input.index {
+    margin-right: 0;
+}
+
+/* Style for the party interface */
+
+/* base styles */
+
+*.party {
     box-sizing: border-box;
     /* @TODO: DEBUG */
     /* border: 1px solid green; */
 }
 
-html {
+html.party {
     height: 100%;
     width: 100%;
 
@@ -15,14 +157,15 @@ html {
     color: white;
 }
 
-body {
+/* Middle column style */
+body.party {
     background: #191414;
     height: 100%;
     width: 100%;
     margin: 0;
 }
 
-.container {
+.container.party {
     width: 100%;
     height: 100%;
     display: flex;
@@ -32,48 +175,56 @@ body {
 }
 
 /* Party Interface */
-.user-column {
+.user-column.party {
     flex: 1;
     background-color: #FFFFFF;
 }
 
-.results-column {
+.results-column.party {
     flex: 3;
 }
 
-.info-column {
+.info-column.party {
     flex: 1;
-    background: #000000;
+    background: #191414;
 }
 
-.column-container {
+.column-container.party {
     display: flex;
     flex-direction: column;
 }
 
 /* User Columns */
-#room-code {
+#room-code.party {
     color: #1DB954;
     text-align: center;
 }
 
-.flex-item-users {
+.flex-item-users.party {
     margin-left: 15px;
     padding: 0 5px;
     align-items: left;
     color: #000000;
 }
-
-.flex-item-users li {
+button.leave {
+    flex: 3;
+    color: #1DB954;
+    background-color: white;
+    /* border: none; */ /* for testing */
+}
+.button-holder {
+    padding-left: 30%;
+}
+.flex-item-users.party li {
     padding: 5px; 
     list-style-type: none;
 }
 
 /* Results Column */
-form {
+form.party {
     padding: 5px 22px 0px 10px;
 }
-form input {
+form input.party {
     margin: 0.5rem;
     background: transparent;
     font-size: 1rem;
@@ -84,7 +235,7 @@ form input {
     width: 100%; 
 }
 
-.flex-item-songs-container {
+.flex-item-songs-container.party {
     height: 100%;
     margin: 5px 5px 0px 5px;
 
@@ -92,7 +243,8 @@ form input {
     flex-direction: column;
 }
 
-.flex-item-song-card {
+/* Song cards */
+.flex-item-song-card.party {
     flex: 0 0 auto;
 
     margin: 0.5%;
@@ -101,58 +253,58 @@ form input {
     display: inline-block;
 }
 
-.song-card-image-box {
+.song-card-image-box.party {
     background-color: #000000;
     height: 100px;
     float: left;
 }
 
-.song-card-image-desc {
+.song-card-image-desc.party {
     background-color: #000000;
     padding-left: 5px;
     width: 60%;
     float: left;
 }
 
-.song-card-image-desc h1 {
+.song-card-image-desc h1.party {
     margin-bottom: 0;
 }
 
-.song-card-image-desc h2 {
+.song-card-image-desc h2.party {
     margin-top: 0;
     color: gray;
     font-size: 95%;
 }
 
-.song-card-image-end-bar {
+.song-card-image-end-bar.party {
     background-color: #000000;
     height: 100%;
     width: 100%;
 }
 
-.song-card-image-end-bar h2 {
+.song-card-image-end-bar h2.party {
     color: gray;
     margin: 35px 0px 0px 5px;
     float: right;
 }
 
-.song-card-image-end-bar-icon {
+.song-card-image-end-bar-icon.party {
     margin: 35px 25px 0px 5%;
     float: right;
 }
 
-.add-queue-icon {
+.add-queue-icon.party {
     color: gray;
 }
 
-/* Info Column */
-.flex-item-currently-playing {
+/* Queue Info Column */
+.flex-item-currently-playing.party {
     background: #C4C4C4;
     margin: 0px 5px 2.5px 0;
     width: 100%;
 }
 
-.flex-item-currently-playing::after {   /* To make a dynamic square */
+.party.flex-item-currently-playing::after {   /* To make a dynamic square */
     display: block;
     padding-bottom: 100%;
 }
@@ -176,12 +328,12 @@ form input {
     border-radius: 10px 10px 0 0;
 }
 
-.queue-header {
+.queue-header.party {
     margin: 0;
     padding: 1rem;
 }
 
-.queue-item {
+.queue-item.party {
     margin: 0 1rem 0.5rem 1rem;
     height: 3rem;
     display: flex;
@@ -190,7 +342,7 @@ form input {
     border-radius: 2px;
 }
 
-.queue-album-img {
+.queue-album-img.party {
     background-image: url("https://i.scdn.co/image/ab67616d0000b27384ad36183dea63a65967a2a8");
     background-position: center;
     background-size: contain;
@@ -199,7 +351,7 @@ form input {
     border-radius: 2px 0 0 2px;
 }
 
-.queue-item-info {
+.queue-item-info.party {
     flex: 1;
     padding: 0 0.25rem 0 0.25rem;
     margin: 0;
@@ -207,16 +359,16 @@ form input {
     background: #FFFFFF;
 }
 
-.queue-item-info p {
+.queue-item-info p.party {
     margin: 0;
 }
 
-.queue-remove-item {
+.queue-remove-item.party {
     display: flex;
     align-items: center;
 }
 
-.queue-remove-item span {
+.queue-remove-item span.party {
     flex: 1;
     padding: 0 1rem 0 0;
     font-size: 16px;
@@ -226,28 +378,28 @@ form input {
 /* extra-small screens */ 
 @media (max-width: 598px) {
     /* Take out user column */
-    .user-column {
+    .user-column.party {
         display: none;
     }
     
     /* Make text in desc smaller */
-    .song-card-image-desc h1 {
+    .song-card-image-desc h1.party {
         margin-bottom: 0;
         font-size: 95%;
     }
     
-    .song-card-image-desc h2 {
+    .song-card-image-desc h2.party {
         margin-top: 0;
         color: gray;
         font-size: 90%;
     }
 
     /* Take out timestamp */
-    .song-card-image-end-bar h2 {
+    .song-card-image-end-bar h2.party {
         display: none;
     }
 
-    .song-card-image-end-bar-icon {
+    .song-card-image-end-bar-icon.party {
         margin: 10px 8px 5px 0px;
     }
 }
@@ -255,11 +407,11 @@ form input {
 /* small screens */
 @media (min-width: 598px) {
     /* Take out timestamp */
-    .song-card-image-end-bar h2 {
+    .song-card-image-end-bar h2.party {
         margin: 10px 8px 5px 0px;
     }
 
-    .song-card-image-end-bar-icon {
+    .song-card-image-end-bar-icon.party {
         margin: 10px 8px 5px 0px;
     }
 }
@@ -267,11 +419,11 @@ form input {
 /* medium screens */
 @media (min-width: 768px) {
     /* Make text in desc smaller */
-    .song-card-image-desc h1 {
+    .song-card-image-desc h1.party {
         margin-bottom: 0;
     }
     
-    .song-card-image-desc h2 {
+    .song-card-image-desc h2.party {
         margin-top: 0;
         color: gray;
         font-size: 90%;
@@ -280,13 +432,13 @@ form input {
 
 /* large screens */
 @media (min-width: 992px) {
-    .song-card-image-end-bar h2 {
+    .song-card-image-end-bar h2.party {
         color: gray;
         margin: 35px 0px 0px 5px;
         float: right;
     }
     
-    .song-card-image-end-bar-icon {
+    .song-card-image-end-bar-icon.party {
         margin: 35px 25px 0px 5%;
         float: right;
     }
