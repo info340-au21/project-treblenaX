@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 
-// Grab Debug Data
-import SONG_DATA from './json/test_data.json';
-
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App testSongData={ SONG_DATA } />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

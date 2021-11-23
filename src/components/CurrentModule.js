@@ -9,7 +9,7 @@ export default function CurrentModule(props) {
     return (
         <div className="column-container info-column">
             <div className="flex-item-currently-playing">
-                <img className="album-image" src={ current.album.images[0].url } />
+                <img className="album-image" src={ current.img } />
             </div>
         </div>
     );

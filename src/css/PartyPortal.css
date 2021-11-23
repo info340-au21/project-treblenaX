@@ -7,6 +7,14 @@
 .container {
     flex: 1;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.interface-container {
+    flex: 1;
+    display: flex;
     flex-direction: row;
     align-items: center;
     color: white;
@@ -23,7 +31,7 @@
 
 .info-column {
     flex: 0 0 auto;
-    background: #191414;
+    background: rgb(32, 27, 27);
 }
 
 .column-container {

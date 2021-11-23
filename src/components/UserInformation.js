@@ -1,9 +1,13 @@
 import React from "react";
+import { useParams } from "react-router";
 
 // roomCode as a string starting with '#' followed by digits and letters
 // userName as a Object collection of users ('name' and 'id')
 export default function UserInformation(props) {
-    const roomCode = props.roomCode;
+    // Grab party ID from urlParams
+    const urlParams = useParams();
+    
+    const roomCode = urlParams.partyId;
     const users = props.users || [];
 
     return (

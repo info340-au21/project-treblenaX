@@ -11,40 +11,6 @@ export default function SearchModule(props) {
     );
 }
 
-// Components
-function SearchBar() {
-    return (
-        <form>
-            <input type="text" id="search-query" name="search-query" placeholder="Search for a song" />
-        </form>
-    );
-}
-
-function ResultsList(props) {
-    const data = extractPayload(props.payload);
-
-    // @TODO: temporary pagination
-    const limit = 15;
-
-    let i = 0;
-
-    const cards = data.map((song) => {
-        if (i++ < limit) {
-            return (<SongCard key={ song.id } payload={ song } />);
-        } else {
-            return;
-        }
-    });
-
-    console.log(data[0]);
-
-    return (
-        <div className="flex-item-songs-container">
-            { cards }
-        </div>
-    );
-}
-
 export function SongCard(props) {
     const data = props.payload;
 
@@ -67,27 +33,34 @@ export function SongCard(props) {
     );
 }
 
-/* Private Function Helpers */
-function extractPayload(payload) {
-    return payload.tracks.items.map((item) => {
-        const artists = item.artists.map((artist) => artist.name).join(', ')
-        return {
-            id: item.id,
-            name: item.name,
-            artists: artists,
-            img: item.album.images[0].url,
-            duration: msToTime(item.duration_ms)
-        };
-    })
+/* Private Components */
+function SearchBar() {
+    return (
+        <form>
+            <input type="text" id="search-query" name="search-query" placeholder="Search for a song" />
+        </form>
+    );
 }
 
-function msToTime(ms) {
-    const minutes = Math.round((ms / 1000) / 60);
-    const seconds = Math.round((ms / 1000) % 60);
+function ResultsList(props) {
+    const data = props.payload;
 
-    if (seconds > 10) {
+    // @TODO: temporary pagination
+    const limit = 15;
 
-    }
+    let i = 0;
 
-    return (seconds < 10) ? minutes + ":0" + seconds : minutes + ":" + seconds;
+    const cards = data.map((song) => {
+        if (i++ < limit) {
+            return (<SongCard key={ song.id } payload={ song } />);
+        } else {
+            return;
+        }
+    });
+
+    return (
+        <div className="flex-item-songs-container">
+            { cards }
+        </div>
+    );
 }
