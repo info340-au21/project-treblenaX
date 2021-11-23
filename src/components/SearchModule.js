@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function SearchModule(props) {
-    let payload = props.testSongData;
+    let payload = props.songData;
 
     return (
         <div className="column-container results-column">
@@ -22,7 +22,19 @@ function SearchBar() {
 
 function ResultsList(props) {
     const data = extractPayload(props.payload);
-    const cards = data.map((song) => (<SongCard key={ song.id } payload={ song } />));
+
+    // @TODO: temporary pagination
+    const limit = 15;
+
+    let i = 0;
+
+    const cards = data.map((song) => {
+        if (i++ < limit) {
+            return (<SongCard key={ song.id } payload={ song } />);
+        } else {
+            return;
+        }
+    });
 
     console.log(data[0]);
 

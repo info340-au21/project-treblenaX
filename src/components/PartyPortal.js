@@ -1,5 +1,5 @@
 import React from 'react';
-import './PartyPortal.css';
+import '../css/PartyPortal.css';
 
 /**
  * Main component of the Party Portal page

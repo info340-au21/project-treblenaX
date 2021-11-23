@@ -1,7 +1,7 @@
 import PartyPortal from './PartyPortal';
 import PartyInterface from './PartyInterface';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
+import '../css/App.css';
 
 /**
  * Main App component, handles routing (eventually)

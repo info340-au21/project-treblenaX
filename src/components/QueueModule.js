@@ -1,5 +1,6 @@
 import React from 'react';
-export function QueueList(props) {
+
+export default function QueueList(props) {
     const topimg = "";
     if(props.songList.length > 0) {
         topimg = <QueueTop img={props.songList[0].img} />
@@ -8,7 +9,7 @@ export function QueueList(props) {
         return <QueueItem name={cur.name} album={cur.album} artist={cur.artist} length={cur.length} img={cur.img}/>
     })
     return (
-        <div className="column-container info-column">
+        <div>
             {topimg}
             <div className="flex-item-queue-list">
             <h3 className="queue-header">Queue</h3>
