@@ -23,7 +23,7 @@ export default function App(props) {
             </nav>
             <Routes>
                 <Route path="/" element={<PartyPortal />} />
-                <Route path="/party/:partyId" element={<PartyInterface />} />
+                <Route path="/party/:partyId" element={<PartyInterface testSongData={ props.testSongData } />} />
             </Routes>
         </Router>
     );
