@@ -1,6 +1,19 @@
 * {
+    box-sizing: border-box;
     /* For debugging */
     /* border: 1px solid green; */
+}
+
+/* App */
+.flex-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.flex-item {
+    flex: 1;
 }
 
 /* Party Interface */
@@ -62,6 +75,10 @@
 #banner {
     flex: 1;
     font-size: 8em;
+}
+
+.portal-content {
+    padding-top: 20%;
 }
 
 /* User Columns */
@@ -179,12 +196,6 @@ button.leave {
 }
 
 /* Base style */
-* {
-    box-sizing: border-box;
-    /* @TODO: DEBUG */
-    /* border: 1px solid green; */
-}
-
 html {
     height: 100%;
     width: 100%;

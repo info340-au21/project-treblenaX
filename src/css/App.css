@@ -9,8 +9,11 @@ nav a {
 }
 
 footer {
-    position: fixed;
     bottom: 0;
+    padding: 15px 0px 15px 0px;
+    font-size: medium;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+
     background-color: black;
-    font-size: x-small;
 }
