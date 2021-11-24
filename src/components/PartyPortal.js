@@ -29,12 +29,16 @@ export default function PartyPortal(props) {
                         type="text" 
                         placeholder="Enter a Party ID" />
                     <label for="party-id-field" className="hidden">Input Party ID</label>
-                    <button id="submit-button" type="submit">
+                    <button id="submit-button" type="submit" onClick={
+                        (e) => {
+                            window.open(spotifyApiRedirect, '_blank');
+                        }
+                    }>
                         material icon goes here
                     </button>
                     <label for="submit-button" className="hidden">submit</label>
                 </form>
-                <a href={spotifyApiRedirect} id="new-party-link">START A NEW PARTY</a>
+                <a href={spotifyApiRedirect} target='_blank' id="new-party-link">START A NEW PARTY</a>
         </main>
     );
 }
