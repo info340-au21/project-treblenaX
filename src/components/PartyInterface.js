@@ -34,6 +34,7 @@ export function PartyInterface() {
     return (
         <div className="interface-container">
             <UserInformation roomCode="123456" users={ SAMPLE_USERS } />
+            {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } />
             <QueueModule songList={ songs }/>  
             <CurrentModule currentSong={ currentSong } />

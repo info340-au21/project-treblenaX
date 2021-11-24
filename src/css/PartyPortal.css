@@ -20,18 +20,27 @@
     color: white;
 }
 
+.flex-item-space {
+    flex: 1 0 10px;
+}
+
 .user-column {
-    flex: 1;
+    flex: 0 1 50px;
     background-color: #FFFFFF;
 }
 
 .results-column {
-    flex: 3;
+    flex: 6;
 }
 
 .info-column {
     flex: 0 0 auto;
+
     background: rgb(32, 27, 27);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .column-container {
@@ -267,6 +276,9 @@ form input {
 
     max-width: 250px;
     max-height: 250px;
+
+    flex: 1;
+    align-self: flex-start;
 }
 
 .party.flex-item-currently-playing::after {   /* To make a dynamic square */
@@ -355,6 +367,21 @@ form input {
     .flex-item-queue-list {
         width: 80%;
     }
+
+    /* UserInfo CSS */
+    .flex-item-room-code {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+
+    .flex-item-users {
+        display: none;
+    }
+    
+    /* CurrentModule CSS */
+    .info-column {
+        display: none;
+    }
 }
 
 /* mobile - small screens */
@@ -362,6 +389,21 @@ form input {
     /* Queue CSS */
     .flex-item-queue-list {
         width: 80%;
+    }
+
+    /* UserInfo CSS */
+    .flex-item-room-code {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+
+    .flex-item-users {
+        display: none;
+    }
+    
+    /* CurrentModule CSS */
+    .info-column{
+        display: none;
     }
 }
 
@@ -371,10 +413,27 @@ form input {
     .flex-item-queue-list {
         width: 80%;
     }
+
+    /* UserInfo CSS */
+    .flex-item-room-code {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+
+    .flex-item-users {
+        display: none;
+    }
+    
+    /* CurrentModule CSS */
+    .info-column {
+        display: none;
+    }
 }
 
 /* large screens */
 @media (min-width: 992px) {
+
+    /* Queue CSS */
     .flex-item-queue-list {
         height: 20rem;
         width: 15rem;
@@ -382,6 +441,11 @@ form input {
 
     #collapse-button {
         display: none   /* Hide the button for desktop */
+    }
+
+    /* CurrentModule CSS */
+    .info-column {
+        display: inline-block;
     }
 }
 
