@@ -3,6 +3,7 @@ import { PartyInterface, getQueue } from './PartyInterface';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import '../css/App.css';
 import PlayHistory from './PlayHistoryModule';
+import Config from '../json/config.json';
 
 /**
  * Main App component, handles routing (eventually)
@@ -24,11 +25,11 @@ export default function App(props) {
                 </ul>
             </nav>
             <Routes>
-                <Route path="/" element={<PartyPortal />} />
+                <Route path="/" element={<PartyPortal clientId={Config.spotifyClientId} />} />
                 <Route path="/party/:partyId" element={<PartyInterface />} />
                 <Route exact path="/party/:partyId/play-history" element={<PlayHistory getQueue={ getQueue } />} />
             </Routes>
-            <footer>Created by Elbert Change, Ryan Langford, Stephan Rubalcava, Alan Wen</footer>
+            <footer>Created by Elbert Cheng, Ryan Langford, Stephan Rubalcava, Alan Wen</footer>
         </Router>
     );
 }

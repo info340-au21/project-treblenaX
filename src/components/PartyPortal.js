@@ -1,10 +1,24 @@
 import React from 'react';
 import '../css/PartyPortal.css';
+import Spotify from 'spotify-web-api-js';
+import $ from 'jquery';
+
+const redirectUri = 'http://localhost:3000/party/';
 
 /**
  * Main component of the Party Portal page
  */
 export default function PartyPortal(props) {
+    const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?' +
+    $.param({
+      response_type: 'code',
+      client_id: props.clientId,
+      scope: '',
+      redirect_uri: redirectUri,
+      state: '12345'
+    });
+    console.log(spotifyApiRedirect);
+
     return (
         <main className="container">
             <h1 id="banner">Groupify</h1>
@@ -20,7 +34,7 @@ export default function PartyPortal(props) {
                     </button>
                     <label for="submit-button" className="hidden">submit</label>
                 </form>
-                <a href="#" id="new-party-link">START A NEW PARTY</a>
+                <a href={spotifyApiRedirect} id="new-party-link">START A NEW PARTY</a>
         </main>
     );
 }
