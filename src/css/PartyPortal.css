@@ -242,7 +242,10 @@ form input {
     border: 5px solid black;
 }
 
+/* Queue Style */
 .flex-item-queue-list {
+    /* Transition property for animation */
+    transition: height 0.5s;
     background: #FFFFFF;
     color: black;
     position: fixed;
@@ -250,13 +253,18 @@ form input {
     flex-direction: column;
     bottom: 0;
     right: 0;
-    margin: 2.5px 5px 2.5px 0;
-    width: 15rem;
-    height: 20rem;
+    margin: 2.5px 5px 0 0;
+    height: 45px;
     border-radius: 10px 10px 0 0;
 }
 
-.queue-header {
+.queue-header-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.queue-header-item {
+    flex: 1;
     margin: 0;
     padding: 1rem;
 }
@@ -300,3 +308,45 @@ form input {
     padding: 0 1rem 0 0;
     font-size: 16px;
 }
+
+/* Responsive Design */
+/* mobile - extra-small screens */ 
+@media (max-width: 598px) {
+    /* Queue CSS */
+    .flex-item-queue-list {
+        width: 80%;
+    }
+}
+
+/* mobile - small screens */
+@media (min-width: 598px) {
+    /* Queue CSS */
+    .flex-item-queue-list {
+        width: 80%;
+    }
+}
+
+/* mobile - medium screens */
+@media (min-width: 768px) {
+    /* Queue CSS */
+    .flex-item-queue-list {
+        width: 80%;
+    }
+}
+
+/* large screens */
+@media (min-width: 992px) {
+    .flex-item-queue-list {
+        height: 20rem;
+        width: 15rem;
+    }
+
+    #collapse-button {
+        display: none   /* Hide the button for desktop */
+    }
+}
+
+/* extra-large screens */
+@media (min-width: 1200px) {
+}
+

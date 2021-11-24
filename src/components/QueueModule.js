@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const COLLAPSED_QUEUE_HEIGHT = "45px";
+const EXPANDED_QUEUE_HEIGHT = "20rem";
 
 export default function QueueList(props) {
+    const [isExpanded, setExpanded] = useState(false);
+
+    // Queue button event handler
+    const handleCollapse = () => { 
+        let element = document.getElementById('queue-list');
+
+        if (!isExpanded) { // If the queue is already collapsed
+            element.style.height = EXPANDED_QUEUE_HEIGHT;
+        } else {    // If the queue is already expanded
+            element.style.height = COLLAPSED_QUEUE_HEIGHT;
+        }
+
+        // adjust collapse boolean 
+        setExpanded(!isExpanded);
+    };
+
     const topimg = "";
     if(props.songList.length > 0) {
         topimg = <QueueTop img={props.songList[0].img} />
@@ -13,9 +32,13 @@ export default function QueueList(props) {
     return (
         <div>
             {topimg}
-            <div className="flex-item-queue-list">
-            <h3 className="queue-header">Queue</h3>
-            {songList}
+            <div id="queue-list" className="flex-item-queue-list">
+                <div className="queue-header-container">
+                    <h3 className="queue-header-item">Queue</h3>
+                    {/* @TODO: replace with icon */}
+                    <button id="collapse-button" className="queue-header-item" type="button" onClick={ handleCollapse }>Expand</button>
+                </div>
+                {songList}
             </div>
         </div>
     )
