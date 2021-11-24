@@ -7,3 +7,10 @@ nav {
 nav a {
     color: white;
 }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background-color: black;
+    font-size: x-small;
+}

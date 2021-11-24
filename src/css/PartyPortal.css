@@ -24,6 +24,10 @@
     flex: 1 0 10px;
 }
 
+.hidden {
+    display: none;
+}
+
 .user-column {
     flex: 0 1 50px;
     background-color: #FFFFFF;

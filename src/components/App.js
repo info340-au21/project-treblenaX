@@ -28,6 +28,7 @@ export default function App(props) {
                 <Route path="/party/:partyId" element={<PartyInterface />} />
                 <Route exact path="/party/:partyId/play-history" element={<PlayHistory getQueue={ getQueue } />} />
             </Routes>
+            <footer>Created by Elbert Change, Ryan Langford, Stephan Rubalcava, Alan Wen</footer>
         </Router>
     );
 }

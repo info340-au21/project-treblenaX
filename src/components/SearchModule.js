@@ -38,6 +38,7 @@ function SearchBar() {
     return (
         <form>
             <input type="text" id="search-query" name="search-query" placeholder="Search for a song" />
+            <label for="search-query" className="hidden">song search</label>
         </form>
     );
 }
