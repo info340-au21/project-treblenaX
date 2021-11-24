@@ -56,7 +56,9 @@
     top: 0;
 }
 
+/* room code header */
 .flex-item-room-code {
+    margin-top: 60px;
     color: #1DB954;
     text-align: center;
 }
@@ -66,14 +68,51 @@
     margin-bottom: 2rem;
 }
 
+/* each user */
 .user-item {
     display: flex;
     flex-direction: row;
     margin: 1em;
+    margin-right: 1.5em;
 }
 
 .user-photo {
     border-radius: 50%;
+    height: 2em;
+}
+
+/* open navigation bar */
+.sidenav {
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.hidden {
+    display: none;
+}
+
+.shown {
+    display: block;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .btn {
+    align-self: flex-end;
+    font-size: 36px;
+    color: #1DB954;
+}
+
+.sidenav .closebtn {
+    margin: 5px;
+    margin-right: 15px;
+}
+
+.sidenav .openbtn {
+    width: 100%;
+    text-align: center;
+}
+
+.horizontal {
+    writing-mode: vertical-rl;
 }
 
 .flex-item-users {
