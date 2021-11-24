@@ -360,6 +360,10 @@ form input {
     background: #FFFFFF;
 }
 
+.queue-item-playing {
+    font-weight: bold;
+}
+
 .queue-item-info p {
     margin: 0;
 }
