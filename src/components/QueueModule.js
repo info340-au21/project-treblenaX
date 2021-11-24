@@ -5,8 +5,10 @@ export default function QueueList(props) {
     if(props.songList.length > 0) {
         topimg = <QueueTop img={props.songList[0].img} />
     }
-    const songList = (props.songList).map((cur) => {
-        return <QueueItem name={cur.name} album={cur.album} artist={cur.artist} length={cur.length} img={cur.img}/>
+    let songList = props.songList.default;
+    
+    songList = songList.map((cur) => {
+        return <QueueItem key={cur.name} name={cur.name} album={cur.album} artist={cur.artist} length={cur.length} img={cur.img}/>
     })
     return (
         <div>
@@ -27,7 +29,7 @@ function QueueItem(props) {
     const img = props.img;
     return (                    
     <div className="queue-item">
-    <div className="queue-album-img"><img href={img} alt="album cover" /></div>
+    <div className="queue-album-img"><img src={img} alt="album cover" /></div>
         <div className="queue-item-info">
             <p>{name}</p>
             <p>{artist}</p>

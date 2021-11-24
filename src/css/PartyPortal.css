@@ -255,10 +255,9 @@ form input {
     border-radius: 2px;
 }
 
-.queue-album-img {
-    background-image: url("https://i.scdn.co/image/ab67616d0000b27384ad36183dea63a65967a2a8");
-    background-position: center;
-    background-size: contain;
+.queue-album-img img {
+    position: center;
+    size: contain;
     height: 3rem;
     width: 3rem;
     border-radius: 2px 0 0 2px;

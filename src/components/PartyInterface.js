@@ -5,6 +5,7 @@ import UserInformation from './UserInformation.js';
 import CurrentModule from './CurrentModule';
 import PlayHistory from './PlayHistoryModule';
 import '../css/PartyPortal.css';
+import * as songs from '../json/sampleSongs.json';
 
 // Grab Debug Data
 import SONG_DATA from '../json/test_data.json';
@@ -33,7 +34,7 @@ export function PartyInterface() {
         <div className="interface-container">
             <UserInformation roomCode="123456" users={ [] } />
             <SearchModule songData={ songData } />
-            <QueueModule songList={ [] }/>  
+            <QueueModule songList={ songs }/>  
             <CurrentModule currentSong={ currentSong } />
         </div>
     );
