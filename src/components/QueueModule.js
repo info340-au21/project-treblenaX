@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { cloneElement, useState } from 'react';
 
 const COLLAPSED_QUEUE_HEIGHT = "45px";
 const EXPANDED_QUEUE_HEIGHT = "20rem";
@@ -27,8 +27,12 @@ export default function QueueList(props) {
     let songList = props.songList.default;
     
     songList = songList.map((cur) => {
-        return <QueueItem key={cur.name} name={cur.name} album={cur.album} artist={cur.artist} length={cur.length} img={cur.img}/>
+        return <QueueItem isPlaying={false} key={cur.name} name={cur.name} album={cur.album} artist={cur.artist} length={cur.length} img={cur.img}/>
     })
+
+    // TODO: ensure the element highlighted is the currently playing song
+    songList[0] = cloneElement(songList[0], { isPlaying: true });
+    
     return (
         <div>
             {topimg}
@@ -50,10 +54,11 @@ function QueueItem(props) {
     const artist = props.artist;
     const length = props.length;
     const img = props.img;
+    const isPlaying = props.isPlaying;
     return (                    
     <div className="queue-item">
     <div className="queue-album-img"><img src={img} alt="album cover" /></div>
-        <div className="queue-item-info">
+        <div className={isPlaying ? "queue-item-info queue-item-playing" : "queue-item-info"}>
             <p>{name}</p>
             <p>{artist}</p>
             <p>{album}・{length}</p>
