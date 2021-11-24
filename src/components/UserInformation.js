@@ -35,6 +35,8 @@ export default function UserInformation(props) {
 function UserList(props) {
     const users = props.users;
 
+    console.log(users);
+
     let userElement = users.map((user) => {
         return (
             <div className="user-item" key={user.id}>
