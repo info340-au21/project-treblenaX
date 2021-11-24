@@ -61,6 +61,21 @@
     text-align: center;
 }
 
+.user-title {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.user-item {
+    display: flex;
+    flex-direction: row;
+    margin: 1em;
+}
+
+.user-photo {
+    border-radius: 50%;
+}
+
 .flex-item-users {
     margin-left: 15px;
     padding: 0 5px;

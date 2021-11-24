@@ -2,6 +2,7 @@ import React from 'react';
 import SearchModule from './SearchModule.js';
 import QueueModule from './QueueModule.js';
 import UserInformation from './UserInformation.js';
+import SAMPLE_USERS from '../json/test_users.json';
 import CurrentModule from './CurrentModule';
 import PlayHistory from './PlayHistoryModule';
 import '../css/PartyPortal.css';
@@ -31,7 +32,7 @@ export function PartyInterface() {
     
     return (
         <div className="interface-container">
-            <UserInformation roomCode="123456" users={ [] } />
+            <UserInformation roomCode="123456" users={ SAMPLE_USERS } />
             <SearchModule songData={ songData } />
             <QueueModule songList={ [] }/>  
             <CurrentModule currentSong={ currentSong } />

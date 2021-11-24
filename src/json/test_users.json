@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Ryan Langford",
+        "photo": "../img/profile_pictures/img_3.PNG",
+        "host": true,
+        "id": "1966072"
+    },
+    {
+        "name": "Alan Wen",
+        "photo": "../img/profile_pictures/img_1.PNG",
+        "host": false,
+        "id": "9864922"
+    },
+    {
+        "name": "Elbert Cheng",
+        "photo": "../img/profile_pictures/img_2.PNG",
+        "host": false,
+        "id": "0476532"
+    },
+    {
+        "name": "Stephan Rubalcava",
+        "photo": "../img/profile_pictures/img_5.PNG",
+        "host": false,
+        "id": "9863083"
+    },
+    {
+        "name": "Joel Ross",
+        "photo": "../img/profile_pictures/img_4.PNG",
+        "host": false,
+        "id": "3861404"
+    }
+]
