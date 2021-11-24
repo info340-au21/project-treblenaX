@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SearchModule from './SearchModule.js';
 import QueueModule from './QueueModule.js';
 import UserInformation from './UserInformation.js';

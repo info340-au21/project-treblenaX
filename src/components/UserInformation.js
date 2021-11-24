@@ -7,43 +7,76 @@ export default function UserInformation(props) {
     // Grab party ID from urlParams
     const urlParams = useParams();
     
-    const roomCode = urlParams.partyId;
-    const users = props.users || [];
+    const roomCode = props.roomCode;
+    const users = props.users;
 
-    return (
-        <div className="column-container user-column">
-            <div className="user-content">
-                <div className="flex-item-room-code">
-                    <h1>#{roomCode}</h1>
-                </div>
-
-                <div className="flex-item-users">
-                    <h1 className="user-title">Users</h1>
-                    <ul>
-                        <UserList users={users}/>
-                    </ul>
-                </div>
-                <div className="flex-item-space">
-                    
+    if (window.innerWidth < 641) {
+        return (
+            <div id="mySidenav" className="column-container user-column sidenav">
+                <a href="*" className="openbtn btn" onClick={openNav}>{">"}</a>
+                <div className="user-content">
+                    <div className="flex-item-room-code horizontal">
+                        <h1>#{roomCode}</h1>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <div id="mySidenav" className="column-container user-column sidenav">
+                <a href="*" className="closebtn btn" onClick={closeNav}>&times;</a>
+                <div className="user-content">
+                    <div className="flex-item-room-code">
+                        <h1>#{roomCode}</h1>
+                    </div>
+    
+                    <div className="flex-item-users">
+                        <h1 className="user-title">Users</h1>
+                        <ul>
+                            <UserList users={users}/>
+                        </ul>
+                    </div>
+                    <div className="flex-item-space">
+                        
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
 
 // takes the users as an array of objects with ('name' and 'id') and tranforms them into a list of li elements
 function UserList(props) {
     const users = props.users;
 
-    console.log(users);
-
     let userElement = users.map((user) => {
-        return (
-            <div className="user-item" key={user.id}>
-                <img className="user-photo" src={user.photo} alt={user.name}/>
-                <li className="user-name">{user.name}</li>
-            </div>
-        )
+        if (user.host) {
+            return (
+                <div className="user-item" key={user.id}>
+                    <img className="user-photo" src={user.photo} alt={user.name}/>
+                    <li className="user-name">{user.name} (Host)</li>
+                </div>
+            )
+        } else {
+            return (
+                <div className="user-item" key={user.id}>
+                    <img className="user-photo" src={user.photo} alt={user.name}/>
+                    <li className="user-name">{user.name}</li>
+                </div>
+            )
+        }
     });
     return userElement;
+}
+
+/* Set the width of the side navigation to 250px */
+const openNav = () => {
+    let nav = document.getElementById("mySidenav");
+    nav.classList.add = "shown";
+}
+
+/* Set the width of the side navigation to 0 */
+const closeNav = () => {
+    let nav = document.getElementById("mySidenav");
+    nav.classList.add = "hidden";
 }
