@@ -1,19 +1,23 @@
 import React, { cloneElement, useState } from 'react';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const COLLAPSED_QUEUE_HEIGHT = "45px";
 const EXPANDED_QUEUE_HEIGHT = "20rem";
 
 export default function QueueList(props) {
     const [isExpanded, setExpanded] = useState(false);
-
+    const [icon, setIcon] = useState(<ExpandMoreIcon />);
     // Queue button event handler
     const handleCollapse = () => { 
         let element = document.getElementById('queue-list');
 
         if (!isExpanded) { // If the queue is already collapsed
             element.style.height = EXPANDED_QUEUE_HEIGHT;
+            setIcon(<ExpandLessIcon />);
         } else {    // If the queue is already expanded
             element.style.height = COLLAPSED_QUEUE_HEIGHT;
+            setIcon(<ExpandMoreIcon />);
         }
 
         // adjust collapse boolean 
@@ -40,7 +44,7 @@ export default function QueueList(props) {
                 <div className="queue-header-container">
                     <h3 className="queue-header-item">Queue</h3>
                     {/* @TODO: replace with icon */}
-                    <button id="collapse-button" className="queue-header-item" type="button" onClick={ handleCollapse }>Expand</button>
+                    <button id="collapse-button" className="queue-header-item" type="button" onClick={ handleCollapse }>{icon}</button>
                 </div>
                 {songList}
             </div>

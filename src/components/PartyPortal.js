@@ -2,6 +2,7 @@ import React from 'react';
 import '../css/PartyPortal.css';
 import Spotify from 'spotify-web-api-js';
 import $ from 'jquery';
+import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 
 const redirectUri = 'http://localhost:3000/party/';
 
@@ -34,7 +35,7 @@ export default function PartyPortal(props) {
                             window.open(spotifyApiRedirect, '_blank');
                         }
                     }>
-                        material icon goes here
+                        <GroupWorkOutlinedIcon />
                     </button>
                     <label for="submit-button" className="hidden">submit</label>
                 </form>

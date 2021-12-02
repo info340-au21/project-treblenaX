@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
-
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 const EXPANDED_MENU_HEIGHT = "250px";
 const COLLAPSED_MENU_HEIGHT = "50px";
 
@@ -16,13 +17,13 @@ export default function UserInformation(props) {
 
     // States
     const [isExpanded, setExpanded] = useState(false);
+    const [icon, setIcon] = useState(<ArrowForwardIosIcon />);
 
     // User Information event handler
     const handleCollapse = () => {
         let sidenav = document.getElementById('mySidenav');
         let roomCode = document.getElementById('room-code');
         let usersList = document.getElementById('user-list');
-
         if (!isExpanded) { // If the queue is already collapsed
             sidenav.style.flex = "0 1 " + EXPANDED_MENU_HEIGHT;
 
@@ -30,6 +31,7 @@ export default function UserInformation(props) {
             roomCode.style.transform = "rotate(0deg)";
             usersList.style.display = "block";
             sidenav.classList.add = "shown";
+            setIcon(<ArrowBackIosNewIcon />);
         } else {    // If the queue is already expanded
             sidenav.style.flex = "0 1 " + COLLAPSED_MENU_HEIGHT;
 
@@ -37,6 +39,7 @@ export default function UserInformation(props) {
             roomCode.style.transform = "rotate(180deg)";
             usersList.style.display = "none";
             sidenav.classList.add = "hidden";
+            setIcon(<ArrowForwardIosIcon />);
         }
         console.log(isExpanded);
         setExpanded(!isExpanded);
@@ -56,7 +59,7 @@ export default function UserInformation(props) {
     // } else {
     return (
         <div id="mySidenav" className="column-container user-column sidenav">
-            <button type="button" className="closebtn btn" onClick={handleCollapse}>&times;</button>
+            <button type="button" className="closebtn btn" onClick={handleCollapse}>{icon}</button>
             <div className="user-content">
                 <div id="room-code" className="flex-item-room-code">
                     <h1>#{roomCode}</h1>

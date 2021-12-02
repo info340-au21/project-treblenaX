@@ -134,6 +134,9 @@
 .sidenav .closebtn {
     margin: 5px;
     margin-right: 15px;
+    background-color: white;
+    border: 1px;
+    cursor: pointer;
 }
 
 .sidenav .openbtn {
@@ -188,6 +191,9 @@ button.leave {
     border-radius: 5px;
     text-align: center;
     color: white;
+    margin: 9px 0px 9px 0px;
+    
+    cursor: pointer;
 }
 
 #new-party-link {
