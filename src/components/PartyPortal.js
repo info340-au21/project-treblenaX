@@ -4,21 +4,20 @@ import Spotify from 'spotify-web-api-js';
 import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 
-const redirectUri = 'http://localhost:3000/party/';
+const redirectUri = 'http://localhost:3000/auth/';
 
 /**
  * Main component of the Party Portal page
  */
 export default function PartyPortal(props) {
-    const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?' +
-    $.param({
+    const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
+    const newPartyUrl = spotifyApiRedirect + $.param({
       response_type: 'code',
       client_id: props.clientId,
       scope: '',
       redirect_uri: redirectUri,
-      state: '12345'
+      state: 'someNewPartyIdHere' // TODO: Generate this randomly
     });
-    console.log(spotifyApiRedirect);
 
     return (
         <main className="container">
@@ -32,14 +31,25 @@ export default function PartyPortal(props) {
                     <label for="party-id-field" className="hidden">Input Party ID</label>
                     <button id="submit-button" type="submit" onClick={
                         (e) => {
-                            window.open(spotifyApiRedirect, '_blank');
+                            // get the party id from the input field
+                            const partyId = document.getElementById('party-id-field').value;
+
+                            // create spotify auth url with that state
+                            const existingPartyUrl = spotifyApiRedirect + $.param({
+                                response_type: 'code',
+                                client_id: props.clientId,
+                                scope: '',
+                                redirect_uri: redirectUri,
+                                state: partyId,
+                              });
+                            window.open(existingPartyUrl, '_blank');
                         }
                     }>
                         <GroupWorkOutlinedIcon />
                     </button>
                     <label for="submit-button" className="hidden">submit</label>
                 </form>
-                <a href={spotifyApiRedirect} target='_blank' id="new-party-link">START A NEW PARTY</a>
+                <a href={newPartyUrl} target='_blank' id="new-party-link">START A NEW PARTY</a>
         </main>
     );
 }

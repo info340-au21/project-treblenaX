@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import '../css/App.css';
 import PlayHistory from './PlayHistoryModule';
 import FooterModule from './FooterModule';
+import Auth from './Auth';
 import Config from '../json/config.json';
 
 /**
@@ -29,6 +30,7 @@ export default function App(props) {
                 <div className="flex-item">
                     <Routes>
                         <Route path="/" element={<PartyPortal clientId={Config.spotifyClientId} />} />
+                        <Route path="/auth" element={<Auth />} />
                         <Route path="/party/:partyId" element={<PartyInterface />} />
                         <Route exact path="/party/:partyId/play-history" element={<PlayHistory getQueue={ getQueue } />} />
                     </Routes>
