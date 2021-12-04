@@ -3,6 +3,7 @@ import '../css/PartyPortal.css';
 import Spotify from 'spotify-web-api-js';
 import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
+import { getSessionData } from './FirebaseHandler.js';
 
 const redirectUri = 'http://localhost:3000/auth/';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchModule from './SearchModule.js';
 import QueueModule from './QueueModule.js';
 import UserInformation from './UserInformation.js';
@@ -11,29 +11,43 @@ import * as songs from '../json/sampleSongs.json';
 // Grab Debug Data
 import SONG_DATA from '../json/test_data.json';
 import { Routes, Router, Route } from 'react-router';
+import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
+import { getSessionData, getUserInformationData } from './FirebaseHandler.js';
 
 const DEBUG = true;
-
+let roomCode;
 let queue = [];
+let users = [];
+
+
 
 /**
  * Main component of the Party Interface page
  */
 export function PartyInterface() {
+    const [getUsers, setUsers] = useState([]);
+
     let songData;
     if (DEBUG) {
         songData = extractPayload(SONG_DATA);
         queue = songData;
+        roomCode = "000000";
     } else {
         // @TODO: put PROD data collection here
     }
 
+    // useEffect -> when component is loaded
+    useEffect(() => {
+        getUserInformationData(setUsers, roomCode);
+    }, []);
+
+    console.log(getUsers);
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
-    
     return (
         <div className="interface-container">
-            <UserInformation roomCode="123456" users={ SAMPLE_USERS } />
+            <UserInformation roomCode={ roomCode } users={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } />
             <QueueModule songList={ songs }/>  
@@ -46,6 +60,11 @@ export function PartyInterface() {
 export function getQueue() {
     return queue;
 }
+
+export function getUsers() {
+    return users;
+} 
+
 
 /* Private function helpers */
 

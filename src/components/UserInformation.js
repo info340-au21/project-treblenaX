@@ -41,22 +41,10 @@ export default function UserInformation(props) {
             sidenav.classList.add = "hidden";
             setIcon(<ArrowForwardIosIcon />);
         }
-        console.log(isExpanded);
+        // console.log(isExpanded);
         setExpanded(!isExpanded);
     }
 
-    // if (window.innerWidth < 641) {
-    //     return (
-    //         <div id="mySidenav" className="column-container user-column sidenav">
-    //             <a href="*" className="openbtn btn" onClick={openNav}>{">"}</a>
-    //             <div className="user-content">
-    //                 <div className="flex-item-room-code horizontal">
-    //                     <h1>#{roomCode}</h1>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     )
-    // } else {
     return (
         <div id="mySidenav" className="column-container user-column sidenav">
             <button type="button" className="closebtn btn" onClick={handleCollapse}>{icon}</button>
@@ -81,11 +69,12 @@ function UserList(props) {
     const users = props.users;
 
     let userElement = users.map((user) => {
+        console.log(user.username);
         if (user.host) {
             return (
                 <div className="user-item" key={user.id}>
                     <img className="user-photo" src={user.photo} alt={user.name}/>
-                    <li className="user-name">{user.name} (Host)</li>
+                    <li className="user-name">{user.username} (Host)</li>
                 </div>
             )
         } else {
