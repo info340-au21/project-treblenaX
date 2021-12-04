@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SearchModule from './SearchModule.js';
-import QueueModule from './QueueModule.js';
+import QueueList from './QueueModule.js';
 import UserInformation from './UserInformation.js';
 import SAMPLE_USERS from '../json/test_users.json';
 import CurrentModule from './CurrentModule';
@@ -27,6 +27,26 @@ export function PartyInterface() {
     } else {
         // @TODO: put PROD data collection here
     }
+    const [baseSongList, setSongList] = useState(songs.default);
+    const handleRemove = (name) => {
+        let val = 0;
+        let newSongList = [...baseSongList];
+        for(let i of baseSongList) {
+            if(name == i.name) {
+                newSongList.splice(val, 1);
+                //TODO Add AWS stuff here
+                setSongList(newSongList);
+            }
+            val++;
+        }
+    }
+    const handleAdd = (song) => {
+        let val = 0;
+        let newSongList = [...baseSongList]; //TODO add album name
+        newSongList[newSongList.length] = song;
+        //TODO add AWS stuff here
+        setSongList(newSongList);
+    }
 
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
@@ -35,8 +55,8 @@ export function PartyInterface() {
         <div className="interface-container">
             <UserInformation roomCode="123456" users={ SAMPLE_USERS } />
             {/* <div className="flex-item-space"></div> */}
-            <SearchModule songData={ songData } />
-            <QueueModule songList={ songs }/>  
+            <SearchModule songData={ songData } addCallBack={handleAdd} />
+            <QueueList baseSongList={baseSongList} handleRemove={handleRemove}/>  
             <CurrentModule currentSong={ currentSong } />
         </div>
     );
