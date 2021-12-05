@@ -57,7 +57,7 @@ export function PartyInterface() {
             {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } addCallBack={handleAdd} />
             <QueueList baseSongList={baseSongList} handleRemove={handleRemove}/>  
-            <CurrentModule currentSong={ currentSong } />
+            {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
 }
