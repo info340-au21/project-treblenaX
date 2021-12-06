@@ -1,12 +1,12 @@
 import React from 'react';
+import QueueIcon from '@mui/icons-material/Queue';
 
 export default function SearchModule(props) {
     let payload = props.songData;
-
     return (
         <div className="column-container results-column">
             <SearchBar />
-            <ResultsList payload={ payload } />
+            <ResultsList payload={ payload } handleAdd={props.addCallBack} />
         </div>
     );
 }
@@ -22,9 +22,9 @@ export function SongCard(props) {
                 <h2>{ data.artists }</h2>
             </div>
             <div className="song-card-image-end-bar">
-                <div className="song-card-image-end-bar-icon">
+                <div className="song-card-image-end-bar-icon" onClick={() => props.handleAdd(data)}>
                     <span className="add-queue-icon material-icons">
-                        done
+                        <QueueIcon />
                     </span>
                 </div>
                 <h2>{ data.duration }</h2>
@@ -53,7 +53,7 @@ function ResultsList(props) {
 
     const cards = data.map((song) => {
         if (i++ < limit) {
-            return (<SongCard key={ song.id } payload={ song } />);
+            return (<SongCard key={ song.id } payload={ song } handleAdd={props.handleAdd} />);
         } else {
             return;
         }

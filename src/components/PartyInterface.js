@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchModule from './SearchModule.js';
-import QueueModule from './QueueModule.js';
+import QueueList from './QueueModule.js';
 import UserInformation from './UserInformation.js';
 import SAMPLE_USERS from '../json/test_users.json';
 import CurrentModule from './CurrentModule';
@@ -40,6 +40,26 @@ export function PartyInterface() {
     } else {
         // @TODO: put PROD data collection here
     }
+    const [baseSongList, setSongList] = useState(songs.default);
+    const handleRemove = (name) => {
+        let val = 0;
+        let newSongList = [...baseSongList];
+        for(let i of baseSongList) {
+            if(name == i.name) {
+                newSongList.splice(val, 1);
+                //TODO Add AWS stuff here
+                setSongList(newSongList);
+            }
+            val++;
+        }
+    }
+    const handleAdd = (song) => {
+        let val = 0;
+        let newSongList = [...baseSongList]; //TODO add album name
+        newSongList[newSongList.length] = song;
+        //TODO add AWS stuff here
+        setSongList(newSongList);
+    }
 
     // useEffect -> when component is loaded
     useEffect(() => {
@@ -56,9 +76,9 @@ export function PartyInterface() {
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
             <UserInformation roomCode={ urlParams.partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
-            <SearchModule songData={ songData } />
-            <QueueModule songList={ songs }/>  
-            <CurrentModule currentSong={ currentSong } />
+            <SearchModule songData={ songData } addCallBack={handleAdd} />
+            <QueueList baseSongList={baseSongList} handleRemove={handleRemove}/>  
+            {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
 }
