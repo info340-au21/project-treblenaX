@@ -13,7 +13,6 @@ export default function UserInformation(props) {
     
     // @TODO: change this to get the room code
     const roomCode = props.roomCode;
-    const users = props.users;
 
     // States
     const [isExpanded, setExpanded] = useState(false);
@@ -56,7 +55,7 @@ export default function UserInformation(props) {
                 <div id="user-list" className="flex-item-users">
                     <h1 className="user-title">Users</h1>
                     <ul>
-                        <UserList users={users}/>
+                        <UserList getUsers={props.getUsers}/>
                     </ul>
                 </div>
             </div>
@@ -66,10 +65,9 @@ export default function UserInformation(props) {
 
 // takes the users as an array of objects with ('name' and 'id') and tranforms them into a list of li elements
 function UserList(props) {
-    const users = props.users;
+    const users = props.getUsers;
 
     let userElement = users.map((user) => {
-        console.log(user.username);
         if (user.host) {
             return (
                 <div className="user-item" key={user.id}>

@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/PartyPortal.css';
-import Spotify from 'spotify-web-api-js';
 import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
-import { getSessionData } from './FirebaseHandler.js';
+import { getPartySessions } from './FirebaseHandler';
 
 const redirectUri = 'http://localhost:3000/auth/';
+const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 
 /**
  * Main component of the Party Portal page
  */
 export default function PartyPortal(props) {
-    const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
-    const newPartyUrl = spotifyApiRedirect + $.param({
-      response_type: 'code',
-      client_id: props.clientId,
-      scope: '',
-      redirect_uri: redirectUri,
-      state: 'someNewPartyIdHere' // TODO: Generate this randomly
-    });
+    const [allSessions, setSessions] = useState([]);
+
+    useEffect(() => {
+        // Get all party sessions
+        getPartySessions(setSessions);
+
+        }, [])
+
+    const directToNewParty = () => {
+        const partyId = createNewPartyID(allSessions);
+        const newPartyUrl = spotifyApiRedirect + $.param({
+            response_type: 'code',
+            client_id: props.clientId,
+            scope: '',
+            redirect_uri: redirectUri,
+            state: partyId
+        });
+
+        window.open(newPartyUrl, '_blank');
+    }
 
     return (
         <main className="container">
@@ -50,7 +62,35 @@ export default function PartyPortal(props) {
                     </button>
                     <label for="submit-button" className="hidden">submit</label>
                 </form>
-                <a href={newPartyUrl} target='_blank' id="new-party-link">START A NEW PARTY</a>
+                {/* @TODO: Make cleaner button */}
+                <button onClick={directToNewParty} id="new-party-link">START A NEW PARTY</button>
         </main>
     );
+}
+
+/** Private function helpers */
+function generateID() {
+    let str = '';
+    for (let i = 0; i < 6; i++) {
+        str += Math.round(Math.random() * 9);
+    }
+
+    return str;
+}
+
+function checkPartyExists(allSessions, partyId) {
+    for (const session in allSessions) {
+        if (partyId === session) return true;
+    }
+    return false;
+}
+
+function createNewPartyID(allSessions) {
+    let partyId = generateID();
+
+    while (checkPartyExists(allSessions, partyId)) {
+        partyId = generateID();
+    }
+
+    return partyId;
 }
