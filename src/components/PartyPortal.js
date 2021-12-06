@@ -36,16 +36,27 @@ export default function PartyPortal(props) {
         <main className="container">
             <h1 id="banner">Groupify</h1>
                 <form id="form-container">
+                    <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        placeholder="Username"
+                        required
+                    />
                     <input 
                         id="party-id-field" 
                         name="party-id-field" 
                         type="text" 
-                        placeholder="Enter a Party ID" />
+                        placeholder="Enter a Party ID"
+                        required />
                     <label for="party-id-field" className="hidden">Input Party ID</label>
                     <button id="submit-button" type="submit" onClick={
                         (e) => {
                             // get the party id from the input field
                             const partyId = document.getElementById('party-id-field').value;
+
+                            // get username from the input field
+                            const username = document.getElementById('username').value;
 
                             // create spotify auth url with that state
                             const existingPartyUrl = spotifyApiRedirect + $.param({
@@ -53,7 +64,7 @@ export default function PartyPortal(props) {
                                 client_id: props.clientId,
                                 scope: '',
                                 redirect_uri: redirectUri,
-                                state: partyId,
+                                state: `${partyId}-${username}`,
                               });
                             window.open(existingPartyUrl, '_blank');
                         }

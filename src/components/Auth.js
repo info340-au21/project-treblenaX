@@ -10,7 +10,11 @@ export default function Auth(props) {
     const location = useLocation();
     const query = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
     const code = query.get("code");
-    const partyId = query.get("state");
+    const state = query.get("state");
+
+    // get party id and username from state
+    const partyId = state.split("-")[0];
+    const username = state.split("-")[1];
 
     // TODO: Save user data to db
 
