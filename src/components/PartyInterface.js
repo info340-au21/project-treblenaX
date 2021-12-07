@@ -31,15 +31,8 @@ export function PartyInterface() {
     const [getQueue, setQueue] = useState([]);
     const [getHistory, setHistory] = useState([]);
 
-    console.log(urlParams);
-    let songData;
-    if (DEBUG) {
-        songData = extractPayload(SONG_DATA);
-        queue = songData;
-        roomCode = "000000";
-    } else {
-        // @TODO: put PROD data collection here
-    }
+    let songData = [];
+
     const [baseSongList, setSongList] = useState(songs.default);
     const handleRemove = (name) => {
         let val = 0;
