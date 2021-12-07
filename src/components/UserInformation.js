@@ -121,11 +121,12 @@ function leaveParty() {
     console.log("Leaving party");
     // if user is host, send a message to the server to remove the party
     // if user is not host, send a message to the server to remove the user from the party and naviate to the home page
-    if (window.location.pathname.includes('host')) {
+    if (false) { // change this to check if the user is the host
         // send message to server to remove party
         console.log("Host is leaving party");
     } else {
         // send message to server to remove user from party
         console.log("User is leaving party");
+        window.location.href = "/";
     }
 }
