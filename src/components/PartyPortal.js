@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/PartyPortal.css';
 import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
-import { getPartySessions, postAddSession, getPartySession, postAddUser } from './FirebaseHandler';
+import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
 
 const redirectUri = 'http://localhost:3000/auth/';
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
@@ -16,7 +16,7 @@ export default function PartyPortal(props) {
     useEffect(() => {
         // Get all party sessions
         getPartySessions(setSessions);
-        }, [])
+    }, []);
 
     const directToNewParty = () => {
         const partyId = createNewPartyID(allSessions);

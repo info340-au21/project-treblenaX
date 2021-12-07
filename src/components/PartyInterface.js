@@ -57,7 +57,7 @@ export function PartyInterface() {
     // useEffect -> when component is loaded
     useEffect(() => {
         // getPartyUsers(setUsers, roomCode);
-        // getPartyQueue(setQueue, roomCode);
+        getPartyQueue(setQueue, urlParams.partyId);
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
@@ -66,6 +66,9 @@ export function PartyInterface() {
     const currentSong = songData[0];
     return (
         <div className="interface-container">
+        <button type="button" onClick={() => {
+            console.log(getQueue);
+        }}></button>
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
             <UserInformation roomCode={ urlParams.partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}

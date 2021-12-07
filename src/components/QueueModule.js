@@ -7,7 +7,7 @@ const COLLAPSED_QUEUE_HEIGHT = "45px";
 const EXPANDED_QUEUE_HEIGHT = "20rem";
 
 export default function QueueList(props) {
-    const [isExpanded, setExpanded] = useState(false);
+    const [isExpanded, setExpanded] = useState(true);
     const [icon, setIcon] = useState(<ExpandMoreIcon />);
     const baseSongList = props.baseSongList;
     const handleRemove = props.handleRemove;

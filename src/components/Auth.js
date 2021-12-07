@@ -20,13 +20,13 @@ export default function Auth(props) {
 
     useEffect(() => {
         // Start party session and add user
-        const host = {
+        const user = {
             username: username,
             host: Boolean(isHost),
             spotifyApi: code
         };
 
-        postAddUser(partyId, host);
+        postAddUser(partyId, user);
     }, [])
 
     // Redirect (Navigate, in React Router 6) to party page
