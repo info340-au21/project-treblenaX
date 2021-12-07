@@ -6,6 +6,7 @@ import { getPartySessions, postAddSession, getPartySession, postAddUser } from '
 
 const redirectUri = 'http://localhost:3000/auth/';
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
+const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
 /**
  * Main component of the Party Portal page
@@ -26,7 +27,7 @@ export default function PartyPortal(props) {
         const newPartyUrl = spotifyApiRedirect + $.param({
             response_type: 'code',
             client_id: props.clientId,
-            scope: '',
+            scope: scopes,
             redirect_uri: redirectUri,
             state: `${partyId}-${username}-true`
         });
@@ -46,7 +47,7 @@ export default function PartyPortal(props) {
             const existingPartyUrl = spotifyApiRedirect + $.param({
                 response_type: 'code',
                 client_id: props.clientId,
-                scope: '',
+                scope: scopes,
                 redirect_uri: redirectUri,
                 state: `${partyId}-${username}-false`,
             });
