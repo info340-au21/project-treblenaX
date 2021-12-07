@@ -190,6 +190,17 @@ button.leave {
     color: rgba(255, 255, 255, 1);
 }
 
+#username {
+    flex: 5;
+    margin-right: 0.5em;
+    background: transparent;
+    font-size: 1rem;
+    padding: 1em;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 1);
+}
+
 #submit-button {
     flex: 1;
     background: transparent;
@@ -205,6 +216,13 @@ button.leave {
 #new-party-link {
     color: white;
     text-decoration: none;
+    background: none;
+    border: none;
+}
+
+#new-party-link:hover {
+    color: gray;
+    cursor: pointer;
 }
 
 /* Base style */

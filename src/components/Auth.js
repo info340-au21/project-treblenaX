@@ -1,5 +1,6 @@
 import { useLocation, Navigate } from "react-router";
-import React from "react";
+import React, { useEffect } from "react";
+import { postAddUser } from "./FirebaseHandler";
 
 /**
  * Spotify authentication component handler
@@ -10,9 +11,23 @@ export default function Auth(props) {
     const location = useLocation();
     const query = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
     const code = query.get("code");
-    const partyId = query.get("state");
+    const state = query.get("state");
 
-    // TODO: Save user data to db
+    // get party id and username from state
+    const partyId = state.split("-")[0];
+    const username = state.split("-")[1];
+    const isHost = state.split("-")[2];
+
+    useEffect(() => {
+        // Start party session and add user
+        const host = {
+            username: username,
+            host: Boolean(isHost),
+            spotifyApi: code
+        };
+
+        postAddUser(partyId, host);
+    }, [])
 
     // Redirect (Navigate, in React Router 6) to party page
     return (

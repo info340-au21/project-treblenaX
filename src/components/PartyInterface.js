@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchModule from './SearchModule.js';
 import QueueList from './QueueModule.js';
 import UserInformation from './UserInformation.js';
@@ -10,23 +10,29 @@ import * as songs from '../json/sampleSongs.json';
 
 // Grab Debug Data
 import SONG_DATA from '../json/test_data.json';
-import { Routes, Router, Route } from 'react-router';
+import { Routes, Router, Route, useParams } from 'react-router';
+import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
+import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory } from './FirebaseHandler.js';
 
 const DEBUG = true;
-
+let roomCode;
 let queue = [];
+let users = [];
+
+
 
 /**
  * Main component of the Party Interface page
  */
 export function PartyInterface() {
-    let songData;
-    if (DEBUG) {
-        songData = extractPayload(SONG_DATA);
-        queue = songData;
-    } else {
-        // @TODO: put PROD data collection here
-    }
+    const urlParams = useParams();
+    const [getUsers, setUsers] = useState([]);
+    const [getQueue, setQueue] = useState([]);
+    const [getHistory, setHistory] = useState([]);
+
+    let songData = [];
+
     const [baseSongList, setSongList] = useState(songs.default);
     const handleRemove = (name) => {
         let val = 0;
@@ -48,12 +54,20 @@ export function PartyInterface() {
         setSongList(newSongList);
     }
 
+    // useEffect -> when component is loaded
+    useEffect(() => {
+        // getPartyUsers(setUsers, roomCode);
+        // getPartyQueue(setQueue, roomCode);
+        // getHistoryData(setHistory, roomCode);
+        // postAddSession("123456");
+    }, []);
+
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
-    
     return (
         <div className="interface-container">
-            <UserInformation roomCode="123456" users={ SAMPLE_USERS } />
+            {/* <button type="button" name="debug" onClick={  }>click</button> */}
+            <UserInformation roomCode={ urlParams.partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } addCallBack={handleAdd} />
             <QueueList baseSongList={baseSongList} handleRemove={handleRemove}/>  
@@ -66,6 +80,11 @@ export function PartyInterface() {
 export function getQueue() {
     return queue;
 }
+
+// export function getUsers() {
+//     return users;
+// } 
+
 
 /* Private function helpers */
 
