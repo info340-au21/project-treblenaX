@@ -74,11 +74,8 @@ export function PartyInterface(props) {
     const currentSong = songData[0];
     return (
         <div className="interface-container">
-        <button style={{width: "100px"}} type="button" onClick={() => {
-            console.log(user);
-        }}></button>
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
-            <UserInformation user={user} roomCode={ partyId } getUsers={ getUsers } />
+            <UserInformation user={user} partyId={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } addCallBack={handleAdd} />
             <QueueList baseSongList={baseSongList} handleRemove={handleRemove}/>  

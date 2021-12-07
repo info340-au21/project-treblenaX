@@ -34,7 +34,6 @@ export default function PartyPortal(props) {
 
         window.open(newPartyUrl, '_blank');
     }
-
     const directToExistingParty = () => {
         // get the party id from the input field
         const partyId = document.getElementById('party-id-field').value;

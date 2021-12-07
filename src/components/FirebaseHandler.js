@@ -83,6 +83,7 @@ export function getHistoryData(setHistory, sessionId) {
  * @param {Object} user 
  */
 export function postAddUser(sessionId, user) {
+    console.log(user);
     const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users;
     const dbRef = push(ref(database, url));
 
@@ -115,8 +116,14 @@ export function postAddHistory(sessionId, song) {
 // DELETE functions
 export function deleteUser(sessionId, user) {
     const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users + user.refKey;
-    console.log(url);
     const dbRef = ref(database, url);
+    remove(dbRef);
+}
+
+export function deleteSession(sessionId) {
+    const url = CONFIG.routes.parties + sessionId;
+    const dbRef = ref(database, url);
+    console.log(dbRef);
     remove(dbRef);
 }
 

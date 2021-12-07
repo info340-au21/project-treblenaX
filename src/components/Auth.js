@@ -21,10 +21,11 @@ export default function Auth(props) {
     const isHost = state.split("-")[2];
     
     useEffect(() => {
+        console.log(state);
         // Start party session and add user
         const user = {
             username: username,
-            host: Boolean(isHost),
+            host: (isHost === 'true'),
             spotifyApi: code
         };
 
