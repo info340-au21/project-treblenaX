@@ -206,7 +206,7 @@ body.party {
     align-items: left;
     color: #000000;
 }
-button.leave {
+.button.leave {
     flex: 3;
     color: #1DB954;
     background-color: white;
@@ -218,6 +218,9 @@ button.leave {
 .flex-item-users.party li {
     padding: 5px; 
     list-style-type: none;
+}
+#leavebtn {
+    display: none;
 }
 
 /* Results Column */

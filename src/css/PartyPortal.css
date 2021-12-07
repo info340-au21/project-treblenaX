@@ -144,6 +144,12 @@
     text-align: center;
 }
 
+.sidenav .leavebtn {
+    display: none;
+    margin-top: 1em;
+    width: 100%;
+}
+
 .horizontal {
     writing-mode: vertical-rl;
 }
