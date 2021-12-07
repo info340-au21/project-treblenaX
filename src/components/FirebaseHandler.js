@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, get, ref, onValue, set, push, child } from 'firebase/database';
+import { getDatabase, get, ref, onValue, set, push, child, remove } from 'firebase/database';
 // Import config file
 import CONFIG from '../json/config.json';
 
@@ -33,6 +33,18 @@ export function getPartyUsers(setUsers, sessionId) {
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
         setUsers(data);
+    });
+}
+
+export function getPartyUserByUsername(setUser, sessionId, username) {
+    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users;
+    console.log(url);
+    const dbRef = ref(database, url);
+    get(dbRef)
+        .then((snapshot) => {
+            const data = snapshot.val();
+            const u = filterByUsername(data, username);
+            setUser(u);
     });
 }
 
@@ -73,6 +85,8 @@ export function getHistoryData(setHistory, sessionId) {
 export function postAddUser(sessionId, user) {
     const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users;
     const dbRef = push(ref(database, url));
+
+    user.refKey = dbRef.key;
     set(dbRef, user);
 }
 
@@ -98,4 +112,20 @@ export function postAddHistory(sessionId, song) {
     set(dbRef, song);
 }
 
+// DELETE functions
+export function deleteUser(sessionId, user) {
+    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users + user.refKey;
+    console.log(url);
+    const dbRef = ref(database, url);
+    remove(dbRef);
+}
 
+/** Private helper functions */
+function filterByUsername(users, username) {
+    for (let u in users) {
+        const user = users[u];
+        if (user.username === username) {
+            return user;
+        };
+    }
+}

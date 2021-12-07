@@ -10,30 +10,34 @@ import * as songs from '../json/sampleSongs.json';
 
 // Grab Debug Data
 import SONG_DATA from '../json/test_data.json';
-import { Routes, Router, Route, useParams } from 'react-router';
+import { Routes, Router, Route, useParams, useLocation } from 'react-router';
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
-import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory } from './FirebaseHandler.js';
+import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory, getPartyUser, getPartyUserByUsername } from './FirebaseHandler.js';
+import { getUser, getGlobalUser } from './Auth.js';
 
 const DEBUG = true;
 let roomCode;
 let queue = [];
-let users = [];
-
-
 
 /**
  * Main component of the Party Interface page
  */
-export function PartyInterface() {
-    const urlParams = useParams();
+export function PartyInterface(props) {
+    // get state from url query params
+    const location = useLocation();
+    const partyId = location.state.partyId;
+    const username = location.state.username;
+
+    const [user, setUser] = useState();
     const [getUsers, setUsers] = useState([]);
     const [getQueue, setQueue] = useState([]);
     const [getHistory, setHistory] = useState([]);
+    const [baseSongList, setSongList] = useState(songs.default);
 
     let songData = [];
 
-    const [baseSongList, setSongList] = useState(songs.default);
+    // Handler functions
     const handleRemove = (name) => {
         let val = 0;
         let newSongList = [...baseSongList];
@@ -56,8 +60,12 @@ export function PartyInterface() {
 
     // useEffect -> when component is loaded
     useEffect(() => {
+        // Set current user
+        getPartyUserByUsername(setUser, partyId, username);
+        // Acquire all other info
+        // getPartyUser(setMainUser, partyId, "alan");
         // getPartyUsers(setUsers, roomCode);
-        getPartyQueue(setQueue, urlParams.partyId);
+        // getPartyQueue(setQueue, partyId);
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
@@ -66,11 +74,11 @@ export function PartyInterface() {
     const currentSong = songData[0];
     return (
         <div className="interface-container">
-        <button type="button" onClick={() => {
-            console.log(getQueue);
+        <button style={{width: "100px"}} type="button" onClick={() => {
+            console.log(user);
         }}></button>
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
-            <UserInformation roomCode={ urlParams.partyId } getUsers={ getUsers } />
+            <UserInformation user={user} roomCode={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } addCallBack={handleAdd} />
             <QueueList baseSongList={baseSongList} handleRemove={handleRemove}/>  

@@ -1,24 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { selectClasses } from "@mui/material";
+import { deleteUser } from "./FirebaseHandler";
 const EXPANDED_MENU_HEIGHT = "250px";
 const COLLAPSED_MENU_HEIGHT = "50px";
 
 // roomCode as a string starting with '#' followed by digits and letters
 // userName as a Object collection of users ('name', 'photo' and 'id')
 export default function UserInformation(props) {
-    // Grab party ID from urlParams
-    const urlParams = useParams();
-    
-    // @TODO: change this to get the room code
     const roomCode = props.roomCode;
-
+    const user = props.user;
     // States
     const [isExpanded, setExpanded] = useState(false);
     const [icon, setIcon] = useState(<ArrowForwardIosIcon />);
 
+    /** Handler functions */
     // User Information event handler
     const handleCollapse = () => {
         let sidenav = document.getElementById('mySidenav');
@@ -44,8 +42,19 @@ export default function UserInformation(props) {
             leaveButton.style.display = "none";
             setIcon(<ArrowForwardIosIcon />);
         }
-        // console.log(isExpanded);
         setExpanded(!isExpanded);
+    }
+
+    const leaveParty = () => {
+        // if user is host, send a message to the server to remove the party
+        // if user is not host, send a message to the server to remove the user from the party and naviate to the home page
+        if (user.host) { // change this to check if the user is the host
+            // send message to server to remove party
+        } else {
+            // send message to server to remove user from party
+        }
+        deleteUser(roomCode, user);
+        window.location.href = "/";
     }
 
     return (
@@ -102,18 +111,4 @@ const openNav = () => {
 const closeNav = () => {
     let nav = document.getElementById("mySidenav");
     nav.classList.add = "hidden";
-}
-
-function leaveParty() {
-    console.log("Leaving party");
-    // if user is host, send a message to the server to remove the party
-    // if user is not host, send a message to the server to remove the user from the party and naviate to the home page
-    if (false) { // change this to check if the user is the host
-        // send message to server to remove party
-        console.log("Host is leaving party");
-    } else {
-        // send message to server to remove user from party
-        console.log("User is leaving party");
-        window.location.href = "/";
-    }
 }
