@@ -1,7 +1,7 @@
 import React, { cloneElement, useState } from 'react';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ClearIcon from '@mui/icons-material/Clear';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { async } from '@firebase/util';
 const COLLAPSED_QUEUE_HEIGHT = "45px";
@@ -41,7 +41,7 @@ export default function QueueList(props) {
             <div id="queue-list" className="flex-item-queue-list">
                 <div className="queue-header-container">
                     <h3 className="queue-header-item">Queue</h3>
-                    <button id="collapse-button" className="queue-header-" type="button" onClick={ handleCollapse }>{icon}</button>
+                    <button id="collapse-button" className="queue-header-button" type="button" onClick={ handleCollapse }>{icon}</button>
                 </div>
                 <div className="song-list">
                     {songList}
@@ -73,9 +73,9 @@ function QueueItem(props) {
             <p>{artist}</p>
             <p>{album}・{length}</p>
         </div>
-        {!isPlaying &&<div className="queue-remove-item" id={name} onClick={() => handleSkip(name)}>
+        {isPlaying &&<div className="queue-remove-item" id={name} onClick={() => handleSkip(name)}>
             <span className="material-icons">
-                <ClearIcon/>
+                <SkipNextIcon/>
             </span>
         </div> }
     </div>

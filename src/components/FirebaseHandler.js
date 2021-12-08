@@ -127,6 +127,12 @@ export function deleteSession(sessionId) {
     remove(dbRef);
 }
 
+export function deleteSong(sessionId, songid) {
+    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.queue + songid;
+    const dbRef = ref(database, url);
+    remove(dbRef);
+}
+
 /** Private helper functions */
 function filterByUsername(users, username) {
     for (let u in users) {

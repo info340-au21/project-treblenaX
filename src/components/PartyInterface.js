@@ -7,13 +7,14 @@ import CurrentModule from './CurrentModule';
 import PlayHistory from './PlayHistoryModule';
 import '../css/PartyPortal.css';
 import * as songs from '../json/sampleSongs.json';
-
+import SpotifyWebApi from 'spotify-web-api-js';
+import Config from '../json/config.json';
 // Grab Debug Data
 import SONG_DATA from '../json/test_data.json';
 import { Routes, Router, Route, useParams, useLocation } from 'react-router';
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
-import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory, getPartyUser, getPartyUserByUsername } from './FirebaseHandler.js';
+import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory, getPartyUser, getPartyUserByUsername, deleteSong } from './FirebaseHandler.js';
 import { getUser, getGlobalUser } from './Auth.js';
 
 const DEBUG = true;
@@ -24,6 +25,9 @@ let queue = [];
  * Main component of the Party Interface page
  */
 export function PartyInterface(props) {
+    const Spotify = require('spotify-web-api-js');
+    const s = Spotify();
+    const webApi = new SpotifyWebApi();
     // get state from url query params
     const location = useLocation();
     const partyId = location.state.partyId;
@@ -33,21 +37,15 @@ export function PartyInterface(props) {
     const [getUsers, setUsers] = useState([]);
     const [getQueue, setQueue] = useState([]);
     const [getHistory, setHistory] = useState([]);
-    const [baseSongList, setSongList] = useState(songs.default);
+    const [baseSongList, setSongList] = useState(undefined);
 
     let songData = [];
-
+    webApi.setAccessToken(Config.spotifyClientId);
     // Handler functions
-    const handleSkip = (name) => {
-        let val = 0;
-        let newSongList = [...baseSongList];
-        for(let i of baseSongList) {
-            if(name == i.name) {
-                newSongList.splice(val, 1);
-                //TODO Add AWS stuff here
-                setSongList(newSongList);
-            }
-            val++;
+    const handleSkip = () => {
+        let newq = {...getQueue};
+        if(Object.keys(newq).length > 1) {
+            deleteSong(partyId, Object.keys(newq)[0]);
         }
     }
     const handleAdd = (song) => {
@@ -69,6 +67,9 @@ export function PartyInterface(props) {
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
+    // if(user.leader) {
+    //     leaderActions(webApi);
+    // }
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
     return (
@@ -88,13 +89,20 @@ export function getQueue() {
     return queue;
 }
 
+function leaderActions(webApi, q) {
+    //TODO add a loop here somewhere 
+    if(webApi.myCurrentPlayingTrack() != Object.keys(q)[0].uri) {
+        webApi.skipToNext();
+    }
+}
+
 function formatQueue(q) {
     let newQ = [];
     let val = 0;
     for(let i of Object.keys(q)) {
         newQ[val] = {
             id: i,
-            name: "name",
+            name: "name" + val,
             artist: q[i].artist,
             img: q[i].album.img,
             album: q[i].album.name,
