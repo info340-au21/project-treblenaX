@@ -10,7 +10,7 @@ export default function QueueList(props) {
     const [isExpanded, setExpanded] = useState(true);
     const [icon, setIcon] = useState(<ExpandMoreIcon />);
     const baseSongList = props.baseSongList;
-    const handleRemove = props.handleRemove;
+    const handleSkip = props.handleSkip;
     // Queue button event handler
     const handleCollapse = () => { 
         let element = document.getElementById('queue-list');
@@ -28,7 +28,7 @@ export default function QueueList(props) {
     };
 
     let songList = baseSongList.map((cur) => {
-        return <QueueItem isPlaying={false} key={cur.name} name={cur.name} album={cur.album} artist={cur.artist} length={cur.length} img={cur.img} removeCB={handleRemove}/>
+        return <QueueItem isPlaying={false} key={cur.name} name={cur.name} album={cur.album} artist={cur.artists} length={cur.duration} img={cur.img} removeCB={handleSkip}/>
     })
 
     songList[0] = cloneElement(songList[0], { isPlaying: true });
@@ -59,7 +59,7 @@ function QueueItem(props) {
     const length = props.length;
     const img = props.img;
     const isPlaying = props.isPlaying;
-    const handleRemove = props.removeCB;
+    const handleSkip = props.removeCB;
     return (                    
     <div className={isPlaying ? "queue-item queue-item-playing" : "queue-item"}>
     <div className="queue-album-img"><img src={img} alt="album cover" /></div>
@@ -69,7 +69,7 @@ function QueueItem(props) {
             <p>{artist}</p>
             <p>{album}・{length}</p>
         </div>
-        {!isPlaying &&<div className="queue-remove-item" id={name} onClick={() => handleRemove(name)}>
+        {!isPlaying &&<div className="queue-remove-item" id={name} onClick={() => handleSkip(name)}>
             <span className="material-icons">
                 <ClearIcon/>
             </span>

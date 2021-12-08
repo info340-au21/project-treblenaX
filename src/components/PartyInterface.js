@@ -38,7 +38,7 @@ export function PartyInterface(props) {
     let songData = [];
 
     // Handler functions
-    const handleRemove = (name) => {
+    const handleSkip = (name) => {
         let val = 0;
         let newSongList = [...baseSongList];
         for(let i of baseSongList) {
@@ -65,11 +65,11 @@ export function PartyInterface(props) {
         // Acquire all other info
         // getPartyUser(setMainUser, partyId, "alan");
         // getPartyUsers(setUsers, roomCode);
-        // getPartyQueue(setQueue, partyId);
+         getPartyQueue(setQueue, partyId);
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
-
+    console.log(getQueue);
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
     return (
@@ -81,7 +81,7 @@ export function PartyInterface(props) {
             <UserInformation user={user} roomCode={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } addCallBack={handleAdd} />
-            <QueueList baseSongList={baseSongList} handleRemove={handleRemove}/>  
+            <QueueList baseSongList={baseSongList} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
@@ -90,6 +90,23 @@ export function PartyInterface(props) {
 /* Public function helpers */
 export function getQueue() {
     return queue;
+}
+
+function formatQueue(q) {
+    let newQueue = [];
+    let val = 0;
+    for(let i of q) { //Apperanty not iterable, complete bullshit
+        newQueue[val] = {
+            id: i.id,
+            name: i.name,
+            album: i.album.name,
+            artists: i.artist,
+            img: i.album.img,
+            duration: msToTime(i.duration_ms)
+        };
+        val++;
+    }
+    return newQueue;
 }
 
 // export function getUsers() {
