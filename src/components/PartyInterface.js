@@ -54,7 +54,7 @@ export function PartyInterface(props) {
         let val = 0;
         let newSongList = [...baseSongList]; //TODO add album name
         newSongList[newSongList.length] = song;
-        //TODO add AWS stuff here
+        postAddQueue(partyId, song);
         setSongList(newSongList);
     }
 
@@ -69,7 +69,6 @@ export function PartyInterface(props) {
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
-    console.log(getQueue);
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
     return (
@@ -78,7 +77,7 @@ export function PartyInterface(props) {
             <UserInformation user={user} partyId={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
             <SearchModule songData={ songData } addCallBack={handleAdd} />
-            <QueueList baseSongList={baseSongList} handleSkip={handleSkip}/>  
+            <QueueList baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
@@ -90,20 +89,20 @@ export function getQueue() {
 }
 
 function formatQueue(q) {
-    let newQueue = [];
+    let newQ = [];
     let val = 0;
-    for(let i of q) { //Apperanty not iterable, complete bullshit
-        newQueue[val] = {
-            id: i.id,
-            name: i.name,
-            album: i.album.name,
-            artists: i.artist,
-            img: i.album.img,
-            duration: msToTime(i.duration_ms)
-        };
+    for(let i of Object.keys(q)) {
+        newQ[val] = {
+            id: i,
+            name: "name",
+            artist: q[i].artist,
+            img: q[i].album.img,
+            album: q[i].album.name,
+            duration: msToTime(q[i].duration_ms)
+        }
         val++;
     }
-    return newQueue;
+    return newQ;
 }
 
 // export function getUsers() {

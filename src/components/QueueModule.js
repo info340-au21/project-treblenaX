@@ -3,12 +3,14 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearIcon from '@mui/icons-material/Clear';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { async } from '@firebase/util';
 const COLLAPSED_QUEUE_HEIGHT = "45px";
 const EXPANDED_QUEUE_HEIGHT = "20rem";
 
 export default function QueueList(props) {
     const [isExpanded, setExpanded] = useState(true);
     const [icon, setIcon] = useState(<ExpandMoreIcon />);
+    const [isReady, setReady] = useState(false);
     const baseSongList = props.baseSongList;
     const handleSkip = props.handleSkip;
     // Queue button event handler
@@ -26,13 +28,14 @@ export default function QueueList(props) {
         // adjust collapse boolean 
         setExpanded(!isExpanded);
     };
-
     let songList = baseSongList.map((cur) => {
-        return <QueueItem isPlaying={false} key={cur.name} name={cur.name} album={cur.album} artist={cur.artists} length={cur.duration} img={cur.img} removeCB={handleSkip}/>
-    })
-
-    songList[0] = cloneElement(songList[0], { isPlaying: true });
-    
+        return <QueueItem isPlaying={false} key={cur.id} name={cur.name} album={cur.album} artist={cur.artists} length={cur.duration} img={cur.img} removeCB={handleSkip}/>
+    });
+    if(isReady == true) {
+        songList[0] = cloneElement(songList[0], { isPlaying: true });
+    }else if(songList[0] != undefined){
+        setReady(true);
+    }
     return ( 
         <div>
             <div id="queue-list" className="flex-item-queue-list">
@@ -51,6 +54,7 @@ export default function QueueList(props) {
         </div>
     )
 }
+
 
 function QueueItem(props) {
     const name = props.name;
