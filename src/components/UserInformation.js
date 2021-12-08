@@ -3,14 +3,14 @@ import { useParams } from "react-router";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { selectClasses } from "@mui/material";
-import { deleteUser } from "./FirebaseHandler";
+import { deleteUser, deleteSession } from "./FirebaseHandler";
 const EXPANDED_MENU_HEIGHT = "250px";
 const COLLAPSED_MENU_HEIGHT = "50px";
 
-// roomCode as a string starting with '#' followed by digits and letters
+// partyId as a string starting with '#' followed by digits and letters
 // userName as a Object collection of users ('name', 'photo' and 'id')
 export default function UserInformation(props) {
-    const roomCode = props.roomCode;
+    const partyId = props.partyId;
     const user = props.user;
     // States
     const [isExpanded, setExpanded] = useState(false);
@@ -20,14 +20,14 @@ export default function UserInformation(props) {
     // User Information event handler
     const handleCollapse = () => {
         let sidenav = document.getElementById('mySidenav');
-        let roomCode = document.getElementById('room-code');
+        let partyId = document.getElementById('room-code');
         let usersList = document.getElementById('user-list');
         let leaveButton = document.getElementById('leavebtn');
         if (!isExpanded) { // If the queue is already collapsed
             sidenav.style.flex = "0 1 " + EXPANDED_MENU_HEIGHT;
 
-            roomCode.style.writingMode = "horizontal-tb";
-            roomCode.style.transform = "rotate(0deg)";
+            partyId.style.writingMode = "horizontal-tb";
+            partyId.style.transform = "rotate(0deg)";
             usersList.style.display = "block";
             sidenav.classList.add = "shown";
             leaveButton.style.display = "block";
@@ -35,8 +35,8 @@ export default function UserInformation(props) {
         } else {    // If the queue is already expanded
             sidenav.style.flex = "0 1 " + COLLAPSED_MENU_HEIGHT;
 
-            roomCode.style.writingMode = "vertical-rl";
-            roomCode.style.transform = "rotate(180deg)";
+            partyId.style.writingMode = "vertical-rl";
+            partyId.style.transform = "rotate(180deg)";
             usersList.style.display = "none";
             sidenav.classList.add = "hidden";
             leaveButton.style.display = "none";
@@ -49,12 +49,12 @@ export default function UserInformation(props) {
         // if user is host, send a message to the server to remove the party
         // if user is not host, send a message to the server to remove the user from the party and naviate to the home page
         if (user.host) { // change this to check if the user is the host
-            // send message to server to remove party
+            deleteSession(partyId);
         } else {
-            // send message to server to remove user from party
+
+            deleteUser(partyId, user);
         }
-        deleteUser(roomCode, user);
-        window.location.href = "/";
+        // window.location.href = "/";
     }
 
     return (
@@ -62,7 +62,7 @@ export default function UserInformation(props) {
             <button type="button" className="closebtn btn" onClick={handleCollapse}>{icon}</button>
             <div className="user-content">
                 <div id="room-code" className="flex-item-room-code">
-                    <h1>#{roomCode}</h1>
+                    <h1>#{partyId}</h1>
                 </div>
 
                 <div id="user-list" className="flex-item-users">
