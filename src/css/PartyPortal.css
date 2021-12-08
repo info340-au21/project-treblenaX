@@ -433,6 +433,13 @@ form input {
     font-size: 16px;
 }
 
+/* Footer Style */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 /* Responsive Design */
 /* mobile - extra-small screens */ 
 @media (max-width: 598px) {
