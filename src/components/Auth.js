@@ -40,7 +40,3 @@ export default function Auth(props) {
         }} to={`/party/${partyId}`} />
     );
 }
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}

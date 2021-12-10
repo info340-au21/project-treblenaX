@@ -48,13 +48,9 @@ export default function UserInformation(props) {
     const leaveParty = () => {
         // if user is host, send a message to the server to remove the party
         // if user is not host, send a message to the server to remove the user from the party and naviate to the home page
-        if (user.host) { // change this to check if the user is the host
-            deleteSession(partyId);
-        } else {
-
-            deleteUser(partyId, user);
-        }
-        // window.location.href = "/";
+        if (user.host) deleteSession(partyId);
+        else deleteUser(partyId, user);
+        window.location.href = "/";
     }
 
     return (

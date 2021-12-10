@@ -78,7 +78,7 @@ export function PartyInterface(props) {
             <UserInformation user={user} partyId={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
             <SearchModule host={user} songData={ songData } addCallBack={handleAdd} />
-            <QueueList baseSongList={formattedQueue} handleSkip={handleSkip}/>  
+            <QueueList baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
@@ -100,16 +100,18 @@ function formatQueue(q) {
 
     let newQ = [];
     let val = 0;
-    for(let i of Object.keys(q)) {
-        newQ[val] = {
-            id: i,
-            name: "name" + val,
-            artist: q[i].artist,
-            img: q[i].album.img,
-            album: q[i].album.name,
-            duration: msToTime(q[i].duration_ms)
+    if (q) {
+        for(let i of Object.keys(q)) {
+            newQ[val] = {
+                id: i,
+                name: "name" + val,
+                artist: q[i].artist,
+                img: q[i].album.img,
+                album: q[i].album.name,
+                duration: msToTime(q[i].duration_ms)
+            }
+            val++;
         }
-        val++;
     }
     return newQ;
 }
