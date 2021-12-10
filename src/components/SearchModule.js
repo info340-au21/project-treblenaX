@@ -52,7 +52,6 @@ function SearchBar(props) {
         console.log(`Search Query: ${e.target.value}`);
         const query = e.target.value;
         spotify.searchTracks(query)
-        .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => error.message ? console.log(error.message) : console.log(error));
     }
