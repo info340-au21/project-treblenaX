@@ -38,6 +38,7 @@ export function PartyInterface(props) {
     const [getQueue, setQueue] = useState([]);
     const [getHistory, setHistory] = useState([]);
     const [baseSongList, setSongList] = useState(undefined);
+    const [searchResults, setSearchResults] = useState([]);
 
     let songData = [];
     webApi.setAccessToken(Config.spotifyClientId);
@@ -54,6 +55,11 @@ export function PartyInterface(props) {
         newSongList[newSongList.length] = song;
         postAddQueue(partyId, song);
         setSongList(newSongList);
+    }
+    const handleSearch = (results) => {
+        const songData = extractPayload(results);
+        console.log(songData);
+        setSearchResults(songData);
     }
 
     // useEffect -> when component is loaded
@@ -77,7 +83,7 @@ export function PartyInterface(props) {
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
             <UserInformation user={user} partyId={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
-            <SearchModule host={user} songData={ songData } addCallBack={handleAdd} />
+            <SearchModule host={user} searchResults={searchResults} searchCallback={handleSearch} addCallBack={handleAdd} />
             <QueueList baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
