@@ -10,7 +10,7 @@ const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
 export default function SearchModule(props) {
     let payload = props.searchResults;
     let host = props.host;
-    console.log(host);
+    console.log('Host:', host);
     return (
         <div className="column-container results-column">
             <SearchBar host={host} resultCallback={props.searchCallback}/>
@@ -45,6 +45,7 @@ function SearchBar(props) {
     // Spotify API: authenticate using host's access token
     // TODO: Replace this with the actual host's user token
     const spotify = new SpotifyWebApi();
+    // spotify.setAccessToken(props.host.accessToken);
     spotify.setAccessToken(TEST_TOKEN);
 
     // Search Handler

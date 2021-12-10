@@ -83,7 +83,11 @@ export function PartyInterface(props) {
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
             <UserInformation user={user} partyId={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
-            <SearchModule host={user} searchResults={searchResults} searchCallback={handleSearch} addCallBack={handleAdd} />
+            <SearchModule 
+                host={undefined} 
+                searchResults={searchResults} 
+                searchCallback={handleSearch} 
+                addCallBack={handleAdd} />
             <QueueList baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
