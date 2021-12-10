@@ -77,8 +77,8 @@ export function PartyInterface(props) {
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
             <UserInformation user={user} partyId={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
-            <SearchModule songData={ songData } addCallBack={handleAdd} />
-            <QueueList baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
+            <SearchModule host={user} songData={ songData } addCallBack={handleAdd} />
+            <QueueList baseSongList={formattedQueue} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
@@ -97,6 +97,7 @@ function leaderActions(webApi, q) {
 }
 
 function formatQueue(q) {
+
     let newQ = [];
     let val = 0;
     for(let i of Object.keys(q)) {

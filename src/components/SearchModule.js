@@ -1,11 +1,19 @@
 import React from 'react';
 import QueueIcon from '@mui/icons-material/Queue';
+import SpotifyWebApi from 'spotify-web-api-js';
+import Config from '../json/config.json';
+import $ from 'jquery';
+
+const TEST_TOKEN = Config.testToken;
+const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
 
 export default function SearchModule(props) {
     let payload = props.songData;
+    let host = props.host;
+    console.log(host);
     return (
         <div className="column-container results-column">
-            <SearchBar />
+            <SearchBar host={host} />
             <ResultsList payload={ payload } handleAdd={props.addCallBack} />
         </div>
     );
@@ -13,7 +21,6 @@ export default function SearchModule(props) {
 
 export function SongCard(props) {
     const data = props.payload;
-
     return (
         <div className="flex-item-song-card">
             <img className="song-card-image-box" src={ data.img } />
@@ -34,10 +41,25 @@ export function SongCard(props) {
 }
 
 /* Private Components */
-function SearchBar() {
+function SearchBar(props) {
+    // Spotify API: authenticate using host's access token
+    // TODO: Replace this with the actual host's user token
+    const spotify = new SpotifyWebApi();
+    spotify.setAccessToken(TEST_TOKEN);
+
+    // Search Handler
+    const handleSearch = (e) => {
+        console.log(`Search Query: ${e.target.value}`);
+        const query = e.target.value;
+        spotify.searchTracks(query)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => error.message ? console.log(error.message) : console.log(error));
+    }
+
     return (
         <form>
-            <input type="text" id="search-query" name="search-query" placeholder="Search for a song" />
+            <input onKeyUp={handleSearch} type="text" id="search-query" name="search-query" placeholder="Search for a song" />
             <label for="search-query" className="hidden">song search</label>
         </form>
     );
