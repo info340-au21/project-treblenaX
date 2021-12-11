@@ -16,6 +16,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory, getPartyUser, getPartyUserByUsername, deleteSong } from './FirebaseHandler.js';
 import { getUser, getGlobalUser } from './Auth.js';
+import { get } from 'jquery';
 
 const DEBUG = true;
 let roomCode;
@@ -43,9 +44,9 @@ export function PartyInterface(props) {
     const [getHistory, setHistory] = useState([]);
     const [baseSongList, setSongList] = useState(undefined);
     const [searchResults, setSearchResults] = useState([]);
+    const [nextCheck, setNextCheck] = useState(15 * 1000);
 
     let songData = [];
-    webApi.setAccessToken(Config.spotifyClientId);
     // Handler functions
     const handleSkip = () => {
         let newq = {...getQueue};
@@ -54,11 +55,8 @@ export function PartyInterface(props) {
         }
     }
     const handleAdd = (song) => {
-        let val = 0;
-        let newSongList = [...baseSongList]; //TODO add album name
-        newSongList[newSongList.length] = song;
+        console.log(song);
         postAddQueue(partyId, song);
-        setSongList(newSongList);
     }
     const handleSearch = (results) => {
         const songData = extractPayload(results);
@@ -76,9 +74,12 @@ export function PartyInterface(props) {
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
-    // if(user.leader) {
-    //     leaderActions(webApi);
-    // }
+    console.log(partyHost);
+    if(partyHost != null) {
+        webApi.setAccessToken(partyHost.accessToken);
+        let d = setInterval(leaderActions(webApi, getQueue), nextCheck);
+        console.log("interval set:" + nextCheck);
+    }
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
     return (
@@ -102,11 +103,28 @@ export function getQueue() {
     return queue;
 }
 
-function leaderActions(webApi, q) {
-    //TODO add a loop here somewhere 
-    if(webApi.myCurrentPlayingTrack() != Object.keys(q)[0].uri) {
-        webApi.skipToNext();
-    }
+function leaderActions(webApi, q, nextCheckSetter) {
+    console.log("Iran");
+    //Get the length of the song and call every interval 
+    webApi.getMyCurrentPlayingTrack().then((track) => {
+        // console.log("track: " + Object.keys(track));
+        // console.log(track.item);
+        if(track.item != undefined && q != undefined && (track.item.id != q[Object.keys(q)[0]].id || q[Object.keys(q)[0]].id == q[Object.keys(q)[1]].id)) {
+            console.log(track.item.id + " " + q[Object.keys(q)[0]].id);
+            // webApi.queue(q[Object.keys(q)[0]].id).then((response) => { //need uri to do this
+            //     webApi.skipToNext();
+            //     handleskip(); 
+            // }, (err) => {
+            //     console.log(err);
+            // });
+        }else {
+            // console.log(track != undefined +  " " + q != undefined);
+        }
+    }, (err) => {
+        console.log(err);
+    });
+    // if(webApi.getMyCurrentPlayingTrack() != Object.keys(q)[0].uri) {
+    // }
 }
 
 function formatQueue(q) {
@@ -116,12 +134,12 @@ function formatQueue(q) {
     if (q) {
         for(let i of Object.keys(q)) {
             newQ[val] = {
-                id: i,
-                name: "name" + val,
-                artist: q[i].artist,
-                img: q[i].album.img,
-                album: q[i].album.name,
-                duration: msToTime(q[i].duration_ms)
+                id: q[i].id,
+                name: q[i].name,
+                artist: q[i].artists,
+                img: q[i].img,
+                // album: q[i].album.name,
+                duration: q[i].duration
             }
             val++;
         }
@@ -141,7 +159,7 @@ function formatQueue(q) {
  */
 function extractPayload(payload) {
     return payload.tracks.items.map((item) => {
-        const artists = item.artists.map((artist) => artist.name).join(', ')
+        const artists = item.artists.map((artist) => artist.name).join(', ');
         return {
             id: item.id,
             name: item.name,

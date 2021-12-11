@@ -29,7 +29,7 @@ export default function QueueList(props) {
         setExpanded(!isExpanded);
     };
     let songList = baseSongList.map((cur) => {
-        return <QueueItem isPlaying={false} key={cur.id} name={cur.name} album={cur.album} artist={cur.artists} length={cur.duration} img={cur.img} removeCB={handleSkip}/>
+        return <QueueItem isPlaying={false} key={cur.id} name={cur.name} album={cur.album} artist={cur.artist} length={cur.duration} img={cur.img} removeCB={handleSkip}/>
     });
     if(isReady == true) {
         songList[0] = cloneElement(songList[0], { isPlaying: true });
@@ -39,10 +39,12 @@ export default function QueueList(props) {
     return ( 
         <div>
             <div id="queue-list" className="flex-item-queue-list">
-                <div className="queue-header-container">
-                    <h3 className="queue-header-item">Queue</h3>
-                    <button id="collapse-button" className="queue-header-button" type="button" onClick={ handleCollapse }>{icon}</button>
-                </div>
+            <button id="collapse-button" className="queue-header-button" type="button" onClick={ handleCollapse }>
+                    <div className="queue-header-container">
+                        <h3 className="queue-header-item">Queue</h3>
+                        <h3>{icon}</h3>
+                    </div>
+             </button>
                 <div className="song-list">
                     {songList}
                 </div>
