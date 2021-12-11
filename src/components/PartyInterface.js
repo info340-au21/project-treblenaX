@@ -44,19 +44,41 @@ export function PartyInterface(props) {
     const [getHistory, setHistory] = useState([]);
     const [baseSongList, setSongList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
-    const [nextCheck, setNextCheck] = useState(15 * 1000);
+
+    //timer
+    const [getTimer, setTimer] = useState(undefined);
 
     let songData = [];
     // Handler functions
     const handleSkip = () => {
-        let newq = {...getQueue};
-        if(Object.keys(newq).length > 1) {
-            deleteSong(partyId, Object.keys(newq)[0]);
+        if(partyHost != null) {
+            let newq = {...getQueue};
+            if(Object.keys(newq).length > 1) {
+                webApi.setAccessToken(partyHost.accessToken);
+                webApi.skipToNext();
+                deleteSong(partyId, Object.keys(newq)[0]);
+            console.log("song skipped");
+            }
         }
     }
     const handleAdd = (song) => {
-        console.log(song);
-        postAddQueue(partyId, song);
+        if(partyHost != null) {
+            webApi.setAccessToken(partyHost.accessToken);
+                webApi.queue(song.uri).then((response) => {
+                    if(getQueue != null) {
+                        console.log("Queueing: " + song.name + " " + (Object.keys(getQueue).length + 1));
+                    }else {
+                        console.log("Queueing: " + song.name + " first, timer set");
+                        //sets timer for length of song
+                        setTimeout(() => {checkPlaying(webApi, song, partyId, getQueue)}, 10000);
+                    }
+                }, (err) => {
+                    console.log(err);
+                });
+                postAddQueue(partyId, song);
+        }else {
+            console.log("failed to add song");
+        }
     }
     const handleSearch = (results) => {
         const songData = extractPayload(results);
@@ -74,12 +96,6 @@ export function PartyInterface(props) {
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
-    console.log(partyHost);
-    if(partyHost != null) {
-        webApi.setAccessToken(partyHost.accessToken);
-        let d = setInterval(leaderActions(webApi, getQueue), nextCheck);
-        console.log("interval set:" + nextCheck);
-    }
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
     return (
@@ -103,28 +119,23 @@ export function getQueue() {
     return queue;
 }
 
-function leaderActions(webApi, q, nextCheckSetter) {
-    console.log("Iran");
+function checkPlaying(webApi, song, partyId, q) {
     //Get the length of the song and call every interval 
+    //gets the current track info
     webApi.getMyCurrentPlayingTrack().then((track) => {
-        // console.log("track: " + Object.keys(track));
-        // console.log(track.item);
-        if(track.item != undefined && q != undefined && (track.item.id != q[Object.keys(q)[0]].id || q[Object.keys(q)[0]].id == q[Object.keys(q)[1]].id)) {
-            console.log(track.item.id + " " + q[Object.keys(q)[0]].id);
-            // webApi.queue(q[Object.keys(q)[0]].id).then((response) => { //need uri to do this
-            //     webApi.skipToNext();
-            //     handleskip(); 
-            // }, (err) => {
-            //     console.log(err);
-            // });
+        deleteSong(partyId, song);
+        if(track != undefined && track.item != undefined && track.item.id != song.id) {
+            if(Object.keys(q).length > 1) {
+                //sets timer for length of next song
+                setTimeout(() => {checkPlaying(webApi, q[Object.keys(q)[1]])}, 10000);
+                console.log("timer set");
+            }
+            //set a new timeout for the length of the next song
         }else {
-            // console.log(track != undefined +  " " + q != undefined);
         }
     }, (err) => {
         console.log(err);
     });
-    // if(webApi.getMyCurrentPlayingTrack() != Object.keys(q)[0].uri) {
-    // }
 }
 
 function formatQueue(q) {
