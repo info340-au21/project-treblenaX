@@ -82,7 +82,6 @@ export function PartyInterface(props) {
     }
     const handleSearch = (results) => {
         const songData = extractPayload(results);
-        // console.log(songData);
         setSearchResults(songData);
     }
 
@@ -139,7 +138,6 @@ function checkPlaying(webApi, song, partyId, q) {
 }
 
 function formatQueue(q) {
-
     let newQ = [];
     let val = 0;
     if (q) {

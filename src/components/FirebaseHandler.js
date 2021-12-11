@@ -132,7 +132,6 @@ export function deleteUser(partyId, user) {
 export function deleteSession(partyId) {
     const url = CONFIG.routes.parties + partyId;
     const dbRef = ref(database, url);
-    console.log(dbRef);
     remove(dbRef);
 }
 

@@ -87,14 +87,14 @@ function UserList(props) {
             if (user.host) {
                 return (
                     <div className="user-item" key={user.id}>
-                        <img className="user-photo" src={user.photo} alt={user.name}/>
+                        <img className="user-photo" src={generateUserPhotos()} alt={user.name}/>
                         <li className="user-name">{user.username} (Host)</li>
                     </div>
                 )
             } else {
                 return (
                     <div className="user-item" key={user.id}>
-                        <img className="user-photo" src={user.photo} alt={user.name}/>
+                        <img className="user-photo" src={generateUserPhotos()} alt={user.name}/>
                         <li className="user-name">{user.name}</li>
                     </div>
                 )
@@ -106,7 +106,15 @@ function UserList(props) {
 }
 
 /** Private functions */
+function generateUserPhotos() {
+    let path = '../img/profile_pictures/img_';
 
+    const num = Math.floor(Math.random() * 5);
+
+    path += num + '.PNG';
+
+    return path;
+}
 
 /* Set the width of the side navigation to 250px */
 const openNav = () => {
