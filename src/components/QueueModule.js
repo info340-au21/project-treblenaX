@@ -14,6 +14,7 @@ export default function QueueList(props) {
     const baseSongList = props.baseSongList;
     const handleSkip = props.handleSkip;
     const partyId = props.partyId;
+    const username = props.username;
     // Queue button event handler
     const handleCollapse = () => { 
         let element = document.getElementById('queue-list');
@@ -33,7 +34,9 @@ export default function QueueList(props) {
         return <QueueItem isPlaying={false} key={cur.id} name={cur.name} album={cur.album} artist={cur.artist} length={cur.duration} img={cur.img} removeCB={handleSkip}/>
     });
     if(isReady == true) {
-        songList[0] = cloneElement(songList[0], { isPlaying: true });
+        if (songList.length != 0) {
+            songList[0] = cloneElement(songList[0], { isPlaying: true });
+        }
     }else if(songList[0] != undefined){
         setReady(true);
     }
@@ -49,7 +52,7 @@ export default function QueueList(props) {
                 <div className="song-list">
                     {songList}
                 </div>
-                <Link to={"/party/" + partyId + "/play-history"} state={partyId}>
+                <Link to={"/party/" + partyId + "/play-history"} state={{partyId: partyId, username: username}}>
                     <button className="play-history-button" src="">History</button>
                 </Link>
             </div>

@@ -60,10 +60,12 @@ export function PartyInterface(props) {
                 clearTimeout(getTimer);
                 setTimer(setTimeout(() => {checkPlaying(webApi, Object.keys(newq)[1], partyId, getQueue, setTimer)}, 10000));
                 deleteSong(partyId, Object.keys(newq)[0]);
+                // addsongintohistory
             console.log("song skipped");
             }
         }
-    }
+    };
+
     const handleAdd = (song) => {
         if(partyHost != null) {
             webApi.setAccessToken(partyHost.accessToken);
@@ -83,7 +85,8 @@ export function PartyInterface(props) {
         }else {
             console.log("failed to add song");
         }
-    }
+    };
+
     const handleSearch = (results) => {
         const songData = extractPayload(results);
         setSearchResults(songData);
@@ -111,7 +114,7 @@ export function PartyInterface(props) {
                 searchResults={searchResults} 
                 searchCallback={handleSearch} 
                 addCallBack={handleAdd} />
-            <QueueList partyId={ partyId } baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
+            <QueueList username={username} partyId={ partyId } baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
@@ -186,7 +189,7 @@ function extractPayload(payload) {
 }
 
 /*  Converts milliseconds to MM:SS time string
- *  ms      -       milliseconds
+ *  ms      -       xtmilliseconds
  */
 function msToTime(ms) {
     const minutes = Math.round((ms / 1000) / 60);
