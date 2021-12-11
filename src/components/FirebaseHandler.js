@@ -25,20 +25,29 @@ export function getPartySessions(setSessions) {
 /**
  * Gets the UserInformation data and listens for changes
  * @param {function} setUsers
- * @param {string} sessionId         -   The party session ID
+ * @param {function} setRoomHost
+ * @param {string} partyId         -   The party session ID
  */
-export function getPartyUsers(setUsers, sessionId) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users;
+export function getPartyUsers(setUsers, setPartyHost, partyId) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
         setUsers(data);
+
+        // Filter for room host
+        let host;
+
+        for (let key in data) {
+            const user = data[key];
+            if (user.host) host = user;
+        }
+        setPartyHost(host);
     });
 }
 
-export function getPartyUserByUsername(setUser, sessionId, username) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users;
-    console.log(url);
+export function getPartyUserByUsername(setUser, partyId, username) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
     const dbRef = ref(database, url);
     get(dbRef)
         .then((snapshot) => {
@@ -51,10 +60,10 @@ export function getPartyUserByUsername(setUser, sessionId, username) {
 /**
  * Gets the Queue data and listens for changes
  * @param {function} setQueue 
- * @param {string} sessionId 
+ * @param {string} partyId 
  */
-export function getPartyQueue(setQueue, sessionId) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.queue;
+export function getPartyQueue(setQueue, partyId) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
@@ -65,10 +74,10 @@ export function getPartyQueue(setQueue, sessionId) {
 /**
  * Gets the History data and listens for changes
  * @param {*} setHistory 
- * @param {*} sessionId 
+ * @param {*} partyId 
  */
-export function getHistoryData(setHistory, sessionId) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.history;
+export function getHistoryData(setHistory, partyId) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
@@ -78,13 +87,13 @@ export function getHistoryData(setHistory, sessionId) {
 
 // POST functions
 /**
- * Adds `user` to PartySession with the specified `sessionId`
- * @param {string} sessionId 
+ * Adds `user` to PartySession with the specified `partyId`
+ * @param {string} partyId 
  * @param {Object} user 
  */
-export function postAddUser(sessionId, user) {
+export function postAddUser(partyId, user) {
     console.log(user);
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users;
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
     const dbRef = push(ref(database, url));
 
     user.refKey = dbRef.key;
@@ -92,43 +101,43 @@ export function postAddUser(sessionId, user) {
 }
 
 /**
- * Adds `song` to Queue with the specified `sessionId`
- * @param {string} sessionId 
+ * Adds `song` to Queue with the specified `partyId`
+ * @param {string} partyId 
  * @param {Object} song 
  */
-export function postAddQueue(sessionId, song) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.queue;
+export function postAddQueue(partyId, song) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
     const dbRef = push(ref(database, url));
     set(dbRef, song)
 }
 
 /**
- * Adds `song` to History with the specified `sessionId`
- * @param {string} sessionId 
+ * Adds `song` to History with the specified `partyId`
+ * @param {string} partyId 
  * @param {Object} song 
  */
-export function postAddHistory(sessionId, song) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.history;
+export function postAddHistory(partyId, song) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
     const dbRef = push(ref(database, url));
     set(dbRef, song);
 }
 
 // DELETE functions
-export function deleteUser(sessionId, user) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.users + user.refKey;
+export function deleteUser(partyId, user) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.users + user.refKey;
     const dbRef = ref(database, url);
     remove(dbRef);
 }
 
-export function deleteSession(sessionId) {
-    const url = CONFIG.routes.parties + sessionId;
+export function deleteSession(partyId) {
+    const url = CONFIG.routes.parties + partyId;
     const dbRef = ref(database, url);
     console.log(dbRef);
     remove(dbRef);
 }
 
-export function deleteSong(sessionId, songid) {
-    const url = CONFIG.routes.parties + sessionId + CONFIG.routes.queue + songid;
+export function deleteSong(partyId, songid) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue + songid;
     const dbRef = ref(database, url);
     remove(dbRef);
 }

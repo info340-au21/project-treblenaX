@@ -33,11 +33,16 @@ export function PartyInterface(props) {
     const partyId = location.state.partyId;
     const username = location.state.username;
 
+    // User states
     const [user, setUser] = useState();
+    const [partyHost, setPartyHost] = useState();
     const [getUsers, setUsers] = useState([]);
+
+    // Song states
     const [getQueue, setQueue] = useState([]);
     const [getHistory, setHistory] = useState([]);
     const [baseSongList, setSongList] = useState(undefined);
+    const [searchResults, setSearchResults] = useState([]);
 
     let songData = [];
     webApi.setAccessToken(Config.spotifyClientId);
@@ -55,15 +60,19 @@ export function PartyInterface(props) {
         postAddQueue(partyId, song);
         setSongList(newSongList);
     }
+    const handleSearch = (results) => {
+        const songData = extractPayload(results);
+        console.log(songData);
+        setSearchResults(songData);
+    }
 
     // useEffect -> when component is loaded
     useEffect(() => {
         // Set current user
         getPartyUserByUsername(setUser, partyId, username);
         // Acquire all other info
-        // getPartyUser(setMainUser, partyId, "alan");
-        // getPartyUsers(setUsers, roomCode);
-         getPartyQueue(setQueue, partyId);
+        getPartyUsers(setUsers, setPartyHost, partyId);
+        getPartyQueue(setQueue, partyId);
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
@@ -77,7 +86,11 @@ export function PartyInterface(props) {
             {/* <button type="button" name="debug" onClick={  }>click</button> */}
             <UserInformation user={user} partyId={ partyId } getUsers={ getUsers } />
             {/* <div className="flex-item-space"></div> */}
-            <SearchModule host={user} songData={ songData } addCallBack={handleAdd} />
+            <SearchModule 
+                host={partyHost} 
+                searchResults={searchResults} 
+                searchCallback={handleSearch} 
+                addCallBack={handleAdd} />
             <QueueList baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>

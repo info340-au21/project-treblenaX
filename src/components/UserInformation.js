@@ -77,23 +77,31 @@ export default function UserInformation(props) {
 function UserList(props) {
     const users = props.getUsers;
 
-    let userElement = users.map((user) => {
-        if (user.host) {
-            return (
-                <div className="user-item" key={user.id}>
-                    <img className="user-photo" src={user.photo} alt={user.name}/>
-                    <li className="user-name">{user.username} (Host)</li>
-                </div>
-            )
-        } else {
-            return (
-                <div className="user-item" key={user.id}>
-                    <img className="user-photo" src={user.photo} alt={user.name}/>
-                    <li className="user-name">{user.name}</li>
-                </div>
-            )
-        }
-    });
+    let userElement = null;
+
+    if (users.length !== 0) {
+        userElement = Object.keys(users).map((key) => {
+            const user = users[key];
+
+            // @TODO: generate random user photos for the user
+            if (user.host) {
+                return (
+                    <div className="user-item" key={user.id}>
+                        <img className="user-photo" src={user.photo} alt={user.name}/>
+                        <li className="user-name">{user.username} (Host)</li>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="user-item" key={user.id}>
+                        <img className="user-photo" src={user.photo} alt={user.name}/>
+                        <li className="user-name">{user.name}</li>
+                    </div>
+                )
+            }
+        });
+    }
+
     return userElement;
 }
 

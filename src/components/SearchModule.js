@@ -8,11 +8,11 @@ const TEST_TOKEN = Config.testToken;
 const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
 
 export default function SearchModule(props) {
-    let payload = props.songData;
+    let payload = props.searchResults;
     let host = props.host;
     return (
         <div className="column-container results-column">
-            <SearchBar host={host} />
+            <SearchBar host={host} resultCallback={props.searchCallback}/>
             <ResultsList payload={ payload } handleAdd={props.addCallBack} />
         </div>
     );
@@ -44,15 +44,24 @@ function SearchBar(props) {
     // Spotify API: authenticate using host's access token
     // TODO: Replace this with the actual host's user token
     const spotify = new SpotifyWebApi();
-    spotify.setAccessToken(TEST_TOKEN);
+    if (props.host) {
+        spotify.setAccessToken(props.host.accessToken);
+    }
 
     // Search Handler
     const handleSearch = (e) => {
-        console.log(`Search Query: ${e.target.value}`);
+        // console.log(`Search Query: ${e.target.value}`);
         const query = e.target.value;
+
+        // dont do anything if the query is empty
+        if (query.length === 0) {
+            return;
+        }
         spotify.searchTracks(query)
-        .then(data => console.log(data))
-        .catch(error => error.message ? console.log(error.message) : console.log(error));
+        .then(data => {
+            props.resultCallback(data);
+        })
+        .catch(error => console.error(error));
     }
 
     return (
@@ -64,7 +73,7 @@ function SearchBar(props) {
 }
 
 function ResultsList(props) {
-    const data = props.payload;
+    const data = props.payload ? props.payload : [];
 
     // @TODO: temporary pagination
     const limit = 15;

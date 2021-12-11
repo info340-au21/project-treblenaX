@@ -46,9 +46,9 @@ export default function Auth(props) {
                 const accessToken = data.access_token;
                 const refreshToken = data.refresh_token;
 
-                // debugging
-                console.log('Access Token:', accessToken);
-                console.log('Refresh Token:', refreshToken);
+                // @TODO: TAKEOUT -  debugging
+                // console.log('Access Token:', accessToken);
+                // console.log('Refresh Token:', refreshToken);
 
                 // Start party session and add user
                 const user = {
