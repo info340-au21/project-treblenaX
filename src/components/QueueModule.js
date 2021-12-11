@@ -13,6 +13,7 @@ export default function QueueList(props) {
     const [isReady, setReady] = useState(false);
     const baseSongList = props.baseSongList;
     const handleSkip = props.handleSkip;
+    const partyId = props.partyId;
     // Queue button event handler
     const handleCollapse = () => { 
         let element = document.getElementById('queue-list');
@@ -46,7 +47,7 @@ export default function QueueList(props) {
                 <div className="song-list">
                     {songList}
                 </div>
-                <Link to="/party/:partyId/play-history">
+                <Link to={"/party/" + partyId + "/play-history"} state={partyId}>
                     <button className="play-history-button" src="">History</button>
                 </Link>
             </div>

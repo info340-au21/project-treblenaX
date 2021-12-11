@@ -90,7 +90,7 @@ export function PartyInterface(props) {
                 searchResults={searchResults} 
                 searchCallback={handleSearch} 
                 addCallBack={handleAdd} />
-            <QueueList baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
+            <QueueList partyId={ partyId } baseSongList={formatQueue(getQueue)} handleSkip={handleSkip}/>  
             {/* <CurrentModule currentSong={ currentSong } /> */}
         </div>
     );
