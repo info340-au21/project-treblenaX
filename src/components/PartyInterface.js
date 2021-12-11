@@ -51,13 +51,17 @@ export function PartyInterface(props) {
     let songData = [];
     // Handler functions
     const handleSkip = () => {
+        //makes sure the host exists to it doesn't crash when trying to get the API key
         if(partyHost != null) {
             let newq = {...getQueue};
             if(Object.keys(newq).length > 1) {
+                //Sets Api key
                 webApi.setAccessToken(partyHost.accessToken);
+                //Skips to next song
                 webApi.skipToNext();
-                //reset the timeout to the new song and stop the old one
+                //deletes the countdown from the old song
                 clearTimeout(getTimer);
+                //creates new countdown for new song (10000 is just a placeholder)
                 setTimer(setTimeout(() => {checkPlaying(webApi, Object.keys(newq)[1], partyId, getQueue, setTimer)}, 10000));
                 deleteSong(partyId, Object.keys(newq)[0]);
             console.log("song skipped");
@@ -67,18 +71,23 @@ export function PartyInterface(props) {
     const handleAdd = (song) => {
         if(partyHost != null) {
             webApi.setAccessToken(partyHost.accessToken);
+            //sends queue request
                 webApi.queue(song.uri).then((response) => {
+                    //Checks if this is the first song being added
                     if(getQueue != null) {
                         console.log("Queueing: " + song.name + " " + (Object.keys(getQueue).length + 1));
                     }else {
                         console.log("Queueing: " + song.name + " first, timer set");
-                        //sets timer for length of song
+                        //skips to next so it gets on queue
                         webApi.skipToNext();
+                        //sets timer for length of song
+                        //TODO set the timer to half a second after the song ends
                         setTimer(setTimeout(() => {checkPlaying(webApi, song, partyId, getQueue, setTimer)}, 10000));
                     }
                 }, (err) => {
                     console.log(err);
                 });
+                //adds to song to the db queue
                 postAddQueue(partyId, song);
         }else {
             console.log("failed to add song");
@@ -123,18 +132,22 @@ export function getQueue() {
 }
 
 function checkPlaying(webApi, song, partyId, q, setTimer) {
-    //Get the length of the song and call every interval 
     //gets the current track info
     webApi.getMyCurrentPlayingTrack().then((track) => {
+        //checks if the song that is playing is different from the song in the queue (meant to change songs after the song has completed)
         if(track != undefined && track.item != undefined && track.item.id != song.id) {
+            //checks if there is a next song to jump to in the queue
             if(q != undefined && Object.keys(q).length > 1) {
                 //sets timer for length of next song
                 console.log("timer set");
+                //deletes song from queue in db
                 deleteSong(partyId, song);
+                //sets new timer for the end of the song that is playing
                 setTimer(setTimeout(() => {checkPlaying(webApi, q[Object.keys(q)[1]])}, 10000));
             }
             //set a new timeout for the length of the next song
         }else {
+            //get current timestamp and set timer until end
         }
     }, (err) => {
         console.log(err);
