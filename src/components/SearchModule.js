@@ -10,7 +10,6 @@ const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
 export default function SearchModule(props) {
     let payload = props.songData;
     let host = props.host;
-    console.log(host);
     return (
         <div className="column-container results-column">
             <SearchBar host={host} />
