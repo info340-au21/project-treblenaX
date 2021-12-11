@@ -42,7 +42,7 @@ export function PartyInterface(props) {
     // Song states
     const [getQueue, setQueue] = useState([]);
     const [getHistory, setHistory] = useState([]);
-    const [baseSongList, setSongList] = useState(undefined);
+    const [baseSongList, setSongList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [nextCheck, setNextCheck] = useState(15 * 1000);
 
@@ -60,7 +60,7 @@ export function PartyInterface(props) {
     }
     const handleSearch = (results) => {
         const songData = extractPayload(results);
-        console.log(songData);
+        // console.log(songData);
         setSearchResults(songData);
     }
 
@@ -165,7 +165,9 @@ function extractPayload(payload) {
             name: item.name,
             artists: artists,
             img: item.album.images[0].url,
-            duration: msToTime(item.duration_ms)
+            album: item.album.name,
+            duration: msToTime(item.duration_ms),
+            uri: item.uri
         };
     })
 }

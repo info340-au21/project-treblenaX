@@ -105,6 +105,9 @@ function UserList(props) {
     return userElement;
 }
 
+/** Private functions */
+
+
 /* Set the width of the side navigation to 250px */
 const openNav = () => {
     let nav = document.getElementById("mySidenav");
