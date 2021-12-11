@@ -41,7 +41,7 @@ export function PartyInterface(props) {
     // Song states
     const [getQueue, setQueue] = useState([]);
     const [getHistory, setHistory] = useState([]);
-    const [baseSongList, setSongList] = useState(undefined);
+    const [baseSongList, setSongList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
 
     let songData = [];
@@ -54,7 +54,6 @@ export function PartyInterface(props) {
         }
     }
     const handleAdd = (song) => {
-        let val = 0;
         let newSongList = [...baseSongList]; //TODO add album name
         newSongList[newSongList.length] = song;
         postAddQueue(partyId, song);
@@ -62,7 +61,7 @@ export function PartyInterface(props) {
     }
     const handleSearch = (results) => {
         const songData = extractPayload(results);
-        console.log(songData);
+        // console.log(songData);
         setSearchResults(songData);
     }
 
@@ -147,7 +146,8 @@ function extractPayload(payload) {
             name: item.name,
             artists: artists,
             img: item.album.images[0].url,
-            duration: msToTime(item.duration_ms)
+            duration: msToTime(item.duration_ms),
+            uri: item.uri
         };
     })
 }

@@ -58,9 +58,7 @@ function SearchBar(props) {
             return;
         }
         spotify.searchTracks(query)
-        .then(data => {
-            props.resultCallback(data);
-        })
+        .then(data => props.resultCallback(data))
         .catch(error => console.error(error));
     }
 
