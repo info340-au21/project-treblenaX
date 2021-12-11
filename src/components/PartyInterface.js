@@ -122,12 +122,12 @@ function checkPlaying(webApi, song, partyId, q) {
     //Get the length of the song and call every interval 
     //gets the current track info
     webApi.getMyCurrentPlayingTrack().then((track) => {
-        deleteSong(partyId, song);
         if(track != undefined && track.item != undefined && track.item.id != song.id) {
             if(Object.keys(q).length > 1) {
                 //sets timer for length of next song
                 setTimeout(() => {checkPlaying(webApi, q[Object.keys(q)[1]])}, 10000);
                 console.log("timer set");
+                deleteSong(partyId, song);
             }
             //set a new timeout for the length of the next song
         }else {
