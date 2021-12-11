@@ -23,6 +23,7 @@
     flex-direction: column;
     align-items: center;
     color: white;
+    height: 100%;
 }
 
 .interface-container {
@@ -31,6 +32,7 @@
     flex-direction: row;
     align-items: center;
     color: white;
+    height: 100vh;
 }
 
 .flex-item-space {
@@ -84,6 +86,7 @@
 /* User Columns */
 .user-content {
     top: 0;
+    height: 100%;
 }
 
 /* room code header */
@@ -110,7 +113,6 @@
     border-radius: 50%;
     height: 2em;
 }
-
 /* open navigation bar */
 .sidenav {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */

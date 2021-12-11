@@ -13,8 +13,8 @@ import Config from '../json/config.json';
 export default function App(props) {
     return (
         <Router>
-            <div className="flex-container">
-                <nav className="flex-item" id="debug-nav">
+            <div>
+                {/* <nav className="flex-item" id="debug-nav">
                     <h1>Debug App Navigation</h1>
                     <ul>
                         <li><Link to="/">Party Portal</Link></li>
@@ -26,8 +26,8 @@ export default function App(props) {
                             navbar.parentNode.removeChild(navbar);
                         }}>Hide</button>
                     </ul>
-                </nav>
-                <div className="flex-item">
+                </nav> */}
+                <div>
                     <Routes>
                         <Route path="/" element={<PartyPortal clientId={Config.spotifyClientId} />} />
                         <Route path="/auth" element={<Auth />} />
@@ -36,11 +36,7 @@ export default function App(props) {
                     </Routes>
                 </div>
                 {/* @TODO: fix footer spacing */}
-                <div className="flex-item"></div>
-                <div className="flex-item"></div>
-                <div className="flex-item"></div>
-                <div className="flex-item"></div>
-                <div className="flex-item">
+                <div>
                     <FooterModule />
                 </div>
             </div>

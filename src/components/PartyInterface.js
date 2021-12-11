@@ -54,14 +54,14 @@ export function PartyInterface(props) {
         }
     }
     const handleAdd = (song) => {
-        let newSongList = [...baseSongList]; //TODO add album name
+        let newSongList = [...baseSongList];
+        console.log(newSongList);
         newSongList[newSongList.length] = song;
         postAddQueue(partyId, song);
         setSongList(newSongList);
     }
     const handleSearch = (results) => {
         const songData = extractPayload(results);
-        // console.log(songData);
         setSearchResults(songData);
     }
 
@@ -109,7 +109,6 @@ function leaderActions(webApi, q) {
 }
 
 function formatQueue(q) {
-
     let newQ = [];
     let val = 0;
     if (q) {
