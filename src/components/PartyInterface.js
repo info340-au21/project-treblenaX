@@ -146,6 +146,7 @@ function extractPayload(payload) {
             name: item.name,
             artists: artists,
             img: item.album.images[0].url,
+            album: item.album.name,
             duration: msToTime(item.duration_ms),
             uri: item.uri
         };
