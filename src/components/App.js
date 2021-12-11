@@ -35,7 +35,6 @@ export default function App(props) {
                         <Route exact path="/party/:partyId/play-history" element={<PlayHistory getQueue={ getQueue } />} />
                     </Routes>
                 </div>
-                {/* @TODO: fix footer spacing */}
                 <div>
                     <FooterModule />
                 </div>

@@ -87,7 +87,7 @@ function ResultsList(props) {
     });
 
     return (
-        <div className="flex-item-songs-container">
+        <div className="song-list flex-item-songs-container">
             { cards }
         </div>
     );

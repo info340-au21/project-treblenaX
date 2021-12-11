@@ -46,6 +46,8 @@ export function getPartyUsers(setUsers, setPartyHost, partyId) {
     });
 }
 
+// @TODO: More generalized get party users
+
 export function getPartyUserByUsername(setUser, partyId, username) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
     const dbRef = ref(database, url);
