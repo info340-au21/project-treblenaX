@@ -16,6 +16,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory, getPartyUser, getPartyUserByUsername, deleteSong } from './FirebaseHandler.js';
 import { getUser, getGlobalUser } from './Auth.js';
+import { get } from 'jquery';
 
 const DEBUG = true;
 let roomCode;
@@ -44,21 +45,44 @@ export function PartyInterface(props) {
     const [baseSongList, setSongList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
 
+    //timer
+    const [getTimer, setTimer] = useState(undefined);
+
     let songData = [];
-    webApi.setAccessToken(Config.spotifyClientId);
     // Handler functions
     const handleSkip = () => {
-        let newq = {...getQueue};
-        if(Object.keys(newq).length > 1) {
-            deleteSong(partyId, Object.keys(newq)[0]);
+        if(partyHost != null) {
+            let newq = {...getQueue};
+            if(Object.keys(newq).length > 1) {
+                webApi.setAccessToken(partyHost.accessToken);
+                webApi.skipToNext();
+                //reset the timeout to the new song and stop the old one
+                clearTimeout(getTimer);
+                setTimer(setTimeout(() => {checkPlaying(webApi, Object.keys(newq)[1], partyId, getQueue, setTimer)}, 10000));
+                deleteSong(partyId, Object.keys(newq)[0]);
+            console.log("song skipped");
+            }
         }
     }
     const handleAdd = (song) => {
-        let newSongList = [...baseSongList];
-        console.log(newSongList);
-        newSongList[newSongList.length] = song;
-        postAddQueue(partyId, song);
-        setSongList(newSongList);
+        if(partyHost != null) {
+            webApi.setAccessToken(partyHost.accessToken);
+                webApi.queue(song.uri).then((response) => {
+                    if(getQueue != null) {
+                        console.log("Queueing: " + song.name + " " + (Object.keys(getQueue).length + 1));
+                    }else {
+                        console.log("Queueing: " + song.name + " first, timer set");
+                        //sets timer for length of song
+                        webApi.skipToNext();
+                        setTimer(setTimeout(() => {checkPlaying(webApi, song, partyId, getQueue, setTimer)}, 10000));
+                    }
+                }, (err) => {
+                    console.log(err);
+                });
+                postAddQueue(partyId, song);
+        }else {
+            console.log("failed to add song");
+        }
     }
     const handleSearch = (results) => {
         const songData = extractPayload(results);
@@ -75,9 +99,6 @@ export function PartyInterface(props) {
         // getHistoryData(setHistory, roomCode);
         // postAddSession("123456");
     }, []);
-    // if(user.leader) {
-    //     leaderActions(webApi);
-    // }
     // @TODO: Debug current song - change this for prod
     const currentSong = songData[0];
     return (
@@ -101,11 +122,23 @@ export function getQueue() {
     return queue;
 }
 
-function leaderActions(webApi, q) {
-    //TODO add a loop here somewhere 
-    if(webApi.myCurrentPlayingTrack() != Object.keys(q)[0].uri) {
-        webApi.skipToNext();
-    }
+function checkPlaying(webApi, song, partyId, q, setTimer) {
+    //Get the length of the song and call every interval 
+    //gets the current track info
+    webApi.getMyCurrentPlayingTrack().then((track) => {
+        if(track != undefined && track.item != undefined && track.item.id != song.id) {
+            if(q != undefined && Object.keys(q).length > 1) {
+                //sets timer for length of next song
+                console.log("timer set");
+                deleteSong(partyId, song);
+                setTimer(setTimeout(() => {checkPlaying(webApi, q[Object.keys(q)[1]])}, 10000));
+            }
+            //set a new timeout for the length of the next song
+        }else {
+        }
+    }, (err) => {
+        console.log(err);
+    });
 }
 
 function formatQueue(q) {
@@ -114,12 +147,12 @@ function formatQueue(q) {
     if (q) {
         for(let i of Object.keys(q)) {
             newQ[val] = {
-                id: i,
-                name: "name" + val,
-                artist: q[i].artist,
-                img: q[i].album.img,
-                album: q[i].album.name,
-                duration: msToTime(q[i].duration_ms)
+                id: q[i].id,
+                name: q[i].name,
+                artist: q[i].artists,
+                img: q[i].img,
+                // album: q[i].album.name,
+                duration: q[i].duration
             }
             val++;
         }
@@ -139,7 +172,7 @@ function formatQueue(q) {
  */
 function extractPayload(payload) {
     return payload.tracks.items.map((item) => {
-        const artists = item.artists.map((artist) => artist.name).join(', ')
+        const artists = item.artists.map((artist) => artist.name).join(', ');
         return {
             id: item.id,
             name: item.name,
