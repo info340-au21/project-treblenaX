@@ -467,6 +467,11 @@ form input {
     .info-column {
         display: none;
     }
+
+    /* Footer Style */
+    .footer {
+        display: none;
+    }
 }
 
 /* mobile - small screens */
@@ -488,6 +493,11 @@ form input {
     
     /* CurrentModule CSS */
     .info-column{
+        display: none;
+    }
+
+    /* Footer Style */
+    .footer {
         display: none;
     }
 }
@@ -513,6 +523,11 @@ form input {
     .info-column {
         display: none;
     }
+
+    /* Footer Style */
+    .footer {
+        display: none;
+    }
 }
 
 /* large screens */
@@ -528,9 +543,18 @@ form input {
     .info-column {
         display: inline-block;
     }
+
+    /* Footer Style */
+    .footer {
+        display: block;
+    }
 }
 
 /* extra-large screens */
 @media (min-width: 1200px) {
+    /* Footer Style */
+    .footer {
+        display: block;
+    }
 }
 
