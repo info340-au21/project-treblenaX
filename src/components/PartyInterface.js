@@ -21,6 +21,7 @@ import { get } from 'jquery';
 const DEBUG = true;
 let roomCode;
 let queue = [];
+export let history = [];
 
 /**
  * Main component of the Party Interface page
@@ -89,6 +90,10 @@ export function PartyInterface(props) {
                 }, (err) => {
                     console.log(err);
                 });
+                //adds song to queue history
+                history.push(song);
+                console.log("song added to history:", song.name);
+                console.log("history:", history);
                 //adds to song to the db queue
                 postAddQueue(partyId, song);
         }else {
