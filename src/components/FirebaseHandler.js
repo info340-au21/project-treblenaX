@@ -80,6 +80,7 @@ export function getPartyQueue(setQueue, partyId) {
  */
 export function getHistoryData(setHistory, partyId) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
+    console.log(url);
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
@@ -94,7 +95,6 @@ export function getHistoryData(setHistory, partyId) {
  * @param {Object} user 
  */
 export function postAddUser(partyId, user) {
-    console.log(user);
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
     const dbRef = push(ref(database, url));
 
@@ -110,7 +110,13 @@ export function postAddUser(partyId, user) {
 export function postAddQueue(partyId, song) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
     const dbRef = push(ref(database, url));
-    set(dbRef, song)
+    const payload = {
+        refKey: dbRef.key,
+        ...song
+    };
+
+    console.log(payload);
+    set(dbRef, payload);
 }
 
 /**
@@ -137,10 +143,21 @@ export function deleteSession(partyId) {
     remove(dbRef);
 }
 
-export function deleteSong(partyId, songid) {
-    const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue + songid;
+export function deleteSongByRef(partyId, songRef) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue + songRef;
     const dbRef = ref(database, url);
     remove(dbRef);
+}
+
+export function deleteSongById(partyId, songId) {
+    const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
+    const dbRef = ref(database, url);
+    get(dbRef)
+        .then((snapshot) => {
+            const data = snapshot.val();
+            const song = filterById(data, songId);
+            deleteSongByRef(partyId, song.refKey);
+    });
 }
 
 /** Private helper functions */
@@ -150,5 +167,12 @@ function filterByUsername(users, username) {
         if (user.username === username) {
             return user;
         };
+    }
+}
+
+function filterById(queue, id) {
+    for (let s in queue) {
+        const song = queue[s];
+        if (song.id === id) return song;
     }
 }

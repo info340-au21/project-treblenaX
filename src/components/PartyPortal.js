@@ -40,6 +40,7 @@ export default function PartyPortal(props) {
 
         if (checkPartyExists(allSessions, partyId)) {    // IF party exists
             // get username from the input field
+            // @TODO: change to React Forms
             const username = document.getElementById('username').value;
 
             // create spotify auth url with that state

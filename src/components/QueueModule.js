@@ -1,20 +1,24 @@
-import React, { cloneElement, useState } from 'react';
+import React, { useState } from 'react';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { async } from '@firebase/util';
 const COLLAPSED_QUEUE_HEIGHT = "45px";
 const EXPANDED_QUEUE_HEIGHT = "20rem";
 
 export default function QueueList(props) {
+    // States
     const [isExpanded, setExpanded] = useState(false);
     const [icon, setIcon] = useState(<ExpandMoreIcon />);
-    const [isReady, setReady] = useState(false);
+
+    // Props
+    const currentSong = props.currentSong;
     const baseSongList = props.baseSongList;
     const handleSkip = props.handleSkip;
     const partyId = props.partyId;
     const username = props.username;
+
+    // Event Handlers
     // Queue button event handler
     const handleCollapse = () => { 
         let element = document.getElementById('queue-list');
@@ -30,16 +34,7 @@ export default function QueueList(props) {
         // adjust collapse boolean 
         setExpanded(!isExpanded);
     };
-    let songList = baseSongList.map((cur) => {
-        return <QueueItem isPlaying={false} key={cur.id} name={cur.name} album={cur.album} artist={cur.artist} length={cur.duration} img={cur.img} removeCB={handleSkip}/>
-    });
-    if(isReady == true) {
-        if (songList.length != 0) {
-            songList[0] = cloneElement(songList[0], { isPlaying: true });
-        }
-    }else if(songList[0] != undefined){
-        setReady(true);
-    }
+
     return ( 
         <div>
             <div id="queue-list" className="flex-item-queue-list">
@@ -50,7 +45,7 @@ export default function QueueList(props) {
                     </div>
              </button>
                 <div className="song-list">
-                    {songList}
+                    {updateSongList(currentSong, baseSongList, handleSkip)}
                 </div>
                 <Link to={"/party/" + partyId + "/play-history"} state={{partyId: partyId, username: username}}>
                     <button className="play-history-button" src="">History</button>
@@ -70,9 +65,12 @@ function QueueItem(props) {
     const img = props.img;
     const isPlaying = props.isPlaying;
     const handleSkip = props.removeCB;
+
     return (                    
     <div className={isPlaying ? "queue-item queue-item-playing" : "queue-item"}>
-    <div className="queue-album-img"><img src={img} alt="album cover" /></div>
+        <div className="queue-album-img">
+            <img src={img} alt="album cover" />
+        </div>
         <div className={isPlaying ? "queue-item-info queue-item-playing" : "queue-item-info"}>
             {isPlaying && <p>Now playing:</p>}
             <p>{name}</p>
@@ -87,3 +85,33 @@ function QueueItem(props) {
     </div>
 );
 } 
+
+function createQueueCard(track, id, isPlaying, handleSkip) {
+    return (<QueueItem 
+        key={id}
+        isPlaying={isPlaying}
+        name={track.name} 
+        album={track.album} 
+        artist={track.artist} 
+        length={track.duration} 
+        img={track.img} 
+        removeCB={handleSkip}
+    />);
+}
+
+function updateSongList(currentSong, baseSongList, handleSkip) {
+    // Init list of cards    
+    if (currentSong) {
+        const songList = [createQueueCard(currentSong, 0, true, handleSkip)];
+
+        // Map queue data into Song Cards
+        if (baseSongList) {
+            for (let i = 0; i < baseSongList.length; i++) {
+                songList[i + 1] = createQueueCard(baseSongList[i], i + 1, false, handleSkip);
+            }
+        }
+        return songList;
+    }
+    // ELSE: if there are no current songs then the queue is assumed to be empty
+    return null;
+}

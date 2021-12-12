@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SongCard } from './SearchModule';
 import { Link, useLocation } from 'react-router-dom';
-import { history } from './PartyInterface';
+import { getHistoryData } from './FirebaseHandler';
 
 export default function PlayHistory(props) {
     // get state from url query params
+    const [history, setHistory] = useState([]);
     const location = useLocation();
     const partyId = location.state.partyId;
     const username = location.state.username;
@@ -12,8 +13,10 @@ export default function PlayHistory(props) {
 
     // update state when song history changes
     useEffect(() => {
-        
-    });
+        getHistoryData(setHistory, partyId);
+    }, []);
+
+    console.log(history);
     
     return (
         <div>
@@ -22,9 +25,9 @@ export default function PlayHistory(props) {
                 <button className="play-history-button" src="">History</button>
             </Link>
             <h1>Play History</h1>
-            <div className="column-container results-column song-list flex-item-songs-container">
-                { createHistoryCards(history) }
-            </div>
+            {/* <div className="column-container results-column song-list flex-item-songs-container">
+                { createHistoryCards(undefined) }
+            </div> */}
         </div>
     );
 }

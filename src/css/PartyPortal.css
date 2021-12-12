@@ -86,7 +86,7 @@
 /* User Columns */
 .user-content {
     top: 0;
-    height: 100%;
+    height: 75%;
 }
 
 /* room code header */
@@ -128,9 +128,10 @@
 
 /* Position and style the close button (top right corner) */
 .sidenav .btn {
-    align-self: flex-end;
     font-size: 36px;
     color: #1DB954;
+    /* background-color: white; */
+    /* border: none; */
 }
 
 .sidenav .closebtn {
@@ -169,7 +170,7 @@
 
 button.leave {
     bottom: 200px;
-    flex: 3;
+    flex: 1;
     color: #1DB954;
     background-color: white;
     /* border: none; */ /* for testing */
