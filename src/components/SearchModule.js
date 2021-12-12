@@ -8,12 +8,15 @@ const TEST_TOKEN = Config.testToken;
 const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
 
 export default function SearchModule(props) {
+    // isSearching
+    const [isSearching, setIsSearching] = React.useState(false);
+
     let payload = props.searchResults;
     let host = props.host;
     return (
         <div className="column-container results-column">
-            <SearchBar host={host} resultCallback={props.searchCallback}/>
-            <ResultsList payload={ payload } handleAdd={props.addCallBack} />
+            <SearchBar setIsSearching={setIsSearching} host={host} resultCallback={props.searchCallback}/>
+            <ResultsList isSearching={isSearching} payload={ payload } handleAdd={props.addCallBack} />
         </div>
     );
 }
@@ -42,7 +45,6 @@ export function SongCard(props) {
 /* Private Components */
 function SearchBar(props) {
     // Spotify API: authenticate using host's access token
-    // TODO: Replace this with the actual host's user token
     const spotify = new SpotifyWebApi();
     if (props.host) {
         spotify.setAccessToken(props.host.accessToken);
@@ -50,7 +52,8 @@ function SearchBar(props) {
 
     // Search Handler
     const handleSearch = (e) => {
-        // console.log(`Search Query: ${e.target.value}`);
+        // set isSearching to true
+        props.setIsSearching(true);
         const query = e.target.value;
 
         // dont do anything if the query is empty
@@ -59,7 +62,8 @@ function SearchBar(props) {
         }
         spotify.searchTracks(query)
         .then(data => props.resultCallback(data))
-        .catch(error => console.error(error));
+        .catch(error => console.error(error))
+        .finally(() => props.setIsSearching(false));
     }
 
     return (
@@ -71,6 +75,12 @@ function SearchBar(props) {
 }
 
 function ResultsList(props) {
+    // TODO: turn this into a real searching icon or something
+    if (props.isSearching) {
+        return (
+            <h1>Searching...</h1>
+        );
+    }
     const data = props.payload ? props.payload : [];
 
     // @TODO: temporary pagination
