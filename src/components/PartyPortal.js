@@ -70,6 +70,7 @@ export default function PartyPortal(props) {
                         placeholder="Username"
                         required
                     />
+                    <label for="username" className="hidden">Input Username</label>
                     <input 
                         id="party-id-field" 
                         name="party-id-field" 
