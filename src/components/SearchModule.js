@@ -58,6 +58,7 @@ function SearchBar(props) {
 
         // dont do anything if the query is empty
         if (query.length === 0) {
+            props.setIsSearching(false);
             return;
         }
         spotify.searchTracks(query)
