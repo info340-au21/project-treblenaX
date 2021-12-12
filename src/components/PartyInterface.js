@@ -2,24 +2,11 @@ import React, { useState, useEffect } from 'react';
 import SearchModule from './SearchModule.js';
 import QueueList from './QueueModule.js';
 import UserInformation from './UserInformation.js';
-import SAMPLE_USERS from '../json/test_users.json';
-import CurrentModule from './CurrentModule';
-import PlayHistory from './PlayHistoryModule';
 import '../css/PartyPortal.css';
-import * as songs from '../json/sampleSongs.json';
 import SpotifyWebApi from 'spotify-web-api-js';
-import Config from '../json/config.json';
-// Grab Debug Data
-import SONG_DATA from '../json/test_data.json';
-import { Routes, Router, Route, useParams, useLocation } from 'react-router';
-import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
-import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory, getPartyUser, getPartyUserByUsername, deleteSong } from './FirebaseHandler.js';
-import { getUser, getGlobalUser } from './Auth.js';
-import { get } from 'jquery';
+import { useLocation } from 'react-router';
+import { getPartyQueue, getPartyUsers, postAddQueue, getPartyUserByUsername, deleteSong } from './FirebaseHandler.js';
 
-const DEBUG = true;
-let roomCode;
 let queue = [];
 
 /**
