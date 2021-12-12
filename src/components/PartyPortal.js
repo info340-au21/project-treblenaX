@@ -4,7 +4,7 @@ import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
 
-const redirectUri = 'http://localhost:3000/auth/';
+const authRedirect = 'https://groupify-3.web.app/auth/';
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
@@ -28,7 +28,7 @@ export default function PartyPortal(props) {
             response_type: 'code',
             client_id: props.clientId,
             scope: scopes,
-            redirect_uri: redirectUri,
+            redirect_uri: authRedirect,
             state: `${partyId}-${username}-true`
         });
 
@@ -47,7 +47,7 @@ export default function PartyPortal(props) {
                 response_type: 'code',
                 client_id: props.clientId,
                 scope: scopes,
-                redirect_uri: redirectUri,
+                redirect_uri: authRedirect,
                 state: `${partyId}-${username}-false`,
             });
 

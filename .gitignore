@@ -33,3 +33,7 @@ yarn-error.log*
 
 # spotify api
 config.json
+
+# firebase
+.firebase/
+.firebaserc
