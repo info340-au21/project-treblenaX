@@ -257,10 +257,13 @@ button.leave {
 }
 
 .new-party-link {
-    color: white;
     text-decoration: none;
-    background: none;
     border: none;
+}
+
+.logo {
+    width: 200px;
+    height: 200px;
 }
 
 .new-party-link:hover {

@@ -3,6 +3,7 @@ import '../css/PartyPortal.css';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import { getPartySessions } from './FirebaseHandler';
 import InstructionModule from './IntructionModule';
+import logo from '../img/logo_bgl.png'
 
 const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
@@ -76,6 +77,7 @@ export default function PartyPortal(props) {
 
     return (
         <main className="container">
+            <img src={logo} alt='Groupify Logo' className='logo'/>
             <h1 className="banner">Groupify</h1>
                 <form id="form-container">
                     <div className='form-container'>
@@ -105,7 +107,7 @@ export default function PartyPortal(props) {
                         </div>
                 </form>
                 {/* @TODO: Make cleaner button */}
-                <button onClick={directToNewParty} id="new-party-link">START A NEW PARTY</button>
+                <button onClick={directToNewParty} className='new-party-link' id="new-party-link">START A NEW PARTY</button>
                 <InstructionModule isDisplayed={true} isPortal={true} />
         </main>
     );

@@ -13,6 +13,10 @@ export default function UserInformation(props) {
     const partyId = props.partyId;
     const users = props.users;
     const user = props.user;
+    const sidenavRef = React.createRef();
+    const partyIdRef = React.createRef();
+    const usersListRef = React.createRef();
+    const leaveButtonRef = React.createRef();
     // States
     const [isExpanded, setExpanded] = useState(false);
     const [icon, setIcon] = useState(<ArrowForwardIosIcon />);
@@ -20,10 +24,10 @@ export default function UserInformation(props) {
     /** Handler functions */
     // User Information event handler
     const handleCollapse = () => {
-        let sidenav = document.getElementById('mySidenav');
-        let partyId = document.getElementById('room-code');
-        let usersList = document.getElementById('user-list');
-        let leaveButton = document.getElementById('leavebtn');
+        let sidenav = sidenavRef.current;
+        let partyId = partyIdRef.current;
+        let usersList = usersListRef.current;
+        let leaveButton = leaveButtonRef.current;
         if (!isExpanded) { // If the queue is already collapsed
             sidenav.style.flex = "0 1 " + EXPANDED_MENU_HEIGHT;
 
@@ -55,21 +59,21 @@ export default function UserInformation(props) {
     }
 
     return (
-        <div id="mySidenav" className="column-container user-column sidenav">
+        <div id="mySidenav" ref={sidenavRef} className="column-container user-column sidenav">
             <button type="button" className="closebtn btn" aria-label="Expand/Collapse user menu" onClick={handleCollapse}>{icon}</button>
             <div className="user-content">
-                <div id="room-code" className="flex-item-room-code">
+                <div id="room-code" ref={partyIdRef} className="flex-item-room-code">
                     <h1>#{partyId}</h1>
                 </div>
 
-                <div id="user-list" className="flex-item-users">
+                <div id="user-list" ref={usersListRef} className="flex-item-users">
                     <h1 className="user-title">Users</h1>
                     <ul>
                         <UserList users={users}/>
                     </ul>
                 </div>
             </div>
-            <button type="button" id="leavebtn" className="btn leavebtn" onClick={leaveParty}>Leave Party</button>
+            <button type="button" id="leavebtn" ref={leaveButtonRef} className="btn leavebtn" onClick={leaveParty}>Leave Party</button>
         </div>
     );
 }
