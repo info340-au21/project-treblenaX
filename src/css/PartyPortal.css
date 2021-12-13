@@ -83,6 +83,30 @@
     padding-top: 20%;
 }
 
+/* Instructions and Disclaimers */
+
+.instruction-module {
+    text-align: center;
+}
+
+.instruction-module h1 {
+    margin: 2rem;
+    font-size: 3rem;
+}
+
+.instruction-module ol, .instruction-module ul {
+    display: inline-block;
+    text-align: left;
+    width: 600px;
+}
+
+.instruction-module li {
+    margin: 0.5rem;
+}
+
+.instruction-module-portal {
+    margin-top: 2rem;
+}
 /* User Columns */
 .user-content {
     top: 0;
@@ -465,6 +489,16 @@ form input {
 /* Responsive Design */
 /* mobile - extra-small screens */ 
 @media (max-width: 598px) {
+    /* Party Portal CSS */
+    .instruction-module h1 {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+    }
+    
+    .instruction-module ol, .instruction-module ul {
+        width: 300px;
+    }
+
     /* Queue CSS */
     .flex-item-queue-list {
         width: 80%;
@@ -493,6 +527,16 @@ form input {
 
 /* mobile - small screens */
 @media (min-width: 598px) {
+    /* Party Portal CSS */
+    .instruction-module h1 {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+    }
+    
+    .instruction-module ol, .instruction-module ul {
+        width: 450px;
+    }
+
     /* Queue CSS */
     .flex-item-queue-list {
         width: 80%;
@@ -521,6 +565,16 @@ form input {
 
 /* mobile - medium screens */
 @media (min-width: 768px) {
+    /* Party Portal CSS */
+    .instruction-module h1 {
+        margin-bottom: 3rem;
+        font-size: 2rem;
+    }
+    
+    .instruction-module ol, .instruction-module ul {
+        width: 600px;
+    }
+
     /* Queue CSS */
     .flex-item-queue-list {
         width: 80%;
@@ -549,6 +603,10 @@ form input {
 
 /* large screens */
 @media (min-width: 992px) {
+    /* Party Portal CSS */
+    .instruction-module-portal ol, .instruction-module-portal ul {
+        width: 900px;
+    }
 
     /* Queue CSS */
     .flex-item-queue-list {
@@ -569,6 +627,11 @@ form input {
 
 /* extra-large screens */
 @media (min-width: 1200px) {
+    /* Party Portal CSS */
+    .instruction-module-portal ol, .instruction-module-portal ul {
+        width: 1100px;
+    }
+
     /* Footer Style */
     .footer {
         display: block;

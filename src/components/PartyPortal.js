@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../css/PartyPortal.css';
+import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import { getPartySessions} from './FirebaseHandler';
+import InstructionModule from './IntructionModule';
 
 const redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
@@ -96,6 +98,8 @@ export default function PartyPortal(props) {
                         </div>
                 </form>
                 {/* @TODO: Make cleaner button */}
+                <button onClick={directToNewParty} id="new-party-link">START A NEW PARTY</button>
+                <InstructionModule isDisplayed={true} isPortal={true} />
         </main>
     );
 }
