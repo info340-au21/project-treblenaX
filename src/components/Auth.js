@@ -75,7 +75,7 @@ export default function Auth(props) {
         });
     }, []);
 
-    if (isLoading) {    // @TODO: take out and replace with spinner
+    if (isLoading) {
         return (
             <div className="loading-page"> 
                 <FontAwesomeIcon className="loading-icon fa-spin" icon={faStroopwafel} />
