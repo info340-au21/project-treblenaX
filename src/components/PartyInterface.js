@@ -44,6 +44,7 @@ export function PartyInterface(props) {
 
     // useEffect -> when component is loaded
     useEffect(() => {
+        console.log(isUserLoaded, + " " + isUsersLoaded + " " + isQueueLoaded);
         // Set current user
         getPartyUserByUsername(setUser, setUserLoaded, partyId, username);
         // Grab party users and set host
@@ -110,6 +111,7 @@ export function PartyInterface(props) {
                 <QueueList 
                     username={username} 
                     partyId={partyId} 
+                    accessToken={accessToken}
                     currentSong={currentSong}
                     setCurrentSong={setCurrentSong}
                     baseSongList={formatQueue(queue)} 

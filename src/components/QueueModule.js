@@ -21,6 +21,7 @@ export default function QueueList(props) {
     const handleSkip = props.handleSkip;
     const partyId = props.partyId;
     const username = props.username;
+    const accessToken = props.accessToken;
     const isCurrentSongLoading = props.isCurrentSongLoading;
 
     const setCurrentSongLoading = (bool) => props.setCurrentSongLoading(bool);
@@ -66,7 +67,7 @@ export default function QueueList(props) {
                 <div className="song-list">
                     {updateSongList(currentSong, baseSongList, handleSkip, setCurrentSongLoading, isCurrentSongLoading)}
                 </div>
-                <Link to={"/party/" + partyId + "/play-history"} state={{partyId: partyId, username: username}}>
+                <Link to={"/party/" + partyId + "/play-history"} state={{partyId: partyId, username: username, accessToken: accessToken}}>
                     <button className="play-history-button" src="">History</button>
                 </Link>
             </div>
@@ -88,10 +89,9 @@ function QueueItem(props) {
     const isLoading = props.isLoading;
 
     useEffect(() => {
-        if (isPlaying && isLoading) {
-            console.log('hit');
-            setTimeout(() => setLoading(false), 1000);
-        }
+        // If the current track is rendered then set false after a second
+        // Needs timer due to how short the changes are when rendering
+        if (isPlaying && isLoading) setTimeout(() => setLoading(false), 1000);
     })
 
     return (                    
