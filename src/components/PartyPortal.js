@@ -93,9 +93,6 @@ export default function PartyPortal(props) {
                             </button>
                             <label htmlFor="submit-button" className="hidden">submit</label>
                         </div>
-                        <div className='container'>
-                            <button onClick={directToNewParty} id="new-party-link" className='new-party-link'>START A NEW PARTY</button>
-                        </div>
                 </form>
                 {/* @TODO: Make cleaner button */}
                 <button onClick={directToNewParty} id="new-party-link">START A NEW PARTY</button>

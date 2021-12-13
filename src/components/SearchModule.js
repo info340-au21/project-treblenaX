@@ -29,7 +29,7 @@ export function SongCard(props) {
     const data = props.payload;
     return (
         <div className="flex-item-song-card">
-            <img className="song-card-image-box" src={ data.img } />
+            <img className="song-card-image-box" src={ data.img } alt='album cover' />
             <div className="song-card-image-desc">
                 <h1>{ data.name }</h1>
                 <h2>{ data.artists }</h2>
