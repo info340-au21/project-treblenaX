@@ -264,6 +264,7 @@ button.leave {
 .logo {
     width: 200px;
     height: 200px;
+    position: center;
 }
 
 .new-party-link:hover {
