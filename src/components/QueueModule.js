@@ -80,7 +80,7 @@ function QueueItem(props) {
             <p>{album}・{length}</p>
         </div>
         {isPlaying &&<div className="queue-remove-item" id={name} onClick={() => handleSkip(name)}>
-            <span className="material-icons">
+            <span className="material-icons" aria-label='Skip song'>
                 <SkipNextIcon/>
             </span>
         </div> }
