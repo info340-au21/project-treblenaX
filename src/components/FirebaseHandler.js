@@ -17,9 +17,13 @@ let database = getDatabase(app);
 export function getPartySessions(setSessions) {
     const url = CONFIG.routes.parties;
     const dbRef = ref(database, url);
-    onValue(dbRef, (snapshot) => {
+    onValue(dbRef, 
+        (snapshot) => {
         const data = snapshot.val();
         setSessions(data);
+    },  (error) => { 
+        alert("Failed to grab party session.");
+        console.log(error);
     });
 }
 /**
@@ -51,6 +55,9 @@ export function getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, 
         setUsers(users);
 
         setUsersLoaded(true);
+    },  (error) => { 
+        alert("Failed to grab party users.");
+        console.log(error);
     });
 }
 
@@ -62,6 +69,10 @@ export function getPartyUserByUsername(setUser, setUserLoaded, partyId, username
             const data = snapshot.val();
             const u = filterByUsername(data, username);
             setUser(u);
+        })
+        .catch((err) => {
+            alert("Failed to get party user by username.");
+            console.log(err);
         })
         .then(() => setUserLoaded(true));
 }
@@ -78,6 +89,9 @@ export function getPartyQueue(setQueue, setQueueLoaded, partyId) {
         const data = snapshot.val();
         setQueue(data);
         setQueueLoaded(true);
+    },  (error) => { 
+        alert("Failed to grab party queue.");
+        console.log(error);
     });
 }
 
@@ -93,6 +107,9 @@ export function getHistoryData(setHistory, partyId) {
         console.log(setHistory);
         const data = snapshot.val();
         setHistory(data);
+    },  (error) => { 
+        alert("Failed to grab party history.");
+        console.log(error);
     });
 }
 
@@ -107,7 +124,11 @@ export function postAddUser(partyId, user) {
     const dbRef = push(ref(database, url));
 
     user.refKey = dbRef.key;
-    set(dbRef, user);
+    set(dbRef, user)
+        .catch((err) => {
+            alert("Failed to get party user by username.");
+            console.log(err);
+        });
 }
 
 /**
@@ -123,8 +144,11 @@ export function postAddQueue(partyId, song) {
         ...song
     };
 
-    console.log(payload);
-    set(dbRef, payload);
+    set(dbRef, payload)
+        .catch((err) => {
+            alert("Failed to post song to party queue.");
+            console.log(err);
+        });
 }
 
 /**
@@ -135,26 +159,42 @@ export function postAddQueue(partyId, song) {
 export function postAddHistory(partyId, song) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
     const dbRef = push(ref(database, url));
-    set(dbRef, song);
+    set(dbRef, song)
+        .catch((err) => {
+            alert("Failed to post song to party history.");
+            console.log(err);
+        });
 }
 
 // DELETE functions
 export function deleteUser(partyId, user) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.users + user.refKey;
     const dbRef = ref(database, url);
-    remove(dbRef);
+    remove(dbRef)
+        .catch((err) => {
+            alert("Failed to delete user.");
+            console.log(err);
+        });
 }
 
 export function deleteSession(partyId) {
     const url = CONFIG.routes.parties + partyId;
     const dbRef = ref(database, url);
-    remove(dbRef);
+    remove(dbRef)
+        .catch((err) => {
+            alert("Failed to delete session.");
+            console.log(err);
+        });
 }
 
 export function deleteSongByRef(partyId, songRef) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue + songRef;
     const dbRef = ref(database, url);
-    remove(dbRef);
+    remove(dbRef)
+        .catch((err) => {
+            alert("Failed to delete song by refKey.");
+            console.log(err);
+        });
 }
 
 export function deleteSongById(partyId, songId) {
@@ -167,7 +207,11 @@ export function deleteSongById(partyId, songId) {
                 const song = filterById(data, songId);
                 deleteSongByRef(partyId, song.refKey);
             }
-    });
+        })
+        .catch((err) => {
+            alert("Failed to delete song by ID.");
+            console.log(err);
+        });
 }
 
 /** Private helper functions */
