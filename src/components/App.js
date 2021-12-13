@@ -1,6 +1,6 @@
 import PartyPortal from './PartyPortal';
 import { PartyInterface } from './PartyInterface';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '../css/App.css';
 import PlayHistory from './PlayHistoryModule';
 import FooterModule from './FooterModule';
@@ -16,7 +16,7 @@ export default function App(props) {
             <div>
                 <div>
                     <Routes>
-                        <Route path="/" element={<PartyPortal clientId={Config.spotifyClientId} />} />
+                        <Route path="/*" element={<PartyPortal clientId={Config.spotifyClientId} />} />
                         <Route path="/auth" element={<Auth />} />
                         <Route path="/party/:partyId" element={<PartyInterface />} />
                         <Route exact path="/party/:partyId/play-history" element={<PlayHistory />} />
