@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/PartyPortal.css';
 import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
 
-const redirectUri = 'http://localhost:3000/auth/';
+const redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
@@ -39,6 +39,7 @@ export default function PartyPortal(props) {
         if (checkPartyExists(allSessions, partyId)) {    // IF party exists
             // get username from the input field
             const username = userNameRef.current.value;
+
             // create spotify auth url with that state
             const existingPartyUrl = spotifyApiRedirect + encodeObject({
                 response_type: 'code',

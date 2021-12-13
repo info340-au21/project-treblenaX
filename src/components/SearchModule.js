@@ -13,6 +13,7 @@ export default function SearchModule(props) {
 
     let payload = props.searchResults;
     let host = props.host;
+    
     return (
         <div className="column-container results-column">
             <SearchBar setIsSearching={setIsSearching} host={host} resultCallback={props.searchCallback}/>
