@@ -11,6 +11,7 @@ const COLLAPSED_MENU_HEIGHT = "50px";
 // userName as a Object collection of users ('name', 'photo' and 'id')
 export default function UserInformation(props) {
     const partyId = props.partyId;
+    const users = props.users;
     const user = props.user;
     // States
     const [isExpanded, setExpanded] = useState(false);
@@ -64,7 +65,7 @@ export default function UserInformation(props) {
                 <div id="user-list" className="flex-item-users">
                     <h1 className="user-title">Users</h1>
                     <ul>
-                        <UserList getUsers={props.getUsers}/>
+                        <UserList users={users}/>
                     </ul>
                 </div>
             </div>
@@ -75,47 +76,31 @@ export default function UserInformation(props) {
 
 // takes the users as an array of objects with ('name' and 'id') and tranforms them into a list of li elements
 function UserList(props) {
-    const users = props.getUsers;
+    const users = props.users;
 
     let userElement = null;
 
     if (users.length !== 0) {
-        userElement = Object.keys(users).map((key) => {
-            const user = users[key];
-
-            // @TODO: generate random user photos for the user
-            if (user.host) {
-                return (
-                    <div className="user-item" key={user.id}>
-                        <img className="user-photo" src={generateUserPhotos()} alt={user.name}/>
-                        <li className="user-name">{user.username} (Host)</li>
-                    </div>
-                )
-            } else {
-                return (
-                    <div className="user-item" key={user.id}>
-                        <img className="user-photo" src={generateUserPhotos()} alt={user.name}/>
-                        <li className="user-name">{user.name}</li>
-                    </div>
-                )
-            }
+        userElement = users.map((user) => {
+            return <UserCard key={user.refKey} user={user} />
         });
     }
 
     return userElement;
 }
 
-/** Private functions */
-function generateUserPhotos() {
-    let path = '../img/profile_pictures/img_';
+function UserCard(props) {
+    const user = props.user;
 
-    const num = Math.floor(Math.random() * 5);
-
-    path += num + '.PNG';
-
-    return path;
+    return (
+        <div className="user-item">
+            <img className="user-photo" src={user.imgPath} alt={user.name}/>
+            <li className="user-name">{user.username} {user.host && <span>(Host)</span>}</li>
+        </div>
+    );
 }
 
+/** Private functions */
 /* Set the width of the side navigation to 250px */
 const openNav = () => {
     let nav = document.getElementById("mySidenav");

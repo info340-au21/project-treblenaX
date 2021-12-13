@@ -113,6 +113,10 @@
     border-radius: 50%;
     height: 2em;
 }
+
+.user-name {
+    display: inline-block;
+}
 /* open navigation bar */
 .sidenav {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */

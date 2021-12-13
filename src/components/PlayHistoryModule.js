@@ -9,7 +9,7 @@ export default function PlayHistory(props) {
     const location = useLocation();
     const partyId = location.state.partyId;
     const username = location.state.username;
-    const songHistory = props.getQueue();
+    const songHistory = props.queue;
 
     // update state when song history changes
     useEffect(() => {

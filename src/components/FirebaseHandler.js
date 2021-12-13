@@ -28,27 +28,33 @@ export function getPartySessions(setSessions) {
  * @param {function} setRoomHost
  * @param {string} partyId         -   The party session ID
  */
-export function getPartyUsers(setUsers, setPartyHost, partyId) {
+export function getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, partyId) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
-        setUsers(data);
-
-        // Filter for room host
+        let users = [];
         let host;
 
         for (let key in data) {
             const user = data[key];
-            if (user.host) host = user;
+            if (user.host) host = user; // Filter for room host
+
+            const newUser = {
+                imgPath: generateUserPhoto(),   // Generate new photo for user
+                ...user
+            }
+            users.push(newUser);
         }
+
         setPartyHost(host);
+        setUsers(users);
+
+        setUsersLoaded(true);
     });
 }
 
-// @TODO: More generalized get party users
-
-export function getPartyUserByUsername(setUser, partyId, username) {
+export function getPartyUserByUsername(setUser, setUserLoaded, partyId, username) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
     const dbRef = ref(database, url);
     get(dbRef)
@@ -56,7 +62,8 @@ export function getPartyUserByUsername(setUser, partyId, username) {
             const data = snapshot.val();
             const u = filterByUsername(data, username);
             setUser(u);
-    });
+        })
+        .then(() => setUserLoaded(true));
 }
 
 /**
@@ -64,12 +71,13 @@ export function getPartyUserByUsername(setUser, partyId, username) {
  * @param {function} setQueue 
  * @param {string} partyId 
  */
-export function getPartyQueue(setQueue, partyId) {
+export function getPartyQueue(setQueue, setQueueLoaded, partyId) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
         setQueue(data);
+        setQueueLoaded(true);
     });
 }
 
@@ -80,7 +88,6 @@ export function getPartyQueue(setQueue, partyId) {
  */
 export function getHistoryData(setHistory, partyId) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
-    console.log(url);
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
@@ -155,8 +162,10 @@ export function deleteSongById(partyId, songId) {
     get(dbRef)
         .then((snapshot) => {
             const data = snapshot.val();
-            const song = filterById(data, songId);
-            deleteSongByRef(partyId, song.refKey);
+            if (data) {
+                const song = filterById(data, songId);
+                deleteSongByRef(partyId, song.refKey);
+            }
     });
 }
 
@@ -176,3 +185,14 @@ function filterById(queue, id) {
         if (song.id === id) return song;
     }
 }
+
+function generateUserPhoto() {
+    let path = '../img/profile_pictures/img_';
+
+    const num = 1 + Math.floor(Math.random() * 4);
+
+    path += num + '.PNG';
+
+    return path;
+}
+
