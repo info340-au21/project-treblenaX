@@ -2,7 +2,7 @@ import React from 'react';
 import QueueIcon from '@mui/icons-material/Queue';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Config from '../json/config.json';
-import $ from 'jquery';
+
 
 const TEST_TOKEN = Config.testToken;
 const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';

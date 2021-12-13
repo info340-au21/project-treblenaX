@@ -11,17 +11,25 @@ const scopes = 'user-read-currently-playing user-read-playback-state user-modify
  */
 export default function PartyPortal(props) {
     const [allSessions, setSessions] = useState([]);
-    const userNameRef = React.createRef();
-    const partyIdRef = React.createRef();
+    const [usernameVal, setUName] = useState("");
+    const [partyIdVal, setPartyId] = useState("");
     useEffect(() => {
         // Get all party sessions
         getPartySessions(setSessions);
     }, []);
 
+    const userNameInput = (event) => {
+        const val = event.target.value;
+        setUName(val);
+    }
+    const partyIdInput = (event) => {
+        const val = event.target.value;
+        setPartyId(val);
+    }
     const directToNewParty = () => {
         const partyId = createNewPartyID(allSessions);
         // get username from the input field
-        const username = userNameRef.current.value;
+        const username = usernameVal;
         const newPartyUrl = spotifyApiRedirect + encodeObject({
             response_type: 'code',
             client_id: props.clientId,
@@ -33,11 +41,11 @@ export default function PartyPortal(props) {
     const directToExistingParty = () => {
         // get the party id from the input field
         //store in state
-        const partyId = partyIdRef.current.value;
+        const partyId = partyIdVal;
 
         if (checkPartyExists(allSessions, partyId)) {    // IF party exists
             // get username from the input field
-            const username = userNameRef.current.value;
+            const username = usernameVal;
 
             // create spotify auth url with that state
             const existingPartyUrl = spotifyApiRedirect + encodeObject({
@@ -62,20 +70,20 @@ export default function PartyPortal(props) {
                             <input
                                 id="username"
                                 className='username'
-                                ref={userNameRef}
                                 name="username"
                                 type="text"
                                 placeholder="Username"
+                                onKeyUp={userNameInput}
                                 required
                             />
                             <label for="username" className="hidden">Input Username</label>
                             <input 
                                 id="partyIdField"
-                                ref={partyIdRef}
                                 className="party-id-field" 
                                 name="party-id-field" 
                                 type="text" 
                                 placeholder="Enter a Party ID"
+                                onKeyUp={partyIdInput}
                                 required />
                             <label for="party-id-field" className="hidden">Input Party ID</label>
                             <button id="submit-button" className='submit-button' type="submit" onClick={directToExistingParty}>
