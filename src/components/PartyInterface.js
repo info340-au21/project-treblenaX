@@ -5,6 +5,7 @@ import UserInformation from './UserInformation.js';
 import SAMPLE_USERS from '../json/test_users.json';
 import CurrentModule from './CurrentModule';
 import PlayHistory from './PlayHistoryModule';
+import { History } from './PlayHistoryModule';
 import '../css/PartyPortal.css';
 import * as songs from '../json/sampleSongs.json';
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -21,7 +22,6 @@ import { get } from 'jquery';
 const DEBUG = true;
 let roomCode;
 let queue = [];
-export let history = [];
 
 /**
  * Main component of the Party Interface page
@@ -66,6 +66,7 @@ export function PartyInterface(props) {
                 setTimer(setTimeout(() => {checkPlaying(webApi, Object.keys(newq)[1], partyId, getQueue, setTimer)}, 10000));
                 deleteSong(partyId, Object.keys(newq)[0]);
                 // addsongintohistory
+
             console.log("song skipped");
             }
         }
@@ -90,10 +91,9 @@ export function PartyInterface(props) {
                 }, (err) => {
                     console.log(err);
                 });
-                //adds song to queue history
-                history.push(song);
-                console.log("song added to history:", song.name);
-                console.log("history:", history);
+                //adds song to db queue history
+                postAddHistory(partyId, song);
+                // console.log("database updated", getHistoryData(partyId));
                 //adds to song to the db queue
                 postAddQueue(partyId, song);
         }else {

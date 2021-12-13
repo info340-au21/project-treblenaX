@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SongCard } from './SearchModule';
 import { Link, useLocation } from 'react-router-dom';
-import { history } from './PartyInterface';
+import { get } from 'jquery';
+import { getHistoryData } from './FirebaseHandler';
 
 export default function PlayHistory(props) {
     // get state from url query params
+    const [history, setHistory] = useState([]);
     const location = useLocation();
     const partyId = location.state.partyId;
     const username = location.state.username;
@@ -12,8 +14,11 @@ export default function PlayHistory(props) {
 
     // update state when song history changes
     useEffect(() => {
-        
-    });
+        getHistoryData(setHistory, partyId);
+    }, []);
+
+    // print out retrieved history data
+    console.log("current history:", history);
     
     return (
         <div>
@@ -31,7 +36,17 @@ export default function PlayHistory(props) {
 
 /* Private helper functions */
 function createHistoryCards(data) {
-    console.log("Creating history cards from data:", data);
-    return data.map((song) => (<SongCard key={ song.id } payload={ song }/>));
+    
+    // create song cards for each song in history
+    let songs = [];
+    for (const song in data) {
+        data[song].id = song;
+
+        songs.push(data[song]);
+    }
+    let result = songs.map(i => {
+        return <SongCard key={i.id} payload={i}/>;
+    });
+    return result;
 }
 
