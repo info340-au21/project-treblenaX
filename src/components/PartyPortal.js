@@ -5,7 +5,11 @@ import { getPartySessions } from './FirebaseHandler';
 import InstructionModule from './IntructionModule';
 import logo from '../img/logo_bgl.png'
 
-const redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
+const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
+const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
+
+const DEBUG = true;
+
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
@@ -16,6 +20,12 @@ export default function PartyPortal(props) {
     const [allSessions, setSessions] = useState([]);
     const [usernameVal, setUName] = useState("");
     const [partyIdVal, setPartyId] = useState("");
+
+    // @TODO: take out in prod
+    let redirectUri;
+    if (DEBUG) redirectUri = debug_redirectUri;
+    else redirectUri = prod_redirectUri;
+
     useEffect(() => {
         // Get all party sessions
         getPartySessions(setSessions);
