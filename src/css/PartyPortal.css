@@ -256,19 +256,25 @@ button.leave {
     cursor: pointer;
 }
 
+.logo {
+    flex: 1;
+    padding-top: 20px;
+    max-height: 300px;
+}
 .new-party-link {
     text-decoration: none;
     border: none;
+    background: none;
+    color: white;
 }
 
-.logo {
-    width: 200px;
-    height: 200px;
-}
-
-.new-party-link:hover {
-    color: gray;
+.new-party-link:hover, .submit-button:hover {
+    opacity: 0.5;
     cursor: pointer;
+}
+
+.new-party-link:active, .submit-button:active {
+    opacity: 0.2;
 }
 
 /* Base style */
@@ -547,6 +553,10 @@ form input {
 /* mobile - extra-small screens */ 
 @media (max-width: 598px) {
     /* Party Portal CSS */
+    .banner {
+        font-size: 4rem;
+    }
+    /* Instruction Module */
     .instruction-module h1 {
         margin-bottom: 1.5rem;
         font-size: 2rem;
@@ -585,6 +595,8 @@ form input {
 /* mobile - small screens */
 @media (min-width: 598px) {
     /* Party Portal CSS */
+
+    /* Instruction Module CSS */
     .instruction-module h1 {
         margin-bottom: 2rem;
         font-size: 2rem;

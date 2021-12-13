@@ -4,6 +4,8 @@ import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import { getPartySessions } from './FirebaseHandler';
 import InstructionModule from './IntructionModule';
 import logo from '../img/logo_bgl.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
@@ -101,7 +103,7 @@ export default function PartyPortal(props) {
                                 required />
                             <label htmlFor="party-id-field" className="hidden">Input Party ID</label>
                             <button id="submit-button" className='submit-button' type="submit" onClick={directToExistingParty}>
-                                Join
+                                <FontAwesomeIcon icon={faSignInAlt} />
                             </button>
                             <label htmlFor="submit-button" className="hidden">submit</label>
                         </div>
