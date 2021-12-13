@@ -78,7 +78,7 @@ export default function PartyPortal(props) {
                         placeholder="Enter a Party ID"
                         required />
                     <label for="party-id-field" className="hidden">Input Party ID</label>
-                    <button id="submit-button" type="submit" onClick={directToExistingParty}>
+                    <button id="submit-button" type="submit" onSubmit={directToExistingParty}>
                         <GroupWorkOutlinedIcon />
                     </button>
                     <label for="submit-button" className="hidden">submit</label>

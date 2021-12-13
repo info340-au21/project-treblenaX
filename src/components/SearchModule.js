@@ -29,7 +29,7 @@ export function SongCard(props) {
             </div>
             <div className="song-card-image-end-bar">
                 <div className="song-card-image-end-bar-icon" onClick={() => props.handleAdd(data)}>
-                    <span className="add-queue-icon material-icons">
+                    <span className="add-queue-icon material-icons" aria-label="add song to queue">
                         <QueueIcon />
                     </span>
                 </div>
