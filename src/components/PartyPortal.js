@@ -3,6 +3,7 @@ import '../css/PartyPortal.css';
 import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
+import InstructionModule from './IntructionModule';
 
 const redirectUri = 'http://localhost:3000/auth/';
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
@@ -85,6 +86,7 @@ export default function PartyPortal(props) {
                 </form>
                 {/* @TODO: Make cleaner button */}
                 <button onClick={directToNewParty} id="new-party-link">START A NEW PARTY</button>
+                <InstructionModule isDisplayed={true} isPortal={true} />
         </main>
     );
 }

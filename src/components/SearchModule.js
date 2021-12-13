@@ -3,6 +3,7 @@ import QueueIcon from '@mui/icons-material/Queue';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Config from '../json/config.json';
 import $ from 'jquery';
+import InstructionModule from './IntructionModule';
 
 const TEST_TOKEN = Config.testToken;
 const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
@@ -10,13 +11,16 @@ const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
 export default function SearchModule(props) {
     // isSearching
     const [isSearching, setIsSearching] = React.useState(false);
+    // isDisplayed for the instruction module
+    const [isDisplayed, setIsDisplayed] = React.useState(true);
 
     let payload = props.searchResults;
     let host = props.host;
     return (
         <div className="column-container results-column">
-            <SearchBar setIsSearching={setIsSearching} host={host} resultCallback={props.searchCallback}/>
-            <ResultsList isSearching={isSearching} payload={ payload } handleAdd={props.addCallBack} />
+            <SearchBar setIsDisplayed={setIsDisplayed} setIsSearching={setIsSearching} host={host} resultCallback={props.searchCallback}/>
+            <InstructionModule isPortal={false} isDisplayed={isDisplayed}/>
+            <ResultsList isDisplayed={isDisplayed} isSearching={isSearching} payload={ payload } handleAdd={props.addCallBack} />
         </div>
     );
 }
@@ -44,6 +48,7 @@ export function SongCard(props) {
 
 /* Private Components */
 function SearchBar(props) {
+    const setIsDisplayed = props.setIsDisplayed;
     // Spotify API: authenticate using host's access token
     const spotify = new SpotifyWebApi();
     if (props.host) {
@@ -58,8 +63,11 @@ function SearchBar(props) {
 
         // dont do anything if the query is empty
         if (query.length === 0) {
+            setIsDisplayed(true);
             props.setIsSearching(false);
             return;
+        } else {
+            setIsDisplayed(false);
         }
         spotify.searchTracks(query)
         .then(data => props.resultCallback(data))
@@ -76,6 +84,7 @@ function SearchBar(props) {
 }
 
 function ResultsList(props) {
+    const isDisplayed = props.isDisplayed;
     // TODO: turn this into a real searching icon or something
     if (props.isSearching) {
         return (
@@ -89,14 +98,20 @@ function ResultsList(props) {
 
     let i = 0;
 
-    const cards = data.map((song) => {
-        if (i++ < limit) {
-            return (<SongCard key={ song.id } payload={ song } handleAdd={props.handleAdd} />);
-        } else {
-            return;
-        }
-    });
 
+    let cards;
+    if (!isDisplayed) {
+        cards = data.map((song) => {
+            if (i++ < limit) {
+                return (<SongCard key={ song.id } payload={ song } handleAdd={props.handleAdd} />);
+            } else {
+                return;
+            }
+        });
+    } else {
+        cards = [];
+    }
+    
     return (
         <div className="song-list flex-item-songs-container">
             { cards }

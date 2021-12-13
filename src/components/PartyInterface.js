@@ -18,6 +18,8 @@ import { getDatabase } from 'firebase/database';
 import { getSessionData, getPartyQueue, getPartyUsers, getHistoryData, postAddSessionAndHost, postAddUser, postAddQueue, postAddHistory, getPartyUser, getPartyUserByUsername, deleteSong } from './FirebaseHandler.js';
 import { getUser, getGlobalUser } from './Auth.js';
 import { get } from 'jquery';
+import InstructionModule from './IntructionModule.js';
+import { CardTravelSharp } from '@mui/icons-material';
 
 const DEBUG = true;
 let roomCode;
