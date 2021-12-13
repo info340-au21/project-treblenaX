@@ -25,7 +25,8 @@ export default function QueueList(props) {
     const isCurrentSongLoading = props.isCurrentSongLoading;
 
     const setCurrentSongLoading = (bool) => props.setCurrentSongLoading(bool);
-
+    //Refs
+    const queueRef = React.createRef();
     useEffect(() => {
         if (isCurrentSongLoading) {
             // console.log('rerendering');
@@ -36,7 +37,7 @@ export default function QueueList(props) {
     // Event Handlers
     // Queue button event handler
     const handleCollapse = () => { 
-        let element = document.getElementById('queue-list');
+        let element = queueRef.current;
 
         if (!isExpanded) { // If the queue is already collapsed
             element.style.height = EXPANDED_QUEUE_HEIGHT;
@@ -52,7 +53,7 @@ export default function QueueList(props) {
 
     return ( 
         <div>
-            <div id="queue-list" className="flex-item-queue-list">
+            <div id="queue-list" ref={queueRef} className="flex-item-queue-list">
             <button id="collapse-button" className="queue-header-button" type="button" aria-label="Expand/collapse queue" onClick={ handleCollapse }>
                     <div className="queue-header-container">
                         <div className="queue-header-item">
