@@ -452,7 +452,7 @@ form input {
     text-overflow: ellipsis;
     overflow-y: hidden;
 }
-.queue-item-info .title, .queue-item-playing .title {
+.queue-item-info p, .queue-item-playing p {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

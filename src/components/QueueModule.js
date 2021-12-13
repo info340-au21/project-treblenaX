@@ -100,7 +100,7 @@ function QueueItem(props) {
         <div className={isPlaying ? "queue-item-info queue-item-playing" : "queue-item-info"}>
             {isPlaying && <h1>Now playing:</h1>}
             <p className='title'>{name}</p>
-            <p>{artist}</p>
+            <p className='artist'>{artist}</p>
             <p>{album}・{length}</p>
         </div>
         {isPlaying &&<div className="queue-remove-item" id={name} onClick={() => handleSkip(name)}>
