@@ -5,7 +5,7 @@ import UserInformation from './UserInformation.js';
 import '../css/PartyPortal.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { useLocation } from 'react-router';
-import { getPartyQueue, getPartyUsersAndSetHost, postAddQueue, getPartyUserByUsername, deleteSongById } from './FirebaseHandler.js';
+import { getPartyQueue, getPartyUsersAndSetHost, postAddQueue, postAddHistory, getPartyUserByUsername, deleteSongById } from './FirebaseHandler.js';
 
 export let history = [];
 
@@ -83,6 +83,8 @@ export function PartyInterface(props) {
         console.log("history:", history);
         //adds to song to the db queue
         postAddQueue(partyId, song);
+        //adds song to db queue history
+        postAddHistory(partyId, song);
     };
 
     const handleSearch = (results) => {

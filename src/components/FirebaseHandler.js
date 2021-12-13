@@ -90,6 +90,7 @@ export function getHistoryData(setHistory, partyId) {
     const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
     const dbRef = ref(database, url);
     onValue(dbRef, (snapshot) => {
+        console.log(setHistory);
         const data = snapshot.val();
         setHistory(data);
     });

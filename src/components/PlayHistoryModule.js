@@ -16,7 +16,8 @@ export default function PlayHistory(props) {
         getHistoryData(setHistory, partyId);
     }, []);
 
-    console.log(history);
+    // print out retrieved history data
+    console.log("current history:", history);
     
     return (
         <div>
@@ -33,7 +34,17 @@ export default function PlayHistory(props) {
 
 /* Private helper functions */
 function createHistoryCards(data) {
-    console.log("Creating history cards from data:", data);
-    return data.map((song) => (<SongCard key={ song.id } payload={ song }/>));
+    
+    // create song cards for each song in history
+    let songs = [];
+    for (const song in data) {
+        data[song].id = song;
+
+        songs.push(data[song]);
+    }
+    let result = songs.map(i => {
+        return <SongCard key={i.id} payload={i}/>;
+    });
+    return result;
 }
 
