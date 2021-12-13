@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import SearchModule from './SearchModule.js';
 import QueueList from './QueueModule.js';
 import UserInformation from './UserInformation.js';
-import '../css/PartyPortal.css';
+import '../css/PartyInterface.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import {useLocation, Navigate} from 'react-router';
 import {getPartyQueue, getPartyUsersAndSetHost, postAddQueue, postAddHistory, getPartyUserByUsername, deleteSongById} from './FirebaseHandler.js';
