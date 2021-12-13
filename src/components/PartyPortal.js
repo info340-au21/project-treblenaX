@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import '../css/PartyPortal.css';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import {getPartySessions} from './FirebaseHandler';
-import InstructionModule from './IntructionModule';
+import InstructionModule from './InstructionModule';
 import logo from '../img/logo_bgl.png';
 
 const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
