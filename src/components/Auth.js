@@ -11,6 +11,10 @@ const spotifyApiTokenEndpoint = 'https://accounts.spotify.com/api/token';
  * Receives the authentication response from Spotify and stores the access token on /auth
  */
 export default function Auth(props) {
+    // States
+    const [accessToken, setAccessToken] = useState();
+    const [isLoading, setLoading] = useState(true);
+
     // get token and state from url query params
     const location = useLocation();
     const query = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
@@ -46,6 +50,8 @@ export default function Auth(props) {
                 const accessToken = data.access_token;
                 const refreshToken = data.refresh_token;
 
+                setAccessToken(accessToken);
+
                 // @TODO: TAKEOUT -  debugging
                 // console.log('Access Token:', accessToken);
                 // console.log('Refresh Token:', refreshToken);
@@ -58,19 +64,25 @@ export default function Auth(props) {
                     refreshToken: refreshToken
                 };
                 postAddUser(partyId, user);
-
+                // loading is done
+                setLoading(false);
             },
             error: function (data) {
                 console.log(data);
             }
         });
-    });
+    }, []);
+
+    if (isLoading) {    // @TODO: take out and replace with spinner
+        return (<h1>LOADING...</h1>);
+    }
 
     // Redirect (Navigate, in React Router 6) to party page
     return (
         <Navigate state={{ 
             partyId: `${partyId}`, 
-            username: `${username}`
+            username: `${username}`,
+            accessToken: `${accessToken}`
         }} to={`/party/${partyId}`} />
     );
 }

@@ -5,7 +5,7 @@ import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
 import InstructionModule from './IntructionModule';
 
-const redirectUri = 'http://localhost:3000/auth/';
+const redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
@@ -41,6 +41,7 @@ export default function PartyPortal(props) {
 
         if (checkPartyExists(allSessions, partyId)) {    // IF party exists
             // get username from the input field
+            // @TODO: change to React Forms
             const username = document.getElementById('username').value;
 
             // create spotify auth url with that state
