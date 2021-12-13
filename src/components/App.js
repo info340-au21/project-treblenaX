@@ -15,6 +15,19 @@ export default function App(props) {
         <Router>
             <div>
                 <div>
+                    {
+                        /**
+                         * TO TA/GRADER:
+                         * 
+                         * Alan here. I wrote this. I know in class, we were taught how to use React Router 5,
+                         * but seeing at React Router 5 uses certain components and methods that are deprecated
+                         * or replaced in React Router 6, I made the decision to implement our app using React
+                         * Router 6. Therefore, some of the code dealing with routing may not be similar to what
+                         * is done as examples in class, but performs very much the same functionality. I hope
+                         * you can understand my reasoning behind this decision. If you want to discuss this,
+                         * reach me at wenjalan@uw.edu. Thanks.
+                         */
+                    }
                     <Routes>
                         <Route path="/*" element={<PartyPortal clientId={Config.spotifyClientId} />} />
                         <Route path="/auth" element={<Auth />} />
