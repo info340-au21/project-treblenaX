@@ -450,6 +450,16 @@ form input {
     text-overflow: ellipsis;
     overflow-y: hidden;
 }
+.queue-item-info .title, .queue-item-playing .title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.queue-item-playing h1 {
+    font-size: 10px;
+    
+}
 
 .queue-item-playing {
     font-weight: bold;
