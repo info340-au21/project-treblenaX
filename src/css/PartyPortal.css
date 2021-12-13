@@ -68,13 +68,13 @@
     align-self: stretch;
 }
 
-#form-container {
+.form-container {
     display: flex;
     flex-direction: row;
     margin: 0.5em;
 }
 
-#banner {
+.banner {
     flex: 1;
     font-size: 8em;
 }
@@ -182,7 +182,29 @@ button.leave {
     list-style-type: none;
 }
 
-#party-id-field {
+.party-id-field {
+    flex: 5;
+    margin-right: 0.5em;
+    background: transparent;
+    font-size: 1rem;
+    padding: 1em;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 1);
+}
+.party-error {
+    color: red;
+    margin-left: 1rem;
+    margin-bottom: 0;
+    font-size: small;
+    border-color: red;
+}
+
+.error-Id-box {
+    border-color: red;
+}
+
+.username {
     flex: 5;
     margin-right: 0.5em;
     background: transparent;
@@ -193,18 +215,7 @@ button.leave {
     color: rgba(255, 255, 255, 1);
 }
 
-#username {
-    flex: 5;
-    margin-right: 0.5em;
-    background: transparent;
-    font-size: 1rem;
-    padding: 1em;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 5px;
-    color: rgba(255, 255, 255, 1);
-}
-
-#submit-button {
+.submit-button {
     flex: 1;
     background: transparent;
     border: 1px solid white;
@@ -216,14 +227,14 @@ button.leave {
     cursor: pointer;
 }
 
-#new-party-link {
+.new-party-link {
     color: white;
     text-decoration: none;
     background: none;
     border: none;
 }
 
-#new-party-link:hover {
+.new-party-link:hover {
     color: gray;
     cursor: pointer;
 }
