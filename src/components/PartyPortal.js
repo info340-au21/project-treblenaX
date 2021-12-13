@@ -4,7 +4,7 @@ import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
 import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
 
-const redirectUri = 'http://localhost:3000/auth/';
+const redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed url
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
@@ -71,6 +71,7 @@ export default function PartyPortal(props) {
                         placeholder="Username"
                         required
                     />
+                    <label for="username" className="hidden">Input Username</label>
                     <input 
                         id="party-id-field" 
                         name="party-id-field" 

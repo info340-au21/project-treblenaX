@@ -38,10 +38,10 @@ export default function QueueList(props) {
     return ( 
         <div>
             <div id="queue-list" className="flex-item-queue-list">
-            <button id="collapse-button" className="queue-header-button" type="button" onClick={ handleCollapse }>
+            <button id="collapse-button" className="queue-header-button" type="button" aria-label="Expand/collapse queue" onClick={ handleCollapse }>
                     <div className="queue-header-container">
-                        <h3 className="queue-header-item">Queue</h3>
-                        <h3>{icon}</h3>
+                        <h1 className="queue-header-item">Queue</h1>
+                        <h1>{icon}</h1>
                     </div>
              </button>
                 <div className="song-list">
@@ -68,9 +68,7 @@ function QueueItem(props) {
 
     return (                    
     <div className={isPlaying ? "queue-item queue-item-playing" : "queue-item"}>
-        <div className="queue-album-img">
-            <img src={img} alt="album cover" />
-        </div>
+    <div className="queue-album-img"><img src={img} alt="album cover art" /></div>
         <div className={isPlaying ? "queue-item-info queue-item-playing" : "queue-item-info"}>
             {isPlaying && <p>Now playing:</p>}
             <p>{name}</p>

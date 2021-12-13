@@ -55,7 +55,7 @@ export default function UserInformation(props) {
 
     return (
         <div id="mySidenav" className="column-container user-column sidenav">
-            <button type="button" className="closebtn btn" onClick={handleCollapse}>{icon}</button>
+            <button type="button" className="closebtn btn" aria-label="Expand/Collapse user menu" onClick={handleCollapse}>{icon}</button>
             <div className="user-content">
                 <div id="room-code" className="flex-item-room-code">
                     <h1>#{partyId}</h1>

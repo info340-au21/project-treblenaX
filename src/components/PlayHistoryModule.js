@@ -20,7 +20,6 @@ export default function PlayHistory(props) {
     
     return (
         <div>
-
             <Link to={"/party/" + partyId} state={{partyId: partyId, username: username}}>
                 <button className="play-history-button" src="">History</button>
             </Link>
