@@ -68,13 +68,13 @@
     align-self: stretch;
 }
 
-#form-container {
+.form-container {
     display: flex;
     flex-direction: row;
     margin: 0.5em;
 }
 
-#banner {
+.banner {
     flex: 1;
     font-size: 8em;
 }
@@ -83,6 +83,30 @@
     padding-top: 20%;
 }
 
+/* Instructions and Disclaimers */
+
+.instruction-module {
+    text-align: center;
+}
+
+.instruction-module h1 {
+    margin: 2rem;
+    font-size: 3rem;
+}
+
+.instruction-module ol, .instruction-module ul {
+    display: inline-block;
+    text-align: left;
+    width: 600px;
+}
+
+.instruction-module li {
+    margin: 0.5rem;
+}
+
+.instruction-module-portal {
+    margin-top: 2rem;
+}
 /* User Columns */
 .user-content {
     top: 0;
@@ -187,7 +211,29 @@ button.leave {
     list-style-type: none;
 }
 
-#party-id-field {
+.party-id-field {
+    flex: 5;
+    margin-right: 0.5em;
+    background: transparent;
+    font-size: 1rem;
+    padding: 1em;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 1);
+}
+.party-error {
+    color: red;
+    margin-left: 1rem;
+    margin-bottom: 0;
+    font-size: small;
+    border-color: red;
+}
+
+.error-Id-box {
+    border-color: red;
+}
+
+.username {
     flex: 5;
     margin-right: 0.5em;
     background: transparent;
@@ -198,18 +244,7 @@ button.leave {
     color: rgba(255, 255, 255, 1);
 }
 
-#username {
-    flex: 5;
-    margin-right: 0.5em;
-    background: transparent;
-    font-size: 1rem;
-    padding: 1em;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 5px;
-    color: rgba(255, 255, 255, 1);
-}
-
-#submit-button {
+.submit-button {
     flex: 1;
     background: transparent;
     border: 1px solid white;
@@ -221,14 +256,14 @@ button.leave {
     cursor: pointer;
 }
 
-#new-party-link {
+.new-party-link {
     color: white;
     text-decoration: none;
     background: none;
     border: none;
 }
 
-#new-party-link:hover {
+.new-party-link:hover {
     color: gray;
     cursor: pointer;
 }
@@ -281,6 +316,7 @@ form input {
     background-color: #000000;
     height: 100px;
     float: left;
+    flex: 1;
 }
 
 .song-card-image-desc {
@@ -476,6 +512,16 @@ form input {
 /* Responsive Design */
 /* mobile - extra-small screens */ 
 @media (max-width: 598px) {
+    /* Party Portal CSS */
+    .instruction-module h1 {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+    }
+    
+    .instruction-module ol, .instruction-module ul {
+        width: 300px;
+    }
+
     /* Queue CSS */
     .flex-item-queue-list {
         width: 80%;
@@ -504,6 +550,16 @@ form input {
 
 /* mobile - small screens */
 @media (min-width: 598px) {
+    /* Party Portal CSS */
+    .instruction-module h1 {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+    }
+    
+    .instruction-module ol, .instruction-module ul {
+        width: 450px;
+    }
+
     /* Queue CSS */
     .flex-item-queue-list {
         width: 80%;
@@ -532,6 +588,16 @@ form input {
 
 /* mobile - medium screens */
 @media (min-width: 768px) {
+    /* Party Portal CSS */
+    .instruction-module h1 {
+        margin-bottom: 3rem;
+        font-size: 2rem;
+    }
+    
+    .instruction-module ol, .instruction-module ul {
+        width: 600px;
+    }
+
     /* Queue CSS */
     .flex-item-queue-list {
         width: 80%;
@@ -560,6 +626,10 @@ form input {
 
 /* large screens */
 @media (min-width: 992px) {
+    /* Party Portal CSS */
+    .instruction-module-portal ol, .instruction-module-portal ul {
+        width: 900px;
+    }
 
     /* Queue CSS */
     .flex-item-queue-list {
@@ -580,6 +650,11 @@ form input {
 
 /* extra-large screens */
 @media (min-width: 1200px) {
+    /* Party Portal CSS */
+    .instruction-module-portal ol, .instruction-module-portal ul {
+        width: 1100px;
+    }
+
     /* Footer Style */
     .footer {
         display: block;
