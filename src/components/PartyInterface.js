@@ -4,7 +4,7 @@ import QueueList from './QueueModule.js';
 import UserInformation from './UserInformation.js';
 import '../css/PartyPortal.css';
 import SpotifyWebApi from 'spotify-web-api-js';
-import { useLocation } from 'react-router';
+import { useLocation, Navigate } from 'react-router';
 import { getPartyQueue, getPartyUsersAndSetHost, postAddQueue, postAddHistory, getPartyUserByUsername, deleteSongById } from './FirebaseHandler.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
@@ -16,10 +16,21 @@ export let history = [];
  */
 export function PartyInterface(props) {
     // get state from url query params
+    // if no party id was found, navigate to home
     const location = useLocation();
-    const partyId = location.state.partyId;
-    const username = location.state.username;
-    const accessToken = location.state.accessToken;
+    let partyId;
+    let username;
+    let accessToken;
+    if (!location.state) {
+        partyId = undefined;
+        username = undefined;
+        accessToken = undefined;
+    }
+    else {
+        partyId = location.state.partyId;
+        username = location.state.username;
+        accessToken = location.state.accessToken;
+    }
 
     // User states
     const [user, setUser] = useState(undefined);
@@ -94,6 +105,13 @@ export function PartyInterface(props) {
     const handleSearch = (results) => {
         const songData = extractPayload(results);
         setSearchResults(songData);
+    }
+
+    // if no partyid was defined, redirect to home
+    if (partyId === undefined) {
+        return (
+            <Navigate to="/" />
+        );
     }
 
     if (isUserLoaded && isUsersLoaded && isQueueLoaded && isCurrentSongInitLoaded) {
