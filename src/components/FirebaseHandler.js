@@ -16,8 +16,8 @@ let database = getDatabase(app);
 // GET functions
 export function getPartySessions(setSessions) {
     const url = CONFIG.routes.parties;
-    const dbRef = ref(database);
-    get(child(dbRef, url)).then((snapshot) => {
+    const dbRef = ref(database, url);
+    onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
         setSessions(data);
     });

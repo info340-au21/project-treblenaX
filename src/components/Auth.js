@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { postAddUser } from "./FirebaseHandler";
 import Config from '../json/config.json';
 import $ from 'jquery';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
 
 const spotifyApiTokenEndpoint = 'https://accounts.spotify.com/api/token';
 
@@ -74,7 +76,14 @@ export default function Auth(props) {
     }, []);
 
     if (isLoading) {    // @TODO: take out and replace with spinner
-        return (<h1>LOADING...</h1>);
+        return (
+            <div className="loading-page"> 
+                <FontAwesomeIcon className="loading-icon fa-spin" icon={faStroopwafel} />
+                <div className="loading-text">
+                    <h1>Redirecting...</h1>
+                </div>
+            </div>
+        );
     }
 
     // Redirect (Navigate, in React Router 6) to party page

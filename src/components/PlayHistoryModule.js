@@ -25,9 +25,9 @@ export default function PlayHistory(props) {
                 <button className="play-history-button" src="">History</button>
             </Link>
             <h1>Play History</h1>
-            {/* <div className="column-container results-column song-list flex-item-songs-container">
-                { createHistoryCards(undefined) }
-            </div> */}
+            <div className="column-container results-column song-list flex-item-songs-container">
+                { createHistoryCards(history) }
+            </div>
         </div>
     );
 }

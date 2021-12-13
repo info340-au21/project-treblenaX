@@ -6,6 +6,8 @@ import '../css/PartyPortal.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { useLocation } from 'react-router';
 import { getPartyQueue, getPartyUsersAndSetHost, postAddQueue, postAddHistory, getPartyUserByUsername, deleteSongById } from './FirebaseHandler.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
 
 export let history = [];
 
@@ -33,6 +35,8 @@ export function PartyInterface(props) {
     const [isUserLoaded, setUserLoaded] = useState(false);
     const [isUsersLoaded, setUsersLoaded] = useState(false);
     const [isQueueLoaded, setQueueLoaded] = useState(false);
+    const [isCurrentSongInitLoaded, setCurrentSongInitLoaded] = useState(false);
+    const [isCurrentSongLoading, setCurrentSongLoading] = useState(false);
 
     // Init Spotify utility
     const webApi = new SpotifyWebApi();
@@ -52,13 +56,15 @@ export function PartyInterface(props) {
             .then((track) => setCurrentSong(extractCurrentSong(track)));
 
         const interval = setInterval(() => {
-            webApi.getMyCurrentPlayingTrack().then((track) => {
-                if (!track) {   // If there is NOT a song currently playing
-                    // console.log('No current song is playing.');
-                } else {    // If there IS a song currently playing
-                    updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong);
-                }
-            });
+            webApi.getMyCurrentPlayingTrack()
+                .then((track) => {
+                    if (!track) {   // If there is NOT a song currently playing
+                        // console.log('No current song is playing.');
+                    } else {    // If there IS a song currently playing
+                        updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong);
+                    }
+                })
+                .then(() => setCurrentSongInitLoaded(true));
         }, 2000);
 
         // Clear to prevent memory leak
@@ -67,20 +73,17 @@ export function PartyInterface(props) {
 
     // Handler functions
     const handleSkip = () => {
+        setCurrentSongLoading(true);
         //Skips to next song
         webApi.skipToNext();
         // Update the current song
-        updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong);
+        updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong, setCurrentSongLoading);
     };
 
     const handleAdd = (song) => {
         //sends queue request
         webApi.queue(song.uri)
             .catch((err) => console.log(err));
-        //adds song to queue history
-        history.push(song);
-        console.log("song added to history:", song.name);
-        console.log("history:", history);
         //adds to song to the db queue
         postAddQueue(partyId, song);
         //adds song to db queue history
@@ -92,7 +95,7 @@ export function PartyInterface(props) {
         setSearchResults(songData);
     }
 
-    if (isUserLoaded && isUsersLoaded && isQueueLoaded) {
+    if (isUserLoaded && isUsersLoaded && isQueueLoaded && isCurrentSongInitLoaded) {
         return (
             <div className="interface-container">
                 <UserInformation 
@@ -110,11 +113,20 @@ export function PartyInterface(props) {
                     currentSong={currentSong}
                     setCurrentSong={setCurrentSong}
                     baseSongList={formatQueue(queue)} 
+                    isCurrentSongLoading={isCurrentSongLoading}
+                    setCurrentSongLoading={setCurrentSongLoading}
                     handleSkip={handleSkip}/>  
             </div>
         );
     } else {
-        return (<h1>LOADINGGGGGG</h1>);
+        return (
+            <div className="loading-page"> 
+                <FontAwesomeIcon className="loading-icon fa-spin" icon={faStroopwafel} />
+                <div className="loading-text">
+                    <h1>Blowing up balloons for the party...</h1>
+                </div>
+            </div>
+        );
     }
 }
 
@@ -122,24 +134,25 @@ export function PartyInterface(props) {
 
 /* Private function helpers */
 function updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong) {
-    webApi.getMyCurrentPlayingTrack().then((rawNewSong) => {
-        if (rawNewSong !== undefined) {   // If a track is currently playing
-            const newSong = extractCurrentSong(rawNewSong);
-            
-            setCurrentSong(prevSong => {
-                if (prevSong === undefined) return newSong;  // If the current track is null
-                else {  // If the current track has a song
-                    if (newSong.id !== prevSong.id) { // If the currently playing track is different than queue
-                        // Delete next song in queue
-                        deleteSongById(partyId, newSong.id);
-                        // Update current song
-                        return newSong;
+    webApi.getMyCurrentPlayingTrack()
+        .then((rawNewSong) => {
+            if (rawNewSong !== undefined) {   // If a track is currently playing
+                const newSong = extractCurrentSong(rawNewSong);
+                
+                setCurrentSong(prevSong => {
+                    if (prevSong === undefined) return newSong;  // If the current track is null
+                    else {  // If the current track has a song
+                        if (newSong.id !== prevSong.id) { // If the currently playing track is different than queue
+                            // Delete next song in queue
+                            deleteSongById(partyId, newSong.id);
+                            // Update current song
+                            return newSong;
+                        }
+                        return prevSong;
                     }
-                    return prevSong;
-                }
-            });
-        }
-    });
+                });
+            }
+        });
 }
 
 function formatQueue(q) {

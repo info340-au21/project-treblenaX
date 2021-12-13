@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/PartyPortal.css';
 import $ from 'jquery';
 import GroupWorkOutlinedIcon from '@mui/icons-material/GroupWorkOutlined';
-import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
+import { getPartySessions } from './FirebaseHandler';
 
 const redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
