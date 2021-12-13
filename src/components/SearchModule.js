@@ -71,7 +71,7 @@ function SearchBar(props) {
     return (
         <form>
             <input onKeyUp={handleSearch} type="text" id="search-query" name="search-query" placeholder="Search for a song" />
-            <label for="search-query" className="hidden">Search a song</label>
+            <label htmlFor="search-query" className="hidden">Search a song</label>
         </form>
     );
 }

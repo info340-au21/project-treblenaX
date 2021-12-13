@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/PartyPortal.css';
-import { getPartySessions, postAddSession, getPartySession, postAddUser, postAddQueue, getPartyQueue } from './FirebaseHandler';
+import { getPartySessions} from './FirebaseHandler';
 
 const redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
@@ -76,7 +76,7 @@ export default function PartyPortal(props) {
                                 onKeyUp={userNameInput}
                                 required
                             />
-                            <label for="username" className="hidden">Input Username</label>
+                            <label htmlFor="username" className="hidden">Input Username</label>
                             <input 
                                 id="partyIdField"
                                 className="party-id-field" 
@@ -85,11 +85,11 @@ export default function PartyPortal(props) {
                                 placeholder="Enter a Party ID"
                                 onKeyUp={partyIdInput}
                                 required />
-                            <label for="party-id-field" className="hidden">Input Party ID</label>
+                            <label htmlFor="party-id-field" className="hidden">Input Party ID</label>
                             <button id="submit-button" className='submit-button' type="submit" onClick={directToExistingParty}>
                                 Join
                             </button>
-                            <label for="submit-button" className="hidden">submit</label>
+                            <label htmlFor="submit-button" className="hidden">submit</label>
                         </div>
                         <div className='container'>
                             <button onClick={directToNewParty} id="new-party-link" className='new-party-link'>START A NEW PARTY</button>
