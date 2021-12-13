@@ -98,8 +98,8 @@ function QueueItem(props) {
     <div className={isPlaying ? "queue-item queue-item-playing" : "queue-item"}>
     <div className="queue-album-img"><img src={img} alt="album cover art" /></div>
         <div className={isPlaying ? "queue-item-info queue-item-playing" : "queue-item-info"}>
-            {isPlaying && <p>Now playing:</p>}
-            <p>{name}</p>
+            {isPlaying && <h1>Now playing:</h1>}
+            <p className='title'>{name}</p>
             <p>{artist}</p>
             <p>{album}・{length}</p>
         </div>
