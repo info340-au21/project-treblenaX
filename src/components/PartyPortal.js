@@ -22,7 +22,6 @@ export default function PartyPortal(props) {
         const partyId = createNewPartyID(allSessions);
         // get username from the input field
         const username = userNameRef.current.value;
-        console.log($.param({response_type: 'code', client_id: props.clientId}));
         const newPartyUrl = spotifyApiRedirect + encodeObject({
             response_type: 'code',
             client_id: props.clientId,
