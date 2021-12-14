@@ -347,6 +347,7 @@ form input {
 /* Queue Style */
 .flex-item-queue-list {
     /* Transition property for animation */
+    overflow-y: auto;
     transition: height 0.5s;
     background: #FFFFFF;
     color: black;

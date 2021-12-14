@@ -10,7 +10,7 @@ import ErrorSnackbar from './ErrorSnackbar';
 const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
 
-const DEBUG = true;
+const DEBUG = false;
 
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
