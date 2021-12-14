@@ -52,7 +52,8 @@ export default function PartyPortal(props) {
     }, username, partyId, true);
     window.open(newPartyUrl, '_blank');
   };
-  const directToExistingParty = () => {
+  const directToExistingParty = (e) => {
+    e.preventDefault();
     // get the party id from the input field
     // store in state
     const partyId = partyIdVal;
