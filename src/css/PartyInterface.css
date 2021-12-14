@@ -537,12 +537,13 @@ form input {
 @media (max-width: 598px) {
     /* Party Portal CSS */
     .instruction-module h1 {
-        margin-bottom: 1.5rem;
+        margin-bottom: .5rem;
         font-size: 2rem;
     }
     
     .instruction-module ol, .instruction-module ul {
-        width: 300px;
+        width: 250px;
+        font-size: .75rem;
     }
 
     /* Queue CSS */
@@ -581,6 +582,7 @@ form input {
     
     .instruction-module ol, .instruction-module ul {
         width: 450px;
+        font-size: 1.25rem;
     }
 
     /* Queue CSS */
@@ -614,11 +616,12 @@ form input {
     /* Party Portal CSS */
     .instruction-module h1 {
         margin-bottom: 3rem;
-        font-size: 2rem;
+        font-size: 4rem;
     }
     
     .instruction-module ol, .instruction-module ul {
         width: 600px;
+        font-size: 1.5rem;
     }
 
     /* Queue CSS */
