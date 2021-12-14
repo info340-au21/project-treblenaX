@@ -491,6 +491,43 @@ form input {
     font-size: 3rem;
 }
 
+/* Instructions and Disclaimers */
+
+.instruction-module {
+    text-align: center;
+}
+
+.instruction-module h1 {
+    margin: 2rem;
+    font-size: 3rem;
+}
+
+.instruction-module ol, .instruction-module ul {
+    display: inline-block;
+    text-align: left;
+    width: 600px;
+}
+
+.instruction-module li {
+    margin: 0.5rem;
+}
+
+.instruction-module-portal {
+    margin-top: 2rem;
+}
+
+.text-column {
+    float: left;
+    width: 50%;
+}
+.text-column-item {
+    width: 50%;
+}
+.two-columns-layout:after {
+    display: table;
+    clear: both;
+}
+
 /* Responsive Design */
 /* mobile - extra-small screens */ 
 @media (max-width: 598px) {

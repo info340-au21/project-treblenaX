@@ -1,5 +1,4 @@
 import React from "react";
-import "../css/InstructionModule.css";
 
 export default function InstructionModule(props) {
     let isDisplayed = props.isDisplayed;
