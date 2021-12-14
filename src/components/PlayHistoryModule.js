@@ -42,7 +42,7 @@ function createHistoryCards(data) {
     songs.push(data[song]);
   }
   const result = songs.map((i) => {
-    return <SongCard key={i.id} payload={i}/>;
+    return <SongCard enabled={false} key={i.id} payload={i}/>;
   });
   return result;
 }

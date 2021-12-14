@@ -5,6 +5,7 @@ import InstructionModule from './InstructionModule';
 import logo from '../img/logo_bgl.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import Error from './Error';
 
 const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
@@ -21,6 +22,7 @@ export default function PartyPortal(props) {
   const [allSessions, setSessions] = useState([]);
   const [usernameVal, setUName] = useState('');
   const [partyIdVal, setPartyId] = useState('');
+  const [error, setError] = useState(null);
 
   // @TODO: take out in prod
   let redirectUri;
@@ -52,7 +54,8 @@ export default function PartyPortal(props) {
     }, username, partyId, true);
     window.open(newPartyUrl, '_blank');
   };
-  const directToExistingParty = () => {
+  const directToExistingParty = (e) => {
+    e.preventDefault();
     // get the party id from the input field
     // store in state
     const partyId = partyIdVal;
@@ -70,13 +73,14 @@ export default function PartyPortal(props) {
       }, username, partyId, false);
       window.open(existingPartyUrl, '_blank');
     } else {
-      alert('Party doesn\'t exist.');
-      // @TODO: error checking for party; refreshes becaause of router, can't make anything else stay on screen
+      // display Error component
+      setError(<Error msg="Party does not exist" />);
     }
   };
 
     return (
         <main className="container">
+            {error}
             <img src={logo} alt='Groupify Logo' className='logo'/>
             <h1 className="banner">Groupify</h1>
                 <form id="form-container">
