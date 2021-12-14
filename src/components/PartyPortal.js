@@ -1,15 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import '../css/PartyPortal.css';
-import { getPartySessions } from './FirebaseHandler';
+import {getPartySessions} from './FirebaseHandler';
 import InstructionModule from './InstructionModule';
-import logo from '../img/logo_bgl.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-
-const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
-const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
-
-const DEBUG = true;
+import logo from '../img/logo_bgl.png';
+import {Navigate} from 'react-router';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSignInAlt} from '@fortawesome/free-solid-svg-icons';
+import ErrorSnackbar from './ErrorSnackbar';
 
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
@@ -21,15 +18,16 @@ export default function PartyPortal(props) {
   const [allSessions, setSessions] = useState([]);
   const [usernameVal, setUName] = useState('');
   const [partyIdVal, setPartyId] = useState('');
+  const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(null);
 
-  // @TODO: take out in prod
-  let redirectUri;
-  if (DEBUG) redirectUri = debug_redirectUri;
-  else redirectUri = prod_redirectUri;
+  // const redirectUri = 'https://groupify-ae530.web.app/auth/';
+
+  const redirectUri = 'http://localhost:3000/auth/';
 
   useEffect(() => {
     // Get all party sessions
-    getPartySessions(setSessions);
+    getPartySessions(setSessions, setError);
   }, []);
 
   const userNameInput = (event) => {
@@ -62,56 +60,57 @@ export default function PartyPortal(props) {
       // get username from the input field
       const username = usernameVal;
 
-      // create spotify auth url with that state
-      const existingPartyUrl = spotifyApiRedirect + encodeObject({
-        response_type: 'code',
-        client_id: props.clientId,
-        scope: scopes,
-        redirect_uri: redirectUri,
-      }, username, partyId, false);
-      window.open(existingPartyUrl, '_blank');
+      // redirect to party page
+      setRedirect(<Navigate state={{
+        partyId: `${partyId}`,
+        username: `${username}`,
+      }} to={`/party/${partyId}`} />);
     } else {
-      alert('Party doesn\'t exist.');
-      // @TODO: error checking for party; refreshes becaause of router, can't make anything else stay on screen
+      // display Error component
+      setError(<ErrorSnackbar msg="Party does not exist." setError={setError} />);
     }
   };
 
-    return (
-        <main className="container">
-            <img src={logo} alt='Groupify Logo' className='logo'/>
-            <h1 className="banner">Groupify</h1>
-                <form id="form-container">
-                    <div className='form-container'>
-                            <input
-                                id="username"
-                                className='username'
-                                name="username"
-                                type="text"
-                                placeholder="Username"
-                                onKeyUp={userNameInput}
-                                required
-                            />
-                            <label htmlFor="username" className="hidden">Input Username</label>
-                            <input 
-                                id="partyIdField"
-                                className="party-id-field" 
-                                name="party-id-field" 
-                                type="text" 
-                                placeholder="Enter a Party ID"
-                                onKeyUp={partyIdInput}
-                                required />
-                            <label htmlFor="party-id-field" className="hidden">Input Party ID</label>
-                            <button id="submit-button" className='submit-button' type="submit" onClick={directToExistingParty}>
-                                <FontAwesomeIcon icon={faSignInAlt} />
-                            </button>
-                            <label htmlFor="submit-button" className="hidden">submit</label>
-                        </div>
-                </form>
-                {/* @TODO: Make cleaner button */}
-                <button onClick={directToNewParty} className='new-party-link' id="new-party-link">START A NEW PARTY</button>
-                <InstructionModule isDisplayed={true} isPortal={true} />
-        </main>
-    );
+  if (redirect) {
+    return redirect;
+  }
+
+  return (
+    <main className="container">
+      {error}
+      <img src={logo} alt='Groupify Logo' className='logo'/>
+      <h1 className="banner">Groupify</h1>
+      <form id="form-container">
+        <div className='form-container'>
+          <input
+            id="username"
+            className='username'
+            name="username"
+            type="text"
+            placeholder="Username"
+            onKeyUp={userNameInput}
+            required
+          />
+          <label htmlFor="username" className="hidden">Input Username</label>
+          <input
+            id="partyIdField"
+            className="party-id-field"
+            name="party-id-field"
+            type="text"
+            placeholder="Enter a Party ID"
+            onKeyUp={partyIdInput}
+            required />
+          <label htmlFor="party-id-field" className="hidden">Input Party ID</label>
+          <button id="submit-button" className='submit-button' type="submit" onClick={directToExistingParty}>
+            <FontAwesomeIcon icon={faSignInAlt} />
+          </button>
+          <label htmlFor="submit-button" className="hidden">submit</label>
+        </div>
+      </form>
+      <button onClick={directToNewParty} className='new-party-link' id="new-party-link">START A NEW PARTY</button>
+      <InstructionModule isDisplayed={true} isPortal={true} />
+    </main>
+  );
 }
 
 /** Private function helpers */

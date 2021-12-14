@@ -5,6 +5,7 @@ import Config from '../json/config.json';
 import $ from 'jquery';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faStroopwafel} from '@fortawesome/free-solid-svg-icons';
+import ErrorSnackbar from './ErrorSnackbar';
 
 const spotifyApiTokenEndpoint = 'https://accounts.spotify.com/api/token';
 
@@ -16,6 +17,7 @@ export default function Auth(props) {
   // States
   const [accessToken, setAccessToken] = useState();
   const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // get token and state from url query params
   const location = useLocation();
@@ -32,7 +34,8 @@ export default function Auth(props) {
     // request access token from spotify
     const client_id = Config.spotifyClientId;
     const client_secret = Config.spotifyClientSecret;
-    const redirect_uri = Config.spotifyRedirectUri;
+    // const redirect_uri = 'https://groupify-ae530.web.app/auth/';
+    const redirect_uri = 'http://localhost:3000/auth/';
     const grant_type = 'authorization_code';
     const data = {
       client_id,
@@ -60,12 +63,12 @@ export default function Auth(props) {
           accessToken: accessToken,
           refreshToken: refreshToken,
         };
-        postAddUser(partyId, user);
+        postAddUser(setError, partyId, user);
         // loading is done
         setLoading(false);
       },
       error: function(data) {
-        console.log(data);
+        setError(<ErrorSnackbar msg={data} />);
       },
     });
   }, []);
@@ -73,6 +76,7 @@ export default function Auth(props) {
   if (isLoading) {
     return (
       <div className="loading-page">
+        {error}
         <FontAwesomeIcon className="loading-icon fa-spin" icon={faStroopwafel} />
         <div className="loading-text">
           <h1>Redirecting...</h1>

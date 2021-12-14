@@ -20,6 +20,7 @@ export default function UserInformation(props) {
   // States
   const [isExpanded, setExpanded] = useState(false);
   const [icon, setIcon] = useState(<ArrowForwardIosIcon />);
+  const [error, setError] = useState(null);
 
   /** Handler functions */
   // User Information event handler
@@ -53,8 +54,8 @@ export default function UserInformation(props) {
   const leaveParty = () => {
     // if user is host, send a message to the server to remove the party
     // if user is not host, send a message to the server to remove the user from the party and naviate to the home page
-    if (user.host) deleteSession(partyId);
-    else deleteUser(partyId, user);
+    if (user.host) deleteSession(setError, partyId);
+    else deleteUser(setError, partyId, user);
     window.location.href = '/';
   };
 

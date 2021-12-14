@@ -2,6 +2,7 @@ import {initializeApp} from 'firebase/app';
 import {getDatabase, get, ref, onValue, set, push, child, remove} from 'firebase/database';
 // Import config file
 import CONFIG from '../json/config.json';
+import ErrorSnackbar from './ErrorSnackbar.js';
 
 const firebaseConfig = {
   apiKey: CONFIG.firebaseApiKey,
@@ -14,17 +15,14 @@ const app = initializeApp(firebaseConfig); ;
 const database = getDatabase(app);
 
 // GET functions
-export function getPartySessions(setSessions) {
+export function getPartySessions(setSessions, setError) {
   const url = CONFIG.routes.parties;
   const dbRef = ref(database, url);
   onValue(dbRef,
       (snapshot) => {
         const data = snapshot.val();
         setSessions(data);
-      }, (error) => {
-        alert('Failed to grab party session.');
-        console.log(error);
-      });
+      }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 /**
  * Gets the UserInformation data and listens for changes
@@ -32,36 +30,37 @@ export function getPartySessions(setSessions) {
  * @param {function} setRoomHost
  * @param {string} partyId         -   The party session ID
  */
-export function getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, partyId) {
+export function getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, setError, partyId) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
   const dbRef = ref(database, url);
   onValue(dbRef, (snapshot) => {
-    const data = snapshot.val();
-    const users = [];
-    let host;
+    if (snapshot.exists) {
+      const data = snapshot.val();
+      const users = [];
+      let host;
 
-    for (const key in data) {
-      const user = data[key];
-      if (user.host) host = user; // Filter for room host
+      for (const key in data) {
+        const user = data[key];
+        if (user.host) host = user; // Filter for room host
 
-      const newUser = {
-        imgPath: generateUserPhoto(), // Generate new photo for user
-        ...user,
-      };
-      users.push(newUser);
+        const newUser = {
+          imgPath: generateUserPhoto(), // Generate new photo for user
+          ...user,
+        };
+        users.push(newUser);
+      }
+
+      setPartyHost(host);
+      setUsers(users);
+
+      setUsersLoaded(true);
+    } else {
+      setError(<ErrorSnackbar msg={'Can\'t find party users in snapshot. Please redirect back to the home page.'} />);
     }
-
-    setPartyHost(host);
-    setUsers(users);
-
-    setUsersLoaded(true);
-  }, (error) => {
-    alert('Failed to grab party users.');
-    console.log(error);
-  });
+  }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
-export function getPartyUserByUsername(setUser, setUserLoaded, partyId, username) {
+export function getPartyUserByUsername(setUser, setUserLoaded, setError, partyId, username) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
   const dbRef = ref(database, url);
   get(dbRef)
@@ -70,10 +69,7 @@ export function getPartyUserByUsername(setUser, setUserLoaded, partyId, username
         const u = filterByUsername(data, username);
         setUser(u);
       })
-      .catch((err) => {
-        alert('Failed to get party user by username.');
-        console.log(err);
-      })
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />))
       .then(() => setUserLoaded(true));
 }
 
@@ -82,17 +78,14 @@ export function getPartyUserByUsername(setUser, setUserLoaded, partyId, username
  * @param {function} setQueue
  * @param {string} partyId
  */
-export function getPartyQueue(setQueue, setQueueLoaded, partyId) {
+export function getPartyQueue(setQueue, setQueueLoaded, setError, partyId) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
   const dbRef = ref(database, url);
   onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     setQueue(data);
     setQueueLoaded(true);
-  }, (error) => {
-    alert('Failed to grab party queue.');
-    console.log(error);
-  });
+  }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /**
@@ -100,16 +93,13 @@ export function getPartyQueue(setQueue, setQueueLoaded, partyId) {
  * @param {*} setHistory
  * @param {*} partyId
  */
-export function getHistoryData(setHistory, partyId) {
+export function getHistoryData(setHistory, setError, partyId) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
   const dbRef = ref(database, url);
   onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     setHistory(data);
-  }, (error) => {
-    alert('Failed to grab party history.');
-    console.log(error);
-  });
+  }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 // POST functions
@@ -118,16 +108,13 @@ export function getHistoryData(setHistory, partyId) {
  * @param {string} partyId
  * @param {Object} user
  */
-export function postAddUser(partyId, user) {
+export function postAddUser(setError, partyId, user) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.users;
   const dbRef = push(ref(database, url));
 
   user.refKey = dbRef.key;
   set(dbRef, user)
-      .catch((err) => {
-        alert('Failed to get party user by username.');
-        console.log(err);
-      });
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /**
@@ -135,7 +122,7 @@ export function postAddUser(partyId, user) {
  * @param {string} partyId
  * @param {Object} song
  */
-export function postAddQueue(partyId, song) {
+export function postAddQueue(setError, partyId, song) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
   const dbRef = push(ref(database, url));
   const payload = {
@@ -144,10 +131,7 @@ export function postAddQueue(partyId, song) {
   };
 
   set(dbRef, payload)
-      .catch((err) => {
-        alert('Failed to post song to party queue.');
-        console.log(err);
-      });
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /**
@@ -155,48 +139,36 @@ export function postAddQueue(partyId, song) {
  * @param {string} partyId
  * @param {Object} song
  */
-export function postAddHistory(partyId, song) {
+export function postAddHistory(setError, partyId, song) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
   const dbRef = push(ref(database, url));
   set(dbRef, song)
-      .catch((err) => {
-        alert('Failed to post song to party history.');
-        console.log(err);
-      });
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 // DELETE functions
-export function deleteUser(partyId, user) {
+export function deleteUser(setError, partyId, user) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.users + user.refKey;
   const dbRef = ref(database, url);
   remove(dbRef)
-      .catch((err) => {
-        alert('Failed to delete user.');
-        console.log(err);
-      });
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
-export function deleteSession(partyId) {
+export function deleteSession(setError, partyId) {
   const url = CONFIG.routes.parties + partyId;
   const dbRef = ref(database, url);
   remove(dbRef)
-      .catch((err) => {
-        alert('Failed to delete session.');
-        console.log(err);
-      });
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
-export function deleteSongByRef(partyId, songRef) {
+export function deleteSongByRef(setError, partyId, songRef) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue + songRef;
   const dbRef = ref(database, url);
   remove(dbRef)
-      .catch((err) => {
-        alert('Failed to delete song by refKey.');
-        console.log(err);
-      });
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
-export function deleteSongById(partyId, songId) {
+export function deleteSongById(setError, partyId, songId) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue;
   const dbRef = ref(database, url);
   get(dbRef)
@@ -204,13 +176,13 @@ export function deleteSongById(partyId, songId) {
         const data = snapshot.val();
         if (data) {
           const song = filterById(data, songId);
-          deleteSongByRef(partyId, song.refKey);
+
+          if (song) {
+            deleteSongByRef(setError, partyId, song.refKey);
+          } else { } // Song is not found in the queue - assumed to have queued from Spotify
         }
       })
-      .catch((err) => {
-        alert('Failed to delete song by ID.');
-        console.log(err);
-      });
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /** Private helper functions */
@@ -221,6 +193,7 @@ function filterByUsername(users, username) {
       return user;
     };
   }
+  return null;
 }
 
 function filterById(queue, id) {
@@ -228,6 +201,7 @@ function filterById(queue, id) {
     const song = queue[s];
     if (song.id === id) return song;
   }
+  return null;
 }
 
 function generateUserPhoto() {

@@ -295,10 +295,6 @@ form input {
     height: 100%;
 }
 
-.song-card-image-end-bar.not-queueable{
-    padding-right: 2em;
-}
-
 .song-card-image-end-bar h2 {
     color: gray;
     margin: 35px 0px 0px 5px;
@@ -333,6 +329,9 @@ form input {
     border-color: #C4C4C4;
     cursor: pointer;
 }
+.play-history {
+    min-height: 100vh;
+}
 .party.flex-item-currently-playing::after {   /* To make a dynamic square */
     display: block;
     padding-bottom: 100%;
@@ -348,6 +347,7 @@ form input {
 /* Queue Style */
 .flex-item-queue-list {
     /* Transition property for animation */
+    overflow-y: auto;
     transition: height 0.5s;
     background: #FFFFFF;
     color: black;
@@ -471,7 +471,7 @@ form input {
 
 /* Footer Style */
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
 }

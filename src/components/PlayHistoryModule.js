@@ -8,6 +8,7 @@ import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 export default function PlayHistory(props) {
   // get state from url query params
   const [history, setHistory] = useState([]);
+  const [error, setError] = useState(null);
   const location = useLocation();
   const partyId = location.state.partyId;
   const username = location.state.username;
@@ -16,11 +17,11 @@ export default function PlayHistory(props) {
 
   // update state when song history changes
   useEffect(() => {
-    getHistoryData(setHistory, partyId);
+    getHistoryData(setHistory, setError, partyId);
   }, []);
 
   return (
-    <div>
+    <div className='play-history'>
       <Link to={'/party/' + partyId} state={{partyId: partyId, username: username, accessToken: accessToken}}>
         <button className="back-history-button" src=""> <FontAwesomeIcon icon={faArrowLeft} /> Back</button>
       </Link>
