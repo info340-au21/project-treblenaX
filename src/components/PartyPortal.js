@@ -3,6 +3,7 @@ import '../css/PartyPortal.css';
 import { getPartySessions } from './FirebaseHandler';
 import InstructionModule from './InstructionModule';
 import logo from '../img/logo_bgl.png'
+import { Navigate } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import ErrorSnackbar from './ErrorSnackbar';
@@ -23,6 +24,7 @@ export default function PartyPortal(props) {
   const [usernameVal, setUName] = useState('');
   const [partyIdVal, setPartyId] = useState('');
   const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(null);
 
   // @TODO: take out in prod
   let redirectUri;
@@ -64,19 +66,20 @@ export default function PartyPortal(props) {
       // get username from the input field
       const username = usernameVal;
 
-      // create spotify auth url with that state
-      const existingPartyUrl = spotifyApiRedirect + encodeObject({
-        response_type: 'code',
-        client_id: props.clientId,
-        scope: scopes,
-        redirect_uri: redirectUri,
-      }, username, partyId, false);
-      window.open(existingPartyUrl, '_blank');
+      // redirect to party page
+      setRedirect(<Navigate state={{
+        partyId: `${partyId}`,
+        username: `${username}`,
+      }} to={`/party/${partyId}`} />);
     } else {
       // display Error component
       setError(<ErrorSnackbar msg="Party does not exist." setError={setError} />);
     }
   };
+
+    if (redirect) {
+      return redirect;
+    }
 
     return (
         <main className="container">
