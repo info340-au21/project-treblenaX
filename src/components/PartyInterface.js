@@ -42,11 +42,13 @@ export function PartyInterface(props) {
   const [currentSong, setCurrentSong] = useState(undefined);
 
   // Load state
+  const [checkNewTrack, setCheckNewTrack] = useState(false);
   const [isUserLoaded, setUserLoaded] = useState(false);
   const [isUsersLoaded, setUsersLoaded] = useState(false);
   const [isQueueLoaded, setQueueLoaded] = useState(false);
   const [isCurrentSongInitLoaded, setCurrentSongInitLoaded] = useState(false);
   const [isCurrentSongLoading, setCurrentSongLoading] = useState(false);
+  const [currentSongProgress, setCurrentSongProgress] = useState(0);
 
   // Init Spotify utility
   const webApi = new SpotifyWebApi();
@@ -69,9 +71,8 @@ export function PartyInterface(props) {
       webApi.getMyCurrentPlayingTrack()
           .then((track) => {
             if (!track) { // If there is NOT a song currently playing
-              console.log('No current song is playing.');
             } else { // If there IS a song currently playing
-              updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong);
+              updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setCheckNewTrack, checkNewTrack);
             }
           })
           .then(() => setCurrentSongInitLoaded(true));
@@ -87,7 +88,13 @@ export function PartyInterface(props) {
     // Skips to next song
     webApi.skipToNext();
     // Update the current song
-    updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong, setCurrentSongLoading);
+    webApi.getMyCurrentPlayingTrack()
+          .then((track) => {
+            if (!track) { // If there is NOT a song currently playing
+            } else { // If there IS a song currently playing
+              updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setCheckNewTrack, checkNewTrack);
+            }
+          });
   };
 
   const handleAdd = (song) => {
@@ -148,29 +155,29 @@ export function PartyInterface(props) {
   }
 }
 
-/* Public function helpers */
-
 /* Private function helpers */
-function updateCurrentSong(webApi, partyId, extractCurrentSong, setCurrentSong) {
-  webApi.getMyCurrentPlayingTrack()
-      .then((rawNewSong) => {
-        if (rawNewSong !== undefined) { // If a track is currently playing
-          const newSong = extractCurrentSong(rawNewSong);
+function updateCurrentSong(rawNewSong, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setCheckNewTrack, checkNewTrack) {
+    if (rawNewSong !== undefined) { // If a track is currently playing
+      const newSong = extractCurrentSong(rawNewSong);
+      let switchSong = false;
 
-          setCurrentSong((prevSong) => {
-            if (prevSong === undefined) return newSong; // If the current track is null
-            else { // If the current track has a song
-              if (newSong.id !== prevSong.id) { // If the currently playing track is different than queue
-                // Delete next song in queue
-                deleteSongById(partyId, newSong.id);
-                // Update current song
-                return newSong;
-              }
-              return prevSong;
-            }
-          });
+      setCurrentSong((prevSong) => {
+        if (prevSong === undefined) return newSong; // If the current track is null
+        else { // If the current track has a song
+            setCurrentSongProgress(prev => {
+                const progress = rawNewSong.progress_ms;
+                if (prev > progress || newSong.id !== prevSong.id) {  // New song is detected
+                  // Delete next song in the queue
+                  deleteSongById(partyId, newSong.id);
+                  // Mark that we need to switch song
+                  switchSong = true;
+                } 
+                return progress;
+            });
+          return (switchSong) ? newSong : prevSong;
         }
       });
+    }
 }
 
 function formatQueue(q) {

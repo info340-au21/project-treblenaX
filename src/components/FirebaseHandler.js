@@ -191,7 +191,7 @@ export function deleteSongByRef(partyId, songRef) {
   const dbRef = ref(database, url);
   remove(dbRef)
       .catch((err) => {
-        alert('Failed to delete song by refKey.');
+        alert('Could not find song by refKey.');
         console.log(err);
       });
 }
@@ -208,8 +208,7 @@ export function deleteSongById(partyId, songId) {
         }
       })
       .catch((err) => {
-        alert('Failed to delete song by ID.');
-        console.log(err);
+          // Couldn't delete song but its fine
       });
 }
 
