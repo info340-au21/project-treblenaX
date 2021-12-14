@@ -295,6 +295,10 @@ form input {
     height: 100%;
 }
 
+.song-card-image-end-bar.not-queueable{
+    padding-right: 2em;
+}
+
 .song-card-image-end-bar h2 {
     color: gray;
     margin: 35px 0px 0px 5px;

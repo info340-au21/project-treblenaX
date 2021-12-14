@@ -204,6 +204,10 @@ button.leave {
     font-size: 3rem;
 }
 
+.instruction-module-portal p {
+    margin-top: 2rem;
+}
+
 .instruction-module ol, .instruction-module ul {
     display: inline-block;
     text-align: left;
@@ -214,12 +218,15 @@ button.leave {
     margin: 0.5rem;
 }
 
+.instruction-module strong {
+    color: #1DB954;
+}
+
 .instruction-module-portal {
     margin-top: 2rem;
 }
 
 .text-column {
-    float: left;
     width: 50%;
 }
 .text-column-item {

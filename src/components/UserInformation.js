@@ -63,7 +63,7 @@ export default function UserInformation(props) {
       <button type="button" className="closebtn btn" aria-label="Expand/Collapse user menu" onClick={handleCollapse}>{icon}</button>
       <div className="user-content">
         <div id="room-code" ref={partyIdRef} className="flex-item-room-code">
-          <h1>#{partyId}</h1>
+          <h1>Room Code: {partyId}</h1>
         </div>
 
         <div id="user-list" ref={usersListRef} className="flex-item-users">
@@ -103,16 +103,3 @@ function UserCard(props) {
     </div>
   );
 }
-
-/** Private functions */
-/* Set the width of the side navigation to 250px */
-const openNav = () => {
-  const nav = document.getElementById('mySidenav');
-  nav.classList.add = 'shown';
-};
-
-/* Set the width of the side navigation to 0 */
-const closeNav = () => {
-  const nav = document.getElementById('mySidenav');
-  nav.classList.add = 'hidden';
-};
