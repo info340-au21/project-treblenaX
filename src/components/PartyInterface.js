@@ -8,6 +8,8 @@ import {useLocation, Navigate} from 'react-router';
 import {getPartyQueue, getPartyUsersAndSetHost, postAddQueue, postAddHistory, getPartyUserByUsername, deleteSongById} from './FirebaseHandler.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faStroopwafel} from '@fortawesome/free-solid-svg-icons';
+import Error from './ErrorSnackbar.js';
+import ErrorSnackbar from './ErrorSnackbar.js';
 
 export const history = [];
 
@@ -42,13 +44,13 @@ export function PartyInterface(props) {
   const [currentSong, setCurrentSong] = useState(undefined);
 
   // Load state
-  const [checkNewTrack, setCheckNewTrack] = useState(false);
   const [isUserLoaded, setUserLoaded] = useState(false);
   const [isUsersLoaded, setUsersLoaded] = useState(false);
   const [isQueueLoaded, setQueueLoaded] = useState(false);
   const [isCurrentSongInitLoaded, setCurrentSongInitLoaded] = useState(false);
   const [isCurrentSongLoading, setCurrentSongLoading] = useState(false);
   const [currentSongProgress, setCurrentSongProgress] = useState(0);
+  const [error, setError] = useState(null);
 
   // Init Spotify utility
   const webApi = new SpotifyWebApi();
@@ -59,22 +61,24 @@ export function PartyInterface(props) {
     // Set current user
     getPartyUserByUsername(setUser, setUserLoaded, partyId, username);
     // Grab party users and set host
-    getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, partyId);
+    getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, setError, partyId);
     // Grab current party queue
-    getPartyQueue(setQueue, setQueueLoaded, partyId);
+    getPartyQueue(setQueue, setQueueLoaded, setError, partyId);
 
     // Init Current Track
     webApi.getMyCurrentPlayingTrack()
-        .then((track) => setCurrentSong(extractCurrentSong(track)));
+        .then((track) => setCurrentSong(extractCurrentSong(track)))
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
 
     const interval = setInterval(() => {
       webApi.getMyCurrentPlayingTrack()
           .then((track) => {
             if (!track) { // If there is NOT a song currently playing
             } else { // If there IS a song currently playing
-              updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setCheckNewTrack, checkNewTrack);
+              updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
             }
           })
+          .catch((err) => setError(<ErrorSnackbar msg={err.msg} />))
           .then(() => setCurrentSongInitLoaded(true));
     }, 2000);
 
@@ -86,25 +90,27 @@ export function PartyInterface(props) {
   const handleSkip = () => {
     setCurrentSongLoading(true);
     // Skips to next song
-    webApi.skipToNext();
+    webApi.skipToNext()
+      .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
     // Update the current song
     webApi.getMyCurrentPlayingTrack()
           .then((track) => {
             if (!track) { // If there is NOT a song currently playing
             } else { // If there IS a song currently playing
-              updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setCheckNewTrack, checkNewTrack);
+              updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
             }
-          });
+          }) 
+          .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
   };
 
   const handleAdd = (song) => {
     // sends queue request
     webApi.queue(song.uri)
-        .catch((err) => console.log(err));
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
     // adds to song to the db queue
-    postAddQueue(partyId, song);
+    postAddQueue(setError, partyId, song);
     // adds song to db queue history
-    postAddHistory(partyId, song);
+    postAddHistory(setError, partyId, song);
   };
 
   const handleSearch = (results) => {
@@ -122,6 +128,9 @@ export function PartyInterface(props) {
   if (isUserLoaded && isUsersLoaded && isQueueLoaded && isCurrentSongInitLoaded) {
     return (
       <div className="interface-container">
+        <div>
+          {error}
+        </div>
         <UserInformation
           user={user}
           partyId={partyId}
@@ -146,6 +155,7 @@ export function PartyInterface(props) {
   } else {
     return (
       <div className="loading-page">
+        {error}
         <FontAwesomeIcon className="loading-icon fa-spin" icon={faStroopwafel} />
         <div className="loading-text">
           <h1>Blowing up balloons for the party...</h1>
@@ -156,7 +166,7 @@ export function PartyInterface(props) {
 }
 
 /* Private function helpers */
-function updateCurrentSong(rawNewSong, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setCheckNewTrack, checkNewTrack) {
+function updateCurrentSong(rawNewSong, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError) {
     if (rawNewSong !== undefined) { // If a track is currently playing
       const newSong = extractCurrentSong(rawNewSong);
       let switchSong = false;
@@ -168,7 +178,7 @@ function updateCurrentSong(rawNewSong, partyId, extractCurrentSong, setCurrentSo
                 const progress = rawNewSong.progress_ms;
                 if (prev > progress || newSong.id !== prevSong.id) {  // New song is detected
                   // Delete next song in the queue
-                  deleteSongById(partyId, newSong.id);
+                  deleteSongById(setError, partyId, newSong.id);
                   // Mark that we need to switch song
                   switchSong = true;
                 } 
