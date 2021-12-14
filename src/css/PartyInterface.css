@@ -280,23 +280,19 @@ form input {
 
 .song-card-image-desc h1 {
     margin-bottom: 0;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 .song-card-image-desc h2 {
     margin-top: 0;
     color: gray;
-    font-size: 0.75rem;
+    font-size: 1rem;
 }
 
 .song-card-image-end-bar {
     flex: 1;
     background-color: #000000;
     height: 100%;
-}
-
-.song-card-image-end-bar.not-queueable{
-    padding-right: 2em;
 }
 
 .song-card-image-end-bar h2 {
@@ -332,6 +328,9 @@ form input {
     background-color: white;
     border-color: #C4C4C4;
     cursor: pointer;
+}
+.play-history {
+    min-height: 100vh;
 }
 .party.flex-item-currently-playing::after {   /* To make a dynamic square */
     display: block;
@@ -606,18 +605,6 @@ form input {
     /* Footer Style */
     .footer {
         display: none;
-    }
-
-    .song-card-image-desc h1 {
-        color: white;
-        margin-bottom: 0;
-        font-size: 1.5rem;
-    }
-
-    .song-card-image-desc h2 {
-        margin-top: 0;
-        color: gray;
-        font-size: 1rem;
     }
 }
 
