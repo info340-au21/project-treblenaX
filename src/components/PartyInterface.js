@@ -65,7 +65,7 @@ export function PartyInterface(props) {
     // Init Current Track
     webApi.getMyCurrentPlayingTrack()
         .then((track) => setCurrentSong(extractCurrentSong(track)))
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.response} setError={setError} />));
 
     const interval = setInterval(() => {
       webApi.getMyCurrentPlayingTrack()
@@ -75,7 +75,7 @@ export function PartyInterface(props) {
               updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
             }
           })
-          .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />))
+          .catch((err) => setError(<ErrorSnackbar msg={err.response} setError={setError} />))
           .then(() => setCurrentSongInitLoaded(true));
     }, 2000);
 
@@ -88,7 +88,7 @@ export function PartyInterface(props) {
     setCurrentSongLoading(true);
     // Skips to next song
     webApi.skipToNext()
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.response} setError={setError} />));
     // Update the current song
     webApi.getMyCurrentPlayingTrack()
         .then((track) => {
@@ -97,13 +97,13 @@ export function PartyInterface(props) {
             updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
           }
         })
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.response} setError={setError} />));
   };
 
   const handleAdd = (song) => {
     // sends queue request
     webApi.queue(song.uri)
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.response} setError={setError} />));
     // adds to song to the db queue
     postAddQueue(setError, partyId, song);
     // adds song to db queue history
