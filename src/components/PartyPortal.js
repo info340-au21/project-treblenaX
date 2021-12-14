@@ -5,7 +5,7 @@ import InstructionModule from './InstructionModule';
 import logo from '../img/logo_bgl.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import Error from './Error';
+import ErrorSnackbar from './ErrorSnackbar';
 
 const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
 const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
@@ -31,7 +31,7 @@ export default function PartyPortal(props) {
 
   useEffect(() => {
     // Get all party sessions
-    getPartySessions(setSessions);
+    getPartySessions(setSessions, setError);
   }, []);
 
   const userNameInput = (event) => {
@@ -74,7 +74,7 @@ export default function PartyPortal(props) {
       window.open(existingPartyUrl, '_blank');
     } else {
       // display Error component
-      setError(<Error msg="Party does not exist" />);
+      setError(<ErrorSnackbar msg="Party does not exist." />);
     }
   };
 
@@ -110,7 +110,6 @@ export default function PartyPortal(props) {
                             <label htmlFor="submit-button" className="hidden">submit</label>
                         </div>
                 </form>
-                {/* @TODO: Make cleaner button */}
                 <button onClick={directToNewParty} className='new-party-link' id="new-party-link">START A NEW PARTY</button>
                 <InstructionModule isDisplayed={true} isPortal={true} />
         </main>

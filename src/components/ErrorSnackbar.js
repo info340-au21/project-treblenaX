@@ -6,7 +6,7 @@ import { useState } from "react";
  * props:
  * - msg: string
  */
-export default function Error(props) {
+export default function ErrorSnackbar(props) {
     const [open, setOpen] = useState(true);
     const [errorMessage, setErrorMessage] = useState(props.msg);
     const handleClose = () => setOpen(false);
