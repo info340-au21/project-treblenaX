@@ -9,7 +9,11 @@ import { useState } from "react";
 export default function ErrorSnackbar(props) {
     const [open, setOpen] = useState(true);
     const [errorMessage, setErrorMessage] = useState(props.msg);
-    const handleClose = () => setOpen(false);
+    const parentSetError = props.setError;
+    const handleClose = () => {
+        parentSetError(null);
+        setOpen(false);
+    }
     return (
         <Snackbar
             anchorOrigin={{

@@ -16,6 +16,7 @@ export default function Auth(props) {
   // States
   const [accessToken, setAccessToken] = useState();
   const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // get token and state from url query params
   const location = useLocation();
@@ -60,7 +61,7 @@ export default function Auth(props) {
           accessToken: accessToken,
           refreshToken: refreshToken,
         };
-        postAddUser(partyId, user);
+        postAddUser(setError, partyId, user);
         // loading is done
         setLoading(false);
       },
@@ -73,6 +74,7 @@ export default function Auth(props) {
   if (isLoading) {
     return (
       <div className="loading-page">
+        {error}
         <FontAwesomeIcon className="loading-icon fa-spin" icon={faStroopwafel} />
         <div className="loading-text">
           <h1>Redirecting...</h1>

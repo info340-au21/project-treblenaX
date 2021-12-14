@@ -8,7 +8,6 @@ import {useLocation, Navigate} from 'react-router';
 import {getPartyQueue, getPartyUsersAndSetHost, postAddQueue, postAddHistory, getPartyUserByUsername, deleteSongById} from './FirebaseHandler.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faStroopwafel} from '@fortawesome/free-solid-svg-icons';
-import Error from './ErrorSnackbar.js';
 import ErrorSnackbar from './ErrorSnackbar.js';
 
 export const history = [];
@@ -59,7 +58,7 @@ export function PartyInterface(props) {
   // useEffect -> when component is loaded
   useEffect(() => {
     // Set current user
-    getPartyUserByUsername(setUser, setUserLoaded, partyId, username);
+    getPartyUserByUsername(setUser, setUserLoaded, setError, partyId, username);
     // Grab party users and set host
     getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, setError, partyId);
     // Grab current party queue
@@ -68,7 +67,7 @@ export function PartyInterface(props) {
     // Init Current Track
     webApi.getMyCurrentPlayingTrack()
         .then((track) => setCurrentSong(extractCurrentSong(track)))
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
 
     const interval = setInterval(() => {
       webApi.getMyCurrentPlayingTrack()
@@ -78,7 +77,7 @@ export function PartyInterface(props) {
               updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
             }
           })
-          .catch((err) => setError(<ErrorSnackbar msg={err.msg} />))
+          .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />))
           .then(() => setCurrentSongInitLoaded(true));
     }, 2000);
 
@@ -91,7 +90,7 @@ export function PartyInterface(props) {
     setCurrentSongLoading(true);
     // Skips to next song
     webApi.skipToNext()
-      .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
+      .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
     // Update the current song
     webApi.getMyCurrentPlayingTrack()
           .then((track) => {
@@ -100,13 +99,13 @@ export function PartyInterface(props) {
               updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
             }
           }) 
-          .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
+          .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
   };
 
   const handleAdd = (song) => {
     // sends queue request
     webApi.queue(song.uri)
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
     // adds to song to the db queue
     postAddQueue(setError, partyId, song);
     // adds song to db queue history

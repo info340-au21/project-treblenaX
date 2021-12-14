@@ -74,7 +74,7 @@ export default function PartyPortal(props) {
       window.open(existingPartyUrl, '_blank');
     } else {
       // display Error component
-      setError(<ErrorSnackbar msg="Party does not exist." />);
+      setError(<ErrorSnackbar msg="Party does not exist." setError={setError} />);
     }
   };
 
