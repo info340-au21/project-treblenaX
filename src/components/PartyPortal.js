@@ -8,11 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import ErrorSnackbar from './ErrorSnackbar';
 
-const debug_redirectUri = 'http://localhost:3000/auth/'; // @TODO: change to deployed
-const prod_redirectUri = 'https://groupify-ae530.web.app/auth/';
-
-const DEBUG = false;
-
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
 const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
@@ -26,10 +21,9 @@ export default function PartyPortal(props) {
   const [error, setError] = useState(null);
   const [redirect, setRedirect] = useState(null);
 
-  // @TODO: take out in prod
-  let redirectUri;
-  if (DEBUG) redirectUri = debug_redirectUri;
-  else redirectUri = prod_redirectUri;
+  // const redirectUri = 'https://groupify-ae530.web.app/auth/';
+
+  const redirectUri = 'http://localhost:3000/auth/';
 
   useEffect(() => {
     // Get all party sessions
