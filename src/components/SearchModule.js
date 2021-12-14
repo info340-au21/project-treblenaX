@@ -2,7 +2,7 @@ import React from 'react';
 import QueueIcon from '@mui/icons-material/Queue';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Config from '../json/config.json';
-import InstructionModule from './IntructionModule';
+import InstructionModule from './InstructionModule';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 
