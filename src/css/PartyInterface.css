@@ -280,13 +280,13 @@ form input {
 
 .song-card-image-desc h1 {
     margin-bottom: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .song-card-image-desc h2 {
     margin-top: 0;
     color: gray;
-    font-size: 1rem;
+    font-size: 0.75rem;
 }
 
 .song-card-image-end-bar {
@@ -606,6 +606,18 @@ form input {
     /* Footer Style */
     .footer {
         display: none;
+    }
+
+    .song-card-image-desc h1 {
+        color: white;
+        margin-bottom: 0;
+        font-size: 1.5rem;
+    }
+
+    .song-card-image-desc h2 {
+        margin-top: 0;
+        color: gray;
+        font-size: 1rem;
     }
 }
 
