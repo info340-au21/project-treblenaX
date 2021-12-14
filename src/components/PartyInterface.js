@@ -10,8 +10,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faStroopwafel} from '@fortawesome/free-solid-svg-icons';
 import ErrorSnackbar from './ErrorSnackbar.js';
 
-export const history = [];
-
 /**
  * Main component of the Party Interface page
  */
