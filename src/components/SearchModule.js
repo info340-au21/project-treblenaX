@@ -29,29 +29,45 @@ export default function SearchModule(props) {
 
 export function SongCard(props) {
   const data = props.payload;
+  const enabled = props.enabled;
 
   if (!data) { // Place empty song card to make space
     return (
       <div className="flex-item-song-card"></div>
     );
   } else {
-    return (
-      <div className="flex-item-song-card">
-        <img className="song-card-image-box" src={ data.img } alt='album cover' />
-        <div className="song-card-image-desc">
-          <h1>{ data.name }</h1>
-          <h2>{ data.artists }</h2>
+    if (enabled) {
+      return (
+        <div className="flex-item-song-card">
+            <img className="song-card-image-box" src={ data.img } alt='album cover' />
+            <div className="song-card-image-desc">
+            <h1>{ data.name }</h1>
+            <h2>{ data.artists }</h2>
+            </div>
+            <div className="song-card-image-end-bar">
+            <div className="song-card-image-end-bar-icon" onClick={() => props.handleAdd(data)}>
+                <span className="add-queue-icon material-icons" aria-label="add song to queue">
+                <QueueIcon />
+                </span>
+            </div>
+            <h2>{ data.duration }</h2>
+            </div>
         </div>
-        <div className="song-card-image-end-bar">
-          <div className="song-card-image-end-bar-icon" onClick={() => props.handleAdd(data)}>
-            <span className="add-queue-icon material-icons" aria-label="add song to queue">
-              <QueueIcon />
-            </span>
-          </div>
-          <h2>{ data.duration }</h2>
-        </div>
-      </div>
-    );
+      );
+    } else {
+        return(
+            <div className="flex-item-song-card">
+                <img className="song-card-image-box" src={ data.img } alt='album cover' />
+                <div className="song-card-image-desc">
+                <h1>{ data.name }</h1>
+                <h2>{ data.artists }</h2>
+                </div>
+                <div className="song-card-image-end-bar not-queueable">
+                <h2>{ data.duration }</h2>
+                </div>
+            </div>
+        );
+    }
   }
 }
 
@@ -122,7 +138,7 @@ function ResultsList(props) {
   if (!isDisplayed) {
     cards = data.map((song) => {
       if (i++ < limit) {
-        return (<SongCard key={ song.id } payload={ song } handleAdd={props.handleAdd} />);
+        return (<SongCard enabled={true} key={ song.id } payload={ song } handleAdd={props.handleAdd} />);
       } else {
         return;
       }
