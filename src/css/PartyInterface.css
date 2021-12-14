@@ -1,19 +1,63 @@
-* {
-    box-sizing: border-box;
-    /* For debugging */
-    /* border: 1px solid green; */
-}
-
-/* Portal */
-.flex-container {
-    height: 100vh;
+/* Party Interface */
+.container {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    color: white;
+    height: 100%;
 }
 
-.flex-item {
+.interface-container {
     flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+    height: 100vh;
+}
+
+.flex-item-space {
+    flex: 1 0 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.user-column {
+    flex: 0 1 50px;
+    background-color: #FFFFFF;
+}
+
+.results-column {
+    flex: 6;
+}
+
+.info-column {
+    flex: 0 0 auto;
+
+    background: rgb(32, 27, 27);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.column-container {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em;
+}
+
+.portal-content {
+    padding-top: 20%;
 }
 
 /* User Columns */
@@ -165,42 +209,292 @@ button.leave {
     cursor: pointer;
 }
 
-.logo {
-    flex: 1;
-    margin-top: 20px;
-    max-height: 200px;
-    position: center;
-}
-
 .new-party-link {
     text-decoration: none;
     border: none;
-    background: none;
+}
+
+.new-party-link:hover {
+    color: gray;
+    cursor: pointer;
+}
+
+/* Base style */
+html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
     color: white;
 }
 
-.new-party-link:hover, .submit-button:hover {
+/* Results Column */
+form {
+    padding: 5px 22px 0px 10px;
+}
+form input {
+    margin: 0.5rem;
+    background: transparent;
+    font-size: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 1);
+    width: 100%; 
+}
+
+.flex-item-songs-container {
+    height: 100%;
+    margin: 5px 5px 0px 5px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Song cards */
+.flex-item-song-card {
+    flex: 0 0 auto;
+
+    margin: 0.5%;
+    height: 100px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.song-card-image-box {
+    background-color: #000000;
+    height: 100px;
+    float: left;
+    width: 100px;
+}
+
+.song-card-image-desc {
+    flex: 1;
+    background-color: #000000;
+    padding-left: 5px;
+    width: 60%;
+    float: left;
+}
+
+.song-card-image-desc h1 {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+}
+
+.song-card-image-desc h2 {
+    margin-top: 0;
+    color: gray;
+    font-size: 1rem;
+}
+
+.song-card-image-end-bar {
+    flex: 1;
+    background-color: #000000;
+    height: 100%;
+}
+
+.song-card-image-end-bar h2 {
+    color: gray;
+    margin: 35px 0px 0px 5px;
+    float: right;
+}
+
+.song-card-image-end-bar-icon {
+    margin: 35px 25px 0px 5%;
+    float: right;
+}
+
+.add-queue-icon {
+    color: gray;
+    cursor: pointer;
+}
+
+/* Queue Info Column */
+.flex-item-currently-playing {
+    background: #C4C4C4;
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+
+    max-width: 250px;
+    max-height: 250px;
+
+    flex: 1;
+    align-self: flex-start;
+}
+.play-history-button {
+    width: 100%;
+    background-color: white;
+    border-color: #C4C4C4;
+    cursor: pointer;
+}
+.party.flex-item-currently-playing::after {   /* To make a dynamic square */
+    display: block;
+    padding-bottom: 100%;
+}
+
+.album-image {
+    width: 100%;
+    height: 100%;
+
+    border: 5px solid black;
+}
+
+/* Queue Style */
+.flex-item-queue-list {
+    /* Transition property for animation */
+    transition: height 0.5s;
+    background: #FFFFFF;
+    color: black;
+    position: fixed;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    right: 0;
+    margin: 2.5px 5px 0 0;
+    height: 45px;
+    border-radius: 10px 10px 0 0;
+}
+
+.song-list {
+    overflow-y: auto;
+}
+
+.queue-header-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.queue-header-item {
+    flex: 2;
+    margin: 0;
+    padding: 1rem;
+}
+.queue-header-button {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.queue-item {
+    margin: 0 1rem 0.5rem 1rem;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+}
+
+.queue-album-img img {
+    position: center;
+    size: contain;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 2px 0 0 2px;
+}
+
+.queue-item-info {
+    flex: 1;
+    padding: 0 0.25rem 0 0.25rem;
+    margin: 0;
+    font-size: 0.75rem;
+    background: #FFFFFF;
+    text-overflow: ellipsis;
+    overflow-y: hidden;
+}
+.queue-item-info p, .queue-item-playing p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.queue-item-playing h1 {
+    font-size: 10px;
+    
+}
+
+.queue-item-playing {
+    font-weight: bold;
+    position: relative;
+    height: 5rem;
+    
+}
+
+.queue-item-playing .queue-album-img img {
+    height: 5rem;
+    width: 5rem;
+}
+
+.queue-item-info p {
+    margin: 0;
+}
+
+.queue-remove-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.queue-remove-item span {
+    flex: 1;
+    padding: 0 0.25rem 0 0;
+    font-size: 5px;
+}
+
+/* Loading Styles */
+.loading-page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.loading-icon {
+    flex: 3;
+    font-size: 50px;
+}
+
+.loading-text {
+    flex: 1;
+}
+
+.queue-loading-button {
+    font-size: 20px;
+}
+
+/* Footer Style */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/** History page */
+.back-history-button {
+    margin: 20px 0px 0px 20px;
+    background: none;
+    font-size: 2rem;
+    border: none;
+    color: white;
+}
+
+.back-history-button:hover {
     opacity: 0.5;
     cursor: pointer;
 }
 
-.new-party-link:active, .submit-button:active {
-    opacity: 0.2;
-}
-
-.banner {
-    flex: 1;
-    font-size: 8em;
+.history-title {
+    text-align: center;
+    font-size: 3rem;
 }
 
 /* Responsive Design */
 /* mobile - extra-small screens */ 
 @media (max-width: 598px) {
     /* Party Portal CSS */
-    .banner {
-        font-size: 4rem;
-    }
-    /* Instruction Module */
     .instruction-module h1 {
         margin-bottom: 1.5rem;
         font-size: 2rem;
@@ -236,12 +530,9 @@ button.leave {
     }
 }
 
-
 /* mobile - small screens */
 @media (min-width: 598px) {
     /* Party Portal CSS */
-
-    /* Instruction Module CSS */
     .instruction-module h1 {
         margin-bottom: 2rem;
         font-size: 2rem;
@@ -351,4 +642,3 @@ button.leave {
         display: block;
     }
 }
-
