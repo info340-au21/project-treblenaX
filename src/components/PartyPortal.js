@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import '../css/PartyPortal.css';
-import { getPartySessions } from './FirebaseHandler';
+import {getPartySessions} from './FirebaseHandler';
 import InstructionModule from './InstructionModule';
-import logo from '../img/logo_bgl.png'
-import { Navigate } from 'react-router';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import logo from '../img/logo_bgl.png';
+import {Navigate} from 'react-router';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSignInAlt} from '@fortawesome/free-solid-svg-icons';
 import ErrorSnackbar from './ErrorSnackbar';
 
 const spotifyApiRedirect = 'https://accounts.spotify.com/authorize?';
@@ -71,46 +71,46 @@ export default function PartyPortal(props) {
     }
   };
 
-    if (redirect) {
-      return redirect;
-    }
+  if (redirect) {
+    return redirect;
+  }
 
-    return (
-        <main className="container">
-            {error}
-            <img src={logo} alt='Groupify Logo' className='logo'/>
-            <h1 className="banner">Groupify</h1>
-                <form id="form-container">
-                    <div className='form-container'>
-                            <input
-                                id="username"
-                                className='username'
-                                name="username"
-                                type="text"
-                                placeholder="Username"
-                                onKeyUp={userNameInput}
-                                required
-                            />
-                            <label htmlFor="username" className="hidden">Input Username</label>
-                            <input 
-                                id="partyIdField"
-                                className="party-id-field" 
-                                name="party-id-field" 
-                                type="text" 
-                                placeholder="Enter a Party ID"
-                                onKeyUp={partyIdInput}
-                                required />
-                            <label htmlFor="party-id-field" className="hidden">Input Party ID</label>
-                            <button id="submit-button" className='submit-button' type="submit" onClick={directToExistingParty}>
-                                <FontAwesomeIcon icon={faSignInAlt} />
-                            </button>
-                            <label htmlFor="submit-button" className="hidden">submit</label>
-                        </div>
-                </form>
-                <button onClick={directToNewParty} className='new-party-link' id="new-party-link">START A NEW PARTY</button>
-                <InstructionModule isDisplayed={true} isPortal={true} />
-        </main>
-    );
+  return (
+    <main className="container">
+      {error}
+      <img src={logo} alt='Groupify Logo' className='logo'/>
+      <h1 className="banner">Groupify</h1>
+      <form id="form-container">
+        <div className='form-container'>
+          <input
+            id="username"
+            className='username'
+            name="username"
+            type="text"
+            placeholder="Username"
+            onKeyUp={userNameInput}
+            required
+          />
+          <label htmlFor="username" className="hidden">Input Username</label>
+          <input
+            id="partyIdField"
+            className="party-id-field"
+            name="party-id-field"
+            type="text"
+            placeholder="Enter a Party ID"
+            onKeyUp={partyIdInput}
+            required />
+          <label htmlFor="party-id-field" className="hidden">Input Party ID</label>
+          <button id="submit-button" className='submit-button' type="submit" onClick={directToExistingParty}>
+            <FontAwesomeIcon icon={faSignInAlt} />
+          </button>
+          <label htmlFor="submit-button" className="hidden">submit</label>
+        </div>
+      </form>
+      <button onClick={directToNewParty} className='new-party-link' id="new-party-link">START A NEW PARTY</button>
+      <InstructionModule isDisplayed={true} isPortal={true} />
+    </main>
+  );
 }
 
 /** Private function helpers */

@@ -22,7 +22,7 @@ export function getPartySessions(setSessions, setError) {
       (snapshot) => {
         const data = snapshot.val();
         setSessions(data);
-      }, (error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 /**
  * Gets the UserInformation data and listens for changes
@@ -38,26 +38,26 @@ export function getPartyUsersAndSetHost(setUsers, setUsersLoaded, setPartyHost, 
       const data = snapshot.val();
       const users = [];
       let host;
-  
+
       for (const key in data) {
         const user = data[key];
         if (user.host) host = user; // Filter for room host
-  
+
         const newUser = {
           imgPath: generateUserPhoto(), // Generate new photo for user
           ...user,
         };
         users.push(newUser);
       }
-  
+
       setPartyHost(host);
       setUsers(users);
-  
+
       setUsersLoaded(true);
     } else {
-      setError(<ErrorSnackbar msg={"Can't find party users in snapshot. Please redirect back to the home page."} />);
+      setError(<ErrorSnackbar msg={'Can\'t find party users in snapshot. Please redirect back to the home page.'} />);
     }
-  }, (error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+  }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 export function getPartyUserByUsername(setUser, setUserLoaded, setError, partyId, username) {
@@ -69,7 +69,7 @@ export function getPartyUserByUsername(setUser, setUserLoaded, setError, partyId
         const u = filterByUsername(data, username);
         setUser(u);
       })
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />))
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />))
       .then(() => setUserLoaded(true));
 }
 
@@ -85,7 +85,7 @@ export function getPartyQueue(setQueue, setQueueLoaded, setError, partyId) {
     const data = snapshot.val();
     setQueue(data);
     setQueueLoaded(true);
-  }, (error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+  }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /**
@@ -99,7 +99,7 @@ export function getHistoryData(setHistory, setError, partyId) {
   onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     setHistory(data);
-  }, (error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+  }, (error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 // POST functions
@@ -114,7 +114,7 @@ export function postAddUser(setError, partyId, user) {
 
   user.refKey = dbRef.key;
   set(dbRef, user)
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /**
@@ -131,7 +131,7 @@ export function postAddQueue(setError, partyId, song) {
   };
 
   set(dbRef, payload)
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /**
@@ -143,7 +143,7 @@ export function postAddHistory(setError, partyId, song) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.history;
   const dbRef = push(ref(database, url));
   set(dbRef, song)
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 // DELETE functions
@@ -151,21 +151,21 @@ export function deleteUser(setError, partyId, user) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.users + user.refKey;
   const dbRef = ref(database, url);
   remove(dbRef)
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 export function deleteSession(setError, partyId) {
   const url = CONFIG.routes.parties + partyId;
   const dbRef = ref(database, url);
   remove(dbRef)
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 export function deleteSongByRef(setError, partyId, songRef) {
   const url = CONFIG.routes.parties + partyId + CONFIG.routes.queue + songRef;
   const dbRef = ref(database, url);
   remove(dbRef)
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 export function deleteSongById(setError, partyId, songId) {
@@ -182,7 +182,7 @@ export function deleteSongById(setError, partyId, songId) {
           } else { } // Song is not found in the queue - assumed to have queued from Spotify
         }
       })
-      .catch((error) => setError(<ErrorSnackbar msg={error.message}  setError={setError} />));
+      .catch((error) => setError(<ErrorSnackbar msg={error.message} setError={setError} />));
 }
 
 /** Private helper functions */

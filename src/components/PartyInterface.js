@@ -65,7 +65,7 @@ export function PartyInterface(props) {
     // Init Current Track
     webApi.getMyCurrentPlayingTrack()
         .then((track) => setCurrentSong(extractCurrentSong(track)))
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
 
     const interval = setInterval(() => {
       webApi.getMyCurrentPlayingTrack()
@@ -75,7 +75,7 @@ export function PartyInterface(props) {
               updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
             }
           })
-          .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />))
+          .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />))
           .then(() => setCurrentSongInitLoaded(true));
     }, 2000);
 
@@ -88,22 +88,22 @@ export function PartyInterface(props) {
     setCurrentSongLoading(true);
     // Skips to next song
     webApi.skipToNext()
-      .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
     // Update the current song
     webApi.getMyCurrentPlayingTrack()
-          .then((track) => {
-            if (!track) { // If there is NOT a song currently playing
-            } else { // If there IS a song currently playing
-              updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
-            }
-          }) 
-          .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
+        .then((track) => {
+          if (!track) { // If there is NOT a song currently playing
+          } else { // If there IS a song currently playing
+            updateCurrentSong(track, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError);
+          }
+        })
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
   };
 
   const handleAdd = (song) => {
     // sends queue request
     webApi.queue(song.uri)
-        .catch((err) => setError(<ErrorSnackbar msg={err.msg}  setError={setError} />));
+        .catch((err) => setError(<ErrorSnackbar msg={err.msg} setError={setError} />));
     // adds to song to the db queue
     postAddQueue(setError, partyId, song);
     // adds song to db queue history
@@ -164,27 +164,27 @@ export function PartyInterface(props) {
 
 /* Private function helpers */
 function updateCurrentSong(rawNewSong, partyId, extractCurrentSong, setCurrentSong, setCurrentSongProgress, setError) {
-    if (rawNewSong !== undefined) { // If a track is currently playing
-      const newSong = extractCurrentSong(rawNewSong);
-      let switchSong = false;
+  if (rawNewSong !== undefined) { // If a track is currently playing
+    const newSong = extractCurrentSong(rawNewSong);
+    let switchSong = false;
 
-      setCurrentSong((prevSong) => {
-        if (prevSong === undefined) return newSong; // If the current track is null
-        else { // If the current track has a song
-            setCurrentSongProgress(prev => {
-                const progress = rawNewSong.progress_ms;
-                if (prev > progress || newSong.id !== prevSong.id) {  // New song is detected
-                  // Delete next song in the queue
-                  deleteSongById(setError, partyId, newSong.id);
-                  // Mark that we need to switch song
-                  switchSong = true;
-                } 
-                return progress;
-            });
-          return (switchSong) ? newSong : prevSong;
-        }
-      });
-    }
+    setCurrentSong((prevSong) => {
+      if (prevSong === undefined) return newSong; // If the current track is null
+      else { // If the current track has a song
+        setCurrentSongProgress((prev) => {
+          const progress = rawNewSong.progress_ms;
+          if (prev > progress || newSong.id !== prevSong.id) { // New song is detected
+            // Delete next song in the queue
+            deleteSongById(setError, partyId, newSong.id);
+            // Mark that we need to switch song
+            switchSong = true;
+          }
+          return progress;
+        });
+        return (switchSong) ? newSong : prevSong;
+      }
+    });
+  }
 }
 
 function formatQueue(q) {
