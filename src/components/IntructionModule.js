@@ -7,16 +7,29 @@ export default function InstructionModule(props) {
     } else if (props.isPortal) {
         return (
             <div id="instruction-module" className="instruction-module instruction-module-portal">
-                <h1>Instructions</h1>
+                <h1>Enter a username to get started!</h1>
                 <ol>
-                    <li>Enter a username.</li>
-                    <li>Press “START A NEW PARTY” To host a new party, or Enter a Party ID to join someone else’s partyHow to (in the party interface).</li>
+                    <div className="two-columns-layout">
+                        <div className="text-column">
+                            <strong>Hosts - </strong>
+                                <ul>
+                                    <li className="text-column-item">Press "START A NEW PARTY" to host a new party - a party ID will be generated for you.</li>
+                                    <li className="text-column-item"><em>Hosts need a valid Spotify Premium account to log into.</em></li>
+                                </ul>
+                        </div>
+                        <div className="text-column">
+                            <strong>Guests - </strong>
+                                <ul>
+                                    <li className="text-column-item">Enter a valid party ID to join someone else's party.</li>
+                                    <li className="text-column-item"><em>Guests DO NOT need a valid Spotify Premium account to join session.</em></li>
+                                </ul>
+                        </div>
+                    </div>
                 </ol>
                 <h1>Disclaimers</h1>
                 <ul>
                     <li>All song/queue interaction must be done on Groupify (do not use Spotify at the same time).</li>
                     <li>Due to the nature of Spotify’s API, Groupify cannot play a song if there is no current song playing. TO BEGIN: Have a song playing in Spotify. It will show up in your queue in Groupify, then you are ready to queue more songs.</li>
-                    <li>There is no need to hit enter when searching for songs. The results will automatically appear as you type if any matching songs are found.</li>
                 </ul>
             </div>
         );
@@ -35,7 +48,6 @@ export default function InstructionModule(props) {
                 <ul>
                     <li>All song/queue interaction must be done on Groupify (do not use Spotify at the same time).</li>
                     <li>Due to the nature of Spotify’s API, Groupify cannot play a song if there is no current song playing. TO BEGIN: Have a song playing in Spotify. It will show up in your queue in Groupify, then you are ready to queue more songs.</li>
-                    <li>There is no need to hit enter when searching for songs. The results will automatically appear as you type if any matching songs are found.</li>
                 </ul>
             </div>
         );

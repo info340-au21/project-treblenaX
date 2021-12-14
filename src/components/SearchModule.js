@@ -66,6 +66,7 @@ function SearchBar(props) {
 
     // Search Handler
     const handleSearch = (e) => {
+        e.preventDefault();
         // set isSearching to true
         props.setIsSearching(true);
         const query = e.target.value;
@@ -84,9 +85,16 @@ function SearchBar(props) {
         .finally(() => props.setIsSearching(false));
     }
 
+    // stop the user from pressing enter
+    const preventEnter = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }  
+    }
+
     return (
         <form>
-            <input onKeyUp={handleSearch} type="text" id="search-query" name="search-query" placeholder="Search for a song" />
+            <input onKeyPressCapture={preventEnter} onKeyUpCapture={handleSearch} type="text" id="search-query" name="search-query" placeholder="Search for a song" />
             <label htmlFor="search-query" className="hidden">Search a song</label>
         </form>
     );

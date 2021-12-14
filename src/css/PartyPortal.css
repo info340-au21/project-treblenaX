@@ -95,6 +95,7 @@
 }
 
 .instruction-module ol, .instruction-module ul {
+    list-style-type: none;
     display: inline-block;
     text-align: left;
     width: 600px;
@@ -106,6 +107,20 @@
 
 .instruction-module-portal {
     margin-top: 2rem;
+}
+
+.text-column {
+    float: left;
+    width: 50%;
+}
+
+.text-column-item {
+    width: 50%;
+}
+
+.two-columns-layout:after {
+    display: table;
+    clear: both;
 }
 /* User Columns */
 .user-content {
@@ -259,8 +274,10 @@ button.leave {
 .logo {
     flex: 1;
     padding-top: 20px;
-    max-height: 300px;
+    max-height: 200px;
+    position: center;
 }
+
 .new-party-link {
     text-decoration: none;
     border: none;
